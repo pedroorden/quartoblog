@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Tecnología y Sociedad es un taller abierto de sociología, datos y progración basado en desarrollos y experiencias, tanto profesionales como colectivas.\nSobre mi te cuento que nací en la ciudad de Lanús (Provincia de Buenos Aires, Argentina) en 1985, siempre me gustaron las compus y tuve la suerte de tener siempre una cerca desde chico. Estudié Sociología en la UBA, actualmente coordino el NIS, formo parte de un equipo análisis e investigación sobre inteligencia artificial en la UNVM y trabajo con investigador asociado en diversas intituciones públicas y privadas.\nComo sociólogo-científico de datos busco resolver preguntas sociológicas con la técnica contemporánea, combinando los saberes propios de la estadística y la programación con la epistemología y la hermenéutica de las ciencias sociales."
+  },
+  {
+    "objectID": "posts/post-with-code/index.html",
+    "href": "posts/post-with-code/index.html",
+    "title": "Post With Code",
+    "section": "",
+    "text": "This is a post with executable code."
+  },
+  {
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Welcome To My Blog",
+    "section": "",
+    "text": "Since this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Tecnología y Sociedad",
+    "section": "",
+    "text": "news\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nJul 7, 2022\n\n\nHarlow Malloc\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nJul 4, 2022\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
+  }
+]
