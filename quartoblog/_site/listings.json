@@ -2,10 +2,9 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/bienvenide/index.html",
       "/posts/mayores/index.html",
-      "/posts/mayores/te/taller.html",
-      "/posts/presion/index.html"
+      "/posts/presion/index.html",
+      "/posts/bienvenide/index.html"
     ]
   }
 ]

@@ -2,13 +2,13 @@
 title: "R y Python en Quarto: Explorando la presión sobre el mercado de trabajo según la EPH."
 author: "Pedro Damian Orden"
 date: "2022-07-07"
-categories: [codigo, analisis, video]
+categories: [codigo, analisis, video, tutorial]
 image: "image.jpg"
 ---
 
-### Presentación
+## Inicio
 
-El presente documento es un material de trabajo preliminar, creado a partir de los [diálogos de innovación](https://www.nucleodeinnovacion.com/post/di%C3%A1logos-de-innovaci%C3%B3n) llevados adelante por el [**NIS**](https://www.nucleodeinnovacion.com/) durante 2022 e iterado en un **taller abierto** en articulación con los Colegios Profesionales de Sociología de Provincia de Buenos Aires y CABA, y tiene como objetivo dar cuenta de una experiencia de **integración** de lenguajes de programación aplicados al procesamiento de la Encuesta Permanente de Hogares (EPH de [INDEC](https://www.indec.gob.ar/)), posible gracias [**Quarto**](https://quarto.org/), un sistema de publicación científica y técnica basado en Pandoc[^1] que funciona de manera amigable con Rstudio[^2].
+En este documento electrónico preocuraré dar cuenta de una experiencia de **integración** de lenguajes de programación aplicados al procesamiento de la Encuesta Permanente de Hogares (EPH de [INDEC](https://www.indec.gob.ar/)), posible gracias [**Quarto**](https://quarto.org/), un sistema de publicación científica y técnica basado en Pandoc[^1] que funciona de manera amigable con Rstudio[^2].
 
 [^1]: Para conocer más https://jasoncausey.net/post/quarto_early_impressions/
 
@@ -20,9 +20,9 @@ En términos prácticos, Quarto nos va a permitir, además de publicar el conten
 
 [^4]: Abarca 31 aglomerados urbanos donde habita, aproximadamente, el 70% d e la población urbana del país. Cubre todas las capitales de provincia y aglomerados urbanos de más de 100 mil habitantes. Más sobre la EPH: https://www.indec.gob.ar/indec/web/Institucional-Indec-BasesDeDatos
 
-Al concluir el documento se presenta el video formativo que recupera la experiencia en vivo.
+Al concluir el documento se presenta el video formativo que recupera la experiencia en vivo citada en el marco de un taller abierto.
 
-### Sobre el mercado de trabajo
+## Sobre el mercado de trabajo
 
 Al relevar de manera periódica la realidad socioeconómica argentina, la EPH es un gran insumo para conocer los principales indicadores[^5] sobre el mercado de trabajo y analizar su evolución en el tiempo.
 
@@ -42,7 +42,7 @@ Tomaremos como referencia comparativa con nuestro código los datos que provee e
 
 [^8]: INDEC. Recoge los datos completos de la serie 2021.
 
-### ETL con Python
+## ETL con Python
 
 El trabajo inicial de **ETL** lo llevaremos adelante en Python[^9] dado que nos va a resultar más rápido que con R.
 
@@ -97,7 +97,7 @@ datosehp = datosehp[["TRIMESTRE", "PONDERA", "ESTADO", "PP03J", "PP03H"]]
 
 ```
 
-### Ajustes y primeras visualizaciones en R
+## Ajustes y primeras visualizaciones en R
 
 Una vez que llegamos a este punto, vamos a abrir un bloque de código en R para dar forma acabada a nuestro proyecto. Para ello descargamos el archivo csv con los datos que construimos y guardamos más arriba.
 
@@ -250,7 +250,7 @@ Con respecto a los datos y objetos gráficos que creamos se prefigura que la pre
 
 Para acceder a los datos del [mercado de trabajo]{.ul} en una serie de tiempo más amplia y en formato interactivo puede consultarse el [**monitor socioeconómico**](https://pedroorden.shinyapps.io/socioeconomico/ "ver app") de mi autoría.
 
-### Conclusiones:
+## Conclusiones:
 
 -   En Quarto la mezcla no es sinónimo de amontonamiento. La posibilidad amigable de **integrar** varios lenguajes de progamación en procesos de analítica y modelado de datos en ciencia sociales escala las opciones para hacer y conocer.
 
@@ -264,7 +264,7 @@ Para acceder a los datos del [mercado de trabajo]{.ul} en una serie de tiempo m�
 
 [^10]: Este articulo piensa en el caso particular de las ciencias humanas, pero esta abierto a cualquier otra identificación homóloga.
 
-### Bonus
+## Bonus
 
 El 22-9-2022 este documento fue presentado en una experiencia de taller abierto del Núcleo de Innovación Social. A continuación el video tutorial que permite seguir la experiencia paso a paso.
 

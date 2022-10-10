@@ -1,25 +1,25 @@
 ---
-title: "Adultos mayores e ingresos"
+title: "Procesando datos de encuestas en R"
 author: "Pedro Damian Orden"
-date: "2022-07-04"
-categories: [news]
+date: "2022-25-09"
+categories: [codigo, analisis, video, tutorial]
+image: "thumbnail.jpg"
 ---
 
-This is the first post in a Quarto blog. Welcome!
+El presente documento es un material de taller pensado para profesionales de las ciencias sociales y público interesado. Se procura aquí presentar de manera general una serie de procedimientos asociados al procesamiento de encuestas con R.
 
-![](thumbnail.jpg)
+Una versión de este documento fue presentada en un Taller abierto del NIS el 16 de septiembre de 2022 y grabada en vivo para que todos y todas puedan replicar la experiencia código a código.
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r}
+library(vembedr)
+embed_url("https://www.youtube.com/watch?v=mVqxiFUI6xA&ab_channel=ColegiodeSoci%C3%B3logxsBsAs") %>%
+  use_align("center")%>%
+  use_bs_responsive()
 ```
 
-## Marco
+Las [diapositivas]{.ul} utilizadas en la primera parte del encuentro pueden encontrarse [**aquí**](https://www.canva.com/design/DAFLyN2w-ew/jJz7cs6igww-igO2nVoCeA/view "presentación").
 
-El [taller abierto](https://www.canva.com/design/DAFLyN2w-ew/jJz7cs6igww-igO2nVoCeA/view) es un espacio de encuentro para conocer y utilizar entre todos y todas herramientas de valor profesional para la ciencias sociales, son llevados adelante por el [Núcleo de Innovación Social](https://www.nucleodeinnovacion.com/), con el aval del [Colegio de Sociólogos y Sociólogas de la Provincia de Buenos Aires (Ley 10.307)](http://cspba.org.ar/), el [Consejo de Profesionales en Sociología (Ley 23.553)](http://cps.org.ar/) y la [Asociación de Sociólogos de la República Argentina](https://www.facebook.com/sociologos.argentinos.ASRA).
-
-## Presentación
-
-El presente documento es un material de taller pensado para profesionales de las ciencias sociales y público interesado. Procuraremos aquí presentar de manera general una serie de procedimientos asociados al procesamiento de encuestas con R.
+## **Contenidos**
 
 Veremos aquí:
 
@@ -268,7 +268,7 @@ seq(-2,2, by = 0.01) %>%
              color = "#5E17EB", shape = 20, size = 0)+ #https://www.color-hex.com/
   theme_void()+
   coord_polar()+
-  labs(subtitle = "Llegamos al final del taller abierto, gracias por participar")
+  labs(subtitle = "Llegamos al final de esta experiencia, gracias por participar")
 ```
 
 Hasta la próxima!

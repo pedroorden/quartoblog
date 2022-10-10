@@ -1,12 +1,21 @@
 ---
 title: "Un jornal sociológico de datos"
 author: "Pedro Damián Orden"
-date: "2022-07-04"
-categories: [news]
+date: "2022-01-09"
+image: "thumbnail.jpg"
+categories: [editorial]
 ---
 
-This is the first post in a Quarto blog. Welcome!
+### Motivación
 
-![](thumbnail.jpg)
+Armé este nuevo blog con tres ideas generales:
 
-Since this post doesn't specify an explicit `image`, the first image in the post will be used in the listing page of posts.
+-   Actualizar y unificar mis distintos blogs en uno solo hecho 100% en Quarto, que es una tecnología contemporánea y permite generar narrativas combinando varios lenguajes a la vez.
+
+-   Explorar en sí las posibilidades que brinda Quarto a la hora de comunicar los resultados de procesos de investigación basados en evidencia.
+
+-   Último y fundamental, contar con una plataforma de trabajo para publicar ágilmente documentos de coyuntura, tutoriales, etc.
+
+### Organización
+
+Para optimizar el acceso a los contenidos del blog, los mismos se organizan por categoría y cuentan con filtro dinámico para buscar temas específicos o palabras clave.

@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Pedro Damian Orden">
-<meta name="dcterms.date" content="2022-07-04">
+<meta name="dcterms.date" content="2024-01-09">
 
-<title>Tecnología y Sociedad - Adultos mayores e ingresos</title>
+<title>Tecnología y Sociedad - Procesando datos de encuestas en R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -117,6 +117,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<link href="..\..\site_libs/vembedr-0.1.5.9000/css/vembedr.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -164,9 +165,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Adultos mayores e ingresos</h1>
+      <h1 class="title">Procesando datos de encuestas en R</h1>
                           <div class="quarto-categories">
-                <div class="quarto-category">news</div>
+                <div class="quarto-category">codigo</div>
+                <div class="quarto-category">analisis</div>
+                <div class="quarto-category">video</div>
+                <div class="quarto-category">tutorial</div>
               </div>
                   </div>
   </div>
@@ -187,7 +191,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">July 4, 2022</p>
+        <p class="date">January 9, 2024</p>
       </div>
     </div>
       
@@ -201,8 +205,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#marco" id="toc-marco" class="nav-link active" data-scroll-target="#marco">Marco</a></li>
-  <li><a href="#presentación" id="toc-presentación" class="nav-link" data-scroll-target="#presentación">Presentación</a></li>
+  <li><a href="#contenidos" id="toc-contenidos" class="nav-link active" data-scroll-target="#contenidos"><strong>Contenidos</strong></a></li>
   <li><a href="#carga-de-datos" id="toc-carga-de-datos" class="nav-link" data-scroll-target="#carga-de-datos">Carga de datos</a></li>
   <li><a href="#limpieza-de-datos" id="toc-limpieza-de-datos" class="nav-link" data-scroll-target="#limpieza-de-datos">Limpieza de datos</a></li>
   <li><a href="#primeras-preguntas" id="toc-primeras-preguntas" class="nav-link" data-scroll-target="#primeras-preguntas">Primeras preguntas</a></li>
@@ -223,15 +226,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<p>This is the first post in a Quarto blog. Welcome!</p>
-<p><img src="thumbnail.jpg" class="img-fluid"></p>
-<section id="marco" class="level2">
-<h2 class="anchored" data-anchor-id="marco">Marco</h2>
-<p>El <a href="https://www.canva.com/design/DAFLyN2w-ew/jJz7cs6igww-igO2nVoCeA/view">taller abierto</a> es un espacio de encuentro para conocer y utilizar entre todos y todas herramientas de valor profesional para la ciencias sociales, son llevados adelante por el <a href="https://www.nucleodeinnovacion.com/">Núcleo de Innovación Social</a>, con el aval del <a href="http://cspba.org.ar/">Colegio de Sociólogos y Sociólogas de la Provincia de Buenos Aires (Ley 10.307)</a>, el <a href="http://cps.org.ar/">Consejo de Profesionales en Sociología (Ley 23.553)</a> y la <a href="https://www.facebook.com/sociologos.argentinos.ASRA">Asociación de Sociólogos de la República Argentina</a>.</p>
-</section>
-<section id="presentación" class="level2">
-<h2 class="anchored" data-anchor-id="presentación">Presentación</h2>
-<p>El presente documento es un material de taller pensado para profesionales de las ciencias sociales y público interesado. Procuraremos aquí presentar de manera general una serie de procedimientos asociados al procesamiento de encuestas con R.</p>
+<p>El presente documento es un material de taller pensado para profesionales de las ciencias sociales y público interesado. Se procura aquí presentar de manera general una serie de procedimientos asociados al procesamiento de encuestas con R.</p>
+<p>Una versión de este documento fue presentada en un Taller abierto del NIS el 16 de septiembre de 2022 y grabada en vivo para que todos y todas puedan replicar la experiencia código a código.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vembedr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">embed_url</span>(<span class="st">"https://www.youtube.com/watch?v=mVqxiFUI6xA&amp;ab_channel=ColegiodeSoci%C3%B3logxsBsAs"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">use_align</span>(<span class="st">"center"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">use_bs_responsive</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="vembedr embed-responsive embed-responsive-16by9" align="center">
+<div>
+<iframe src="https://www.youtube.com/embed/mVqxiFUI6xA" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1" class="embed-responsive-item"></iframe>
+</div>
+</div>
+</div>
+</div>
+<p>Las <u>diapositivas</u> utilizadas en la primera parte del encuentro pueden encontrarse <a href="https://www.canva.com/design/DAFLyN2w-ew/jJz7cs6igww-igO2nVoCeA/view" title="presentación"><strong>aquí</strong></a>.</p>
+<section id="contenidos" class="level2">
+<h2 class="anchored" data-anchor-id="contenidos"><strong>Contenidos</strong></h2>
 <p>Veremos aquí:</p>
 <ul>
 <li><p>Carga de datos de un formulario drive y transformación.</p></li>
@@ -245,31 +257,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Los datos de trabajo pertenecen a una sub-muestra de una encuesta realizada por los <a href="https://clip-urbano.com/2020/04/05/el-colegio-de-sociologos-invita-a-participar-de-una-encuesta-sobre-medios-e-informacion-en-tiempos-de-pandemia/">Colegios Profesionales de Buenos Aires y el NIS</a> a comienzos de la pandemia, los mismos son 100% anónimos y fueron recabados por medio de un formulario Google.</p>
 <p>Comenzamos cargando en R las respuestas de <strong>drive</strong> (previamente debemos compartirlo como público en la web, en formato <em>csv</em>) y creamos el objeto <em>muestra1</em>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>muestra1<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"https://docs.google.com/spreadsheets/d/e/2PACX-1vTbdWYdjYhfvt8quj9A5LpIEhH-sSKwxTsG8lKLLK_E_C5r1tkqFNdQNSAdzXvgthWCrFDn7oiN3-9P/pub?gid=346447959&amp;single=true&amp;output=csv"</span>,<span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>muestra1<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"https://docs.google.com/spreadsheets/d/e/2PACX-1vTbdWYdjYhfvt8quj9A5LpIEhH-sSKwxTsG8lKLLK_E_C5r1tkqFNdQNSAdzXvgthWCrFDn7oiN3-9P/pub?gid=346447959&amp;single=true&amp;output=csv"</span>,<span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Exploramos con <strong>funciones base</strong> de R nuestros datos (todavía no estamos usando paquetes).</p>
 <p>Indagamos acerca de la clase de nuestros datos:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(muestra1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(muestra1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "data.frame"</code></pre>
 </div>
 </div>
 <p>Consultamos la dimensión del conjunto de datos, filas y columnas:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(muestra1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(muestra1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 627  24</code></pre>
 </div>
 </div>
 <p>Y podríamos seguir así, pero no, cargamos el <em>(muy genial)</em> paquete <a href="https://docs.ropensci.org/skimr/">skimr</a> el cual nos ayudará a crear un primer <strong>resumen</strong> de las características de nuestro set de datos (tengamos presente que para correr un paquete primero hay que instalarlo).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("skimr") #lo grisado no se ejecuta</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("skimr") #lo grisado no se ejecuta</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package 'skimr' was built under R version 4.1.3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(muestra1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(muestra1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
 <caption>Data summary</caption>
@@ -637,18 +649,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Ahora bien, antes de avanzar precisamos hacerle algunos ajustes a nuestros datos.</p>
 <p>Para llevar adelante este proceso vamos a cargar dos paquetes muy útiles para transformar datos -<a href="https://www.tidyverse.org/">tidyverse</a>- ly normalizar las fechas -<a href="https://lubridate.tidyverse.org/">lubridate</a>-.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("tidyverse")</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("lubridate")</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("tidyverse")</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("lubridate")</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Creamos el objeto muestra2, son nuestros datos de partida con <em>fechas</em> normalizadas y <em>espacios</em> en blanco reemplazados por NAs (mejora el procesamiento). Lo hacemos mediante las siguientes transformaciones:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>muestra2<span class="ot">&lt;-</span>muestra1<span class="sc">%&gt;%</span> <span class="co">#pipe de tidyverse</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Marca.temporal=</span><span class="fu">sub</span>(<span class="st">" .*"</span>, <span class="st">""</span>, Marca.temporal))<span class="sc">%&gt;%</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#transformamos nuestros datos</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Marca.temporal=</span><span class="fu">dmy</span>(Marca.temporal))<span class="sc">%&gt;%</span> <span class="co">#formateamos fecha</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.character, <span class="fu">list</span>(<span class="sc">~</span><span class="fu">na_if</span>(.,<span class="st">""</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>muestra2<span class="ot">&lt;-</span>muestra1<span class="sc">%&gt;%</span> <span class="co">#pipe de tidyverse</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Marca.temporal=</span><span class="fu">sub</span>(<span class="st">" .*"</span>, <span class="st">""</span>, Marca.temporal))<span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#transformamos nuestros datos</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Marca.temporal=</span><span class="fu">dmy</span>(Marca.temporal))<span class="sc">%&gt;%</span> <span class="co">#formateamos fecha</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.character, <span class="fu">list</span>(<span class="sc">~</span><span class="fu">na_if</span>(.,<span class="st">""</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="primeras-preguntas" class="level2">
@@ -656,11 +668,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Dado el ajuste rápido de nuestros datos, queremos conocer más sobre el proceso de campo del formulario, por ejemplo: entre qué fechas tuvo lugar y cuántos respondentes tuvo por día?</p>
 <p>Veamos qué podemos decir con nuestro objeto muestra2:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>respuestas <span class="ot">&lt;-</span> muestra2<span class="sc">%&gt;%</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Marca.temporal)<span class="sc">%&gt;%</span> <span class="co">#agrupamos por fecha</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>() <span class="co">#contamos respuestas por fecha</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>respuestas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>respuestas <span class="ot">&lt;-</span> muestra2<span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Marca.temporal)<span class="sc">%&gt;%</span> <span class="co">#agrupamos por fecha</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>() <span class="co">#contamos respuestas por fecha</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>respuestas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 25 x 2
 # Groups:   Marca.temporal [25]
@@ -682,24 +694,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Graficamos las respuestas por día con <a href="https://ggplot2.tidyverse.org/">ggplot2</a>, una librería R que sirve para hacer gráficos. Viene con el paquete tidyverse que ya tenemos activado.</p>
 <p>Veamos como opera la lógica de estos gráficos en la práctica:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>respuestas<span class="sc">%&gt;%</span> <span class="co">#nuestro objeto</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="co">#declara la funcion para graficar el objeto</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Marca.temporal, <span class="at">y =</span> n) <span class="sc">+</span> <span class="co">#idicamos las variables a graficar</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">0.5</span>) <span class="co">#una geometria que la exprese, en este caso es una linea</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>respuestas<span class="sc">%&gt;%</span> <span class="co">#nuestro objeto</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="co">#declara la funcion para graficar el objeto</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Marca.temporal, <span class="at">y =</span> n) <span class="sc">+</span> <span class="co">#idicamos las variables a graficar</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">0.5</span>) <span class="co">#una geometria que la exprese, en este caso es una linea</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Vemos que el momento de nuestro campo tuvo un período de actividad desde finales de marzo y durante todo abril, luego registró respuestas esporádicas (por error).</p>
 <p>Repitamos el ejercicio poniendo nuestra atención en el lapso temporal en el que se registró la mayor cantidad de respuestas basándonos en la referencia visual que creamos.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>respuestas<span class="sc">%&gt;%</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>Marca.temporal<span class="sc">&gt;=</span><span class="st">"2020-05-01"</span>)<span class="sc">%&gt;%</span> <span class="co">#excluimos mayo 2020 en adelante</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="co">#declara la funcion para graficar el objeto</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Marca.temporal, <span class="at">y =</span> n) <span class="sc">+</span> <span class="co">#una geometria que la exprese, en este caso es una linea</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">0.9</span>) <span class="co">#aumentamos la linea</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>respuestas<span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>Marca.temporal<span class="sc">&gt;=</span><span class="st">"2020-05-01"</span>)<span class="sc">%&gt;%</span> <span class="co">#excluimos mayo 2020 en adelante</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="co">#declara la funcion para graficar el objeto</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Marca.temporal, <span class="at">y =</span> n) <span class="sc">+</span> <span class="co">#una geometria que la exprese, en este caso es una linea</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">0.9</span>) <span class="co">#aumentamos la linea</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Presentamos ahora una tecnología <em>facilitadora</em> del proceso que acabamos de realizar.</p>
@@ -708,12 +720,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="gráficos-con-la-librería-esquisse">Gráficos con la librería Esquisse</h2>
 <p>Antes de contarles qué hace, veamos cómo funciona:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("esquisse")</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(esquisse)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># grisamos nuestro codigo como un machete.</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># lo a ctivamos para consulta </span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># respuestas%&gt;%</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   esquisser()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("esquisse")</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(esquisse)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># grisamos nuestro codigo como un machete.</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># lo a ctivamos para consulta </span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># respuestas%&gt;%</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   esquisser()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><a href="https://cran.r-project.org/web/packages/esquisse/vignettes/get-started.html"><strong>Esquisse</strong></a> ayuda a explorar y visualizar nuestros datos de forma interactiva. El paquete crea gráficos ggplot de manera ágil por medio de una interfaz basada en arrastrar, soltar y filtrar para luego exportar los resultados como .png, .jpg o recuperar el código.</p>
 <p>Plantea dos utilidades principales:</p>
@@ -723,25 +735,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>Como se distribuye la variable edad de nuestra muestra? lo exploramos con esquisse.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># muestra2%&gt;%</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   esquisser()</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cod: ejemplo</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(muestra2) <span class="sc">+</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> X.Cuántos.años.tenés.) <span class="sc">+</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> 10L, <span class="at">fill =</span> <span class="st">"#46337E"</span>) <span class="sc">+</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"años"</span>,</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"n respondentes"</span>,</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribucion de la variable edad"</span>,</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"datos de muestra"</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># muestra2%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   esquisser()</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cod: ejemplo</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(muestra2) <span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> X.Cuántos.años.tenés.) <span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> 10L, <span class="at">fill =</span> <span class="st">"#46337E"</span>) <span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"años"</span>,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"n respondentes"</span>,</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribucion de la variable edad"</span>,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"datos de muestra"</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 9 rows containing non-finite values (stat_bin).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -749,13 +761,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="calculemos-porcentuales">Calculemos porcentuales</h2>
 <p>El paquete <a href="http://sfirke.github.io/janitor/">janitor</a> es otro aliado imprescindible ya que suma una una gama extra de funcionalidades a la hora de limpiar datos, entre las más destacables: genera nombres de columnas legibles, elimina columnas y filas vacías y encuentra valores duplicados. Aquí la usaremos para un proceso muy específico que es la creación de tablas de frecuencias y porcentuales.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("janitor")</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>cuarentena<span class="ot">&lt;-</span>muestra2<span class="sc">%&gt;%</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tabyl</span>(X.Estás.haciendo.cuarentena.)</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cuarentena)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("janitor")</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>cuarentena<span class="ot">&lt;-</span>muestra2<span class="sc">%&gt;%</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tabyl</span>(X.Estás.haciendo.cuarentena.)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cuarentena)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> X.Estás.haciendo.cuarentena.   n    percent
                            No   9 0.01435407
@@ -765,14 +777,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>El recorte de nuestra muestra indica que casi el 99% estaba haciendo cuarentena al momento de responder el formulario.</p>
 <p>Crucemos ahora estos datos con la variable de tenencia de hijos en edad escolar, para crear una tabla de doble entrada.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cruce <span class="ot">&lt;-</span> muestra2 <span class="sc">%&gt;%</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">hace_home=</span>X.Estas.trabajando.desde.tu.casa.bajo.alguna.modalidad.de.tele.trabajo..home.office..)<span class="sc">%&gt;%</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(X.Tenes.hijos.en.edad.escolar., </span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        hace_home,</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_na =</span> <span class="cn">FALSE</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_percentages</span>(<span class="st">"row"</span>)</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>cruce</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>cruce <span class="ot">&lt;-</span> muestra2 <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">hace_home=</span>X.Estas.trabajando.desde.tu.casa.bajo.alguna.modalidad.de.tele.trabajo..home.office..)<span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(X.Tenes.hijos.en.edad.escolar., </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>        hace_home,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_na =</span> <span class="cn">FALSE</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_percentages</span>(<span class="st">"row"</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>cruce</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                    X.Tenes.hijos.en.edad.escolar.        No        Sí
                                 No, no tengo hijos 0.2154472 0.7276423
@@ -785,17 +797,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                     0.00000000
                     0.03030303</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># y si lo esquisiamos (?</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># cruce%&gt;%</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   esquisser() #que pasa?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># y si lo esquisiamos (?</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># cruce%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   esquisser() #que pasa?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Asi como los estamos exportando no podemos graficarlos con ggplot ya que se multiplican las columnas con información. Para evitar que esto pase, un procedimiento habitual es volver a transformar nuestros datos en un par clave-valor.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>cruce2 <span class="ot">&lt;-</span> cruce<span class="sc">%&gt;%</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="st">'hace_home'</span>, <span class="st">'pct'</span>, <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>))<span class="sc">%&gt;%</span> <span class="co">#reune varias columnas para convertirlas en un par clave-valor</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pct=</span><span class="fu">round</span>(pct<span class="sc">*</span><span class="dv">100</span>, <span class="dv">1</span>))<span class="co"># formateamos porcentaje</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cruce2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>cruce2 <span class="ot">&lt;-</span> cruce<span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="st">'hace_home'</span>, <span class="st">'pct'</span>, <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>))<span class="sc">%&gt;%</span> <span class="co">#reune varias columnas para convertirlas en un par clave-valor</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pct=</span><span class="fu">round</span>(pct<span class="sc">*</span><span class="dv">100</span>, <span class="dv">1</span>))<span class="co"># formateamos porcentaje</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cruce2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                     X.Tenes.hijos.en.edad.escolar. hace_home  pct
 1                                No, no tengo hijos        No 21.5
@@ -805,19 +817,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 5                                No, no tengo hijos        Sí 72.8
 6                   Sí, tengo hijos en edad escolar        Sí 69.9</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#checkeamos</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># cruce2%&gt;%</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   esquisser()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#checkeamos</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># cruce2%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   esquisser()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Con nuestro datos transformados podríamos generar un gráfico de base similar a este:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cruce2) <span class="sc">+</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">aes</span>(<span class="at">x =</span> X.Tenes.hijos.en.edad.escolar., <span class="at">y =</span> pct, <span class="at">fill =</span> hace_home) <span class="sc">+</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_fill_hue</span>(<span class="at">direction =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cruce2) <span class="sc">+</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">aes</span>(<span class="at">x =</span> X.Tenes.hijos.en.edad.escolar., <span class="at">y =</span> pct, <span class="at">fill =</span> hace_home) <span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_fill_hue</span>(<span class="at">direction =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -825,23 +837,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="procesando-variable-de-escala-likert">Procesando variable de escala Likert</h2>
 <p>O casi. Transformamos la pregunta: <em>en qué medida te sentís informado a acerca de las medidas de prevención del Coronavirus</em>, con una escala de 1 a 5, donde 1 es <em>nada informado/a</em> y 5 es <em>muy informado/a</em>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>muestra3<span class="ot">&lt;-</span>muestra1<span class="sc">%&gt;%</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">informa=</span>X.En.qué.medida.te.sentís.informado.a.acerca.de.las.medidas.de.prevención.del.Coronavirus.)<span class="sc">%&gt;%</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(informa, </span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_na =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>muestra3<span class="ot">&lt;-</span>muestra3<span class="sc">%&gt;%</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent=</span><span class="fu">round</span>(percent<span class="sc">*</span><span class="dv">100</span>,<span class="dv">1</span>))<span class="sc">%&gt;%</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">informa=</span><span class="fu">case_when</span>(informa<span class="sc">==</span><span class="dv">1</span><span class="sc">~</span><span class="st">"1 nada informado/a"</span>,</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>                           informa<span class="sc">==</span><span class="dv">2</span><span class="sc">~</span><span class="st">"2 un poco informado/a"</span>,</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>                           informa<span class="sc">==</span><span class="dv">3</span><span class="sc">~</span><span class="st">"3 informado/a"</span>,</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>                           informa<span class="sc">==</span><span class="dv">4</span><span class="sc">~</span><span class="st">"4 bastante informado/a"</span>,</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                           informa<span class="sc">==</span><span class="dv">5</span><span class="sc">~</span><span class="st">"5 muy informado/a"</span>))<span class="sc">%&gt;%</span></span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">informa=</span><span class="fu">as.factor</span>(informa))</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="co">#repetimos el esquisseo (??</span></span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="co"># muestra3%&gt;%</span></span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="co">#   esquisser()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>muestra3<span class="ot">&lt;-</span>muestra1<span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">informa=</span>X.En.qué.medida.te.sentís.informado.a.acerca.de.las.medidas.de.prevención.del.Coronavirus.)<span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(informa, </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_na =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>muestra3<span class="ot">&lt;-</span>muestra3<span class="sc">%&gt;%</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent=</span><span class="fu">round</span>(percent<span class="sc">*</span><span class="dv">100</span>,<span class="dv">1</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">informa=</span><span class="fu">case_when</span>(informa<span class="sc">==</span><span class="dv">1</span><span class="sc">~</span><span class="st">"1 nada informado/a"</span>,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>                           informa<span class="sc">==</span><span class="dv">2</span><span class="sc">~</span><span class="st">"2 un poco informado/a"</span>,</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>                           informa<span class="sc">==</span><span class="dv">3</span><span class="sc">~</span><span class="st">"3 informado/a"</span>,</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>                           informa<span class="sc">==</span><span class="dv">4</span><span class="sc">~</span><span class="st">"4 bastante informado/a"</span>,</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>                           informa<span class="sc">==</span><span class="dv">5</span><span class="sc">~</span><span class="st">"5 muy informado/a"</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">informa=</span><span class="fu">as.factor</span>(informa))</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="co">#repetimos el esquisseo (??</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="co"># muestra3%&gt;%</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="co">#   esquisser()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="ejemplo-monitor-socioeconómico" class="level2">
@@ -853,16 +865,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="bonus">Bonus</h2>
 <p>La lógica de visualización no es solo para datos, ubicando puntos en los ejes <strong>x</strong> e <strong>y</strong> también podremos dibujar:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>, <span class="at">by =</span> <span class="fl">0.01</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand.grid</span>(<span class="at">x=</span>., <span class="at">y=</span>.) <span class="sc">%&gt;%</span> </span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x<span class="sc">^</span><span class="dv">3</span> <span class="sc">-</span> <span class="fu">sin</span>(y), <span class="at">y =</span> y<span class="sc">^</span><span class="dv">3</span> <span class="sc">-</span> <span class="fu">cos</span>(x)))<span class="sc">+</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.05</span>, </span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"#5E17EB"</span>, <span class="at">shape =</span> <span class="dv">20</span>, <span class="at">size =</span> <span class="dv">0</span>)<span class="sc">+</span> <span class="co">#https://www.color-hex.com/</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()<span class="sc">+</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_polar</span>()<span class="sc">+</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">"Llegamos al final del taller abierto, gracias por participar"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>, <span class="at">by =</span> <span class="fl">0.01</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand.grid</span>(<span class="at">x=</span>., <span class="at">y=</span>.) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x<span class="sc">^</span><span class="dv">3</span> <span class="sc">-</span> <span class="fu">sin</span>(y), <span class="at">y =</span> y<span class="sc">^</span><span class="dv">3</span> <span class="sc">-</span> <span class="fu">cos</span>(x)))<span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.05</span>, </span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"#5E17EB"</span>, <span class="at">shape =</span> <span class="dv">20</span>, <span class="at">size =</span> <span class="dv">0</span>)<span class="sc">+</span> <span class="co">#https://www.color-hex.com/</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()<span class="sc">+</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_polar</span>()<span class="sc">+</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">"Llegamos al final de esta experiencia, gracias por participar"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Hasta la próxima!</p>
@@ -870,15 +882,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{damianorden2022,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{damianorden2024,
   author = {Pedro Damian Orden and Pedro Damian Orden},
-  title = {Adultos Mayores e Ingresos},
-  date = {2022-07-04},
+  title = {Procesando Datos de Encuestas En {R}},
+  date = {2022-25-09},
   langid = {en}
 }
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-damianorden2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
-Pedro Damian Orden, and Pedro Damian Orden. 2022. <span>“Adultos Mayores
-e Ingresos.”</span> July 4, 2022.
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-damianorden2024" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
+Pedro Damian Orden, and Pedro Damian Orden. 2022. <span>“Procesando
+Datos de Encuestas En R.”</span> 9, 2022.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
