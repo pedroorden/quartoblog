@@ -6,3 +6,29 @@ freeze: true
 
 # Enable banner style title blocks
 title-block-banner: true
+
+
+# Enable CC licence appendix
+license: "CC BY"
+
+# Default for table of contents
+toc: true
+toc-title: Table of contents
+toc-location: left
+
+# Default knitr options
+execute:
+  echo: true
+  message: true
+  warning: true
+
+# Default author
+author:
+  - name: Pedro Damian Orden
+    url: https://linktr.ee/pedroorden
+    affiliation: Núcleo de Innovación Social
+    affiliation-url: https://www.nucleodeinnovacion.com/
+    orcid: 0000-0002-2254-8355
+
+# Default fields for citation
+citation: true

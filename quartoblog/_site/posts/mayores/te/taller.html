@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.370">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Pedro Orden">
+
+<title>Tecnología y Sociedad - Taller abierto</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Tecnología y Sociedad</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-linkedin" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://independent.academia.edu/PedroOrden"><i class="bi bi-archive" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Taller abierto</h1>
+                </div>
+  </div>
+    
+  
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Pedro Orden </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">Invalid Date</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#marco" id="toc-marco" class="nav-link active" data-scroll-target="#marco">Marco</a></li>
+  <li><a href="#presentación" id="toc-presentación" class="nav-link" data-scroll-target="#presentación">Presentación</a></li>
+  <li><a href="#carga-de-datos" id="toc-carga-de-datos" class="nav-link" data-scroll-target="#carga-de-datos">Carga de datos</a></li>
+  <li><a href="#limpieza-de-datos" id="toc-limpieza-de-datos" class="nav-link" data-scroll-target="#limpieza-de-datos">Limpieza de datos</a></li>
+  <li><a href="#primeras-preguntas" id="toc-primeras-preguntas" class="nav-link" data-scroll-target="#primeras-preguntas">Primeras preguntas</a></li>
+  <li><a href="#gráficos-con-la-librería-esquisse" id="toc-gráficos-con-la-librería-esquisse" class="nav-link" data-scroll-target="#gráficos-con-la-librería-esquisse">Gráficos con la librería Esquisse</a></li>
+  <li><a href="#calculemos-porcentuales" id="toc-calculemos-porcentuales" class="nav-link" data-scroll-target="#calculemos-porcentuales">Calculemos porcentuales</a></li>
+  <li><a href="#procesando-variable-de-escala-likert" id="toc-procesando-variable-de-escala-likert" class="nav-link" data-scroll-target="#procesando-variable-de-escala-likert">Procesando variable de escala Likert</a></li>
+  <li><a href="#ejemplo-monitor-socioeconómico" id="toc-ejemplo-monitor-socioeconómico" class="nav-link" data-scroll-target="#ejemplo-monitor-socioeconómico">Ejemplo: monitor socioeconómico</a></li>
+  <li><a href="#bonus" id="toc-bonus" class="nav-link" data-scroll-target="#bonus">Bonus</a></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="marco" class="level2">
+<h2 class="anchored" data-anchor-id="marco">Marco</h2>
+<p>El <a href="https://www.canva.com/design/DAFLyN2w-ew/jJz7cs6igww-igO2nVoCeA/view">taller abierto</a> es un espacio de encuentro para conocer y utilizar entre todos y todas herramientas de valor profesional para la ciencias sociales, son llevados adelante por el <a href="https://www.nucleodeinnovacion.com/">Núcleo de Innovación Social</a>, con el aval del <a href="http://cspba.org.ar/">Colegio de Sociólogos y Sociólogas de la Provincia de Buenos Aires (Ley 10.307)</a>, el <a href="http://cps.org.ar/">Consejo de Profesionales en Sociología (Ley 23.553)</a> y la <a href="https://www.facebook.com/sociologos.argentinos.ASRA">Asociación de Sociólogos de la República Argentina</a>.</p>
+</section>
+<section id="presentación" class="level2">
+<h2 class="anchored" data-anchor-id="presentación">Presentación</h2>
+<p>El presente documento es un material de taller pensado para profesionales de las ciencias sociales y público interesado. Procuraremos aquí presentar de manera general una serie de procedimientos asociados al procesamiento de encuestas con R.</p>
+<p>Veremos aquí:</p>
+<ul>
+<li><p>Carga de datos de un formulario drive y transformación.</p></li>
+<li><p>Análisis preliminar/exploratorio.</p></li>
+<li><p>Visualización.</p></li>
+<li><p>Recomendaciones profesionales: <a href="https://www.rstudio.com/blog/exploring-rstudio-visual-markdown-editor/">visual mode</a> (<u>ahora mismo</u>), <a href="https://docs.ropensci.org/skimr/">skimr</a>, <a href="https://dreamrs.github.io/esquisse/">esquisser</a> y <a href="http://sfirke.github.io/janitor/">janitor</a>.</p></li>
+</ul>
+</section>
+<section id="carga-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="carga-de-datos">Carga de datos</h2>
+<p>Los datos de trabajo pertenecen a una sub-muestra de una encuesta realizada por los <a href="https://clip-urbano.com/2020/04/05/el-colegio-de-sociologos-invita-a-participar-de-una-encuesta-sobre-medios-e-informacion-en-tiempos-de-pandemia/">Colegios Profesionales de Buenos Aires y el NIS</a> a comienzos de la pandemia, los mismos son 100% anónimos y fueron recabados por medio de un formulario Google.</p>
+<p>Comenzamos cargando en R las respuestas de <strong>drive</strong> (previamente debemos compartirlo como público en la web, en formato <em>csv</em>) y creamos el objeto <em>muestra1</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>muestra1<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"https://docs.google.com/spreadsheets/d/e/2PACX-1vTbdWYdjYhfvt8quj9A5LpIEhH-sSKwxTsG8lKLLK_E_C5r1tkqFNdQNSAdzXvgthWCrFDn7oiN3-9P/pub?gid=346447959&amp;single=true&amp;output=csv"</span>,<span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Exploramos con <strong>funciones base</strong> de R nuestros datos (todavía no estamos usando paquetes).</p>
+<p>Indagamos acerca de la clase de nuestros datos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(muestra1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data.frame"</code></pre>
+</div>
+</div>
+<p>Consultamos la dimensión del conjunto de datos, filas y columnas:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(muestra1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 627  24</code></pre>
+</div>
+</div>
+<p>Y podríamos seguir así, pero no, cargamos el <em>(muy genial)</em> paquete <a href="https://docs.ropensci.org/skimr/">skimr</a> el cual nos ayudará a crear un primer <strong>resumen</strong> de las características de nuestro set de datos (tengamos presente que para correr un paquete primero hay que instalarlo).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("skimr") #lo grisado no se ejecuta</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'skimr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(muestra1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">muestra1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">627</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">24</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">19</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 70%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 4%">
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">empty</th>
+<th style="text-align: right;">n_unique</th>
+<th style="text-align: right;">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Marca.temporal</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">622</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">X.Estás.haciendo.cuarentena.</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Te.identificas.como.</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">X.En.qué.provincia.vivís.actualmente.</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">X.Cuál.es.el.máximo.nivel.educativo.que.completaste.</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">X.Cuál.es.tu.principal.ocupación.</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">156</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">X.Estas.trabajando.desde.tu.casa.bajo.alguna.modalidad.de.tele.trabajo..home.office..</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">X.Tenes.hijos.en.edad.escolar.</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">X.Estás.viviendo.con.ellos.durante.esta.cuarentena.</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">68</td>
+<td style="text-align: right;">310</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">De.la.siguiente.lista..Cuáles.son.tus.tres.principales.medios.para.informarte.sobre.los.asuntos.del.país.y.la.circunstancia.del.coronavirus.</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">151</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">246</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">X.Te.gustaría.nombrar.algún.otro.medio.que.estés.usando.</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">224</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">X.Cambiaste.la.forma.en.que.te.informas.desde.que.comenzó.la.cuarentena.</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">X.Cómo.cambió.la.forma.en.que.te.informaste</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">626</td>
+<td style="text-align: right;">426</td>
+<td style="text-align: right;">201</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">X.Recibiste.noticias..información.relacionada.al.coronavirus.y.o.la.cuarentena.que.resultaron.ser.falsas.</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">X.Recordas.a.través.de.qué.medio.recibiste.esa.información.falsa.</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">152</td>
+<td style="text-align: right;">159</td>
+<td style="text-align: right;">103</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">X.Crees.que.las.noticias.falsas.o.fake.news.están.influyendo.en.el.comportamiento.de.las.personas.</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">X.Cómo.crees.que.influyen.las.noticias.falsas.o.fake.news.están.influyendo.en.el.comportamiento.de.las.personas.</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">909</td>
+<td style="text-align: right;">212</td>
+<td style="text-align: right;">400</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">X.Cuál.es.la.ocupación.de.la.persona.que.realiza.el.principal.aporte.económico.</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">167</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ante.una.emergencia.médica..problema.de.salud..a.dónde.acudis.primero.</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">116</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 52%">
+<col style="width: 4%">
+<col style="width: 6%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">X.Cuántos.años.tenés.</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">42.48</td>
+<td style="text-align: right;">13.65</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">53</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: left;">▅▇▅▃▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">X.En.qué.medida.te.sentís.informado.a.acerca.de.las.medidas.de.prevención.del.Coronavirus.</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">4.28</td>
+<td style="text-align: right;">0.79</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▁▁▂▆▇</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">X.Cuál.es.tu.opinión.acerca.de.lo.que.comunican.los.medios.de.comunicación.argentinos.sobre.el.Coronavirus.</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">3.34</td>
+<td style="text-align: right;">0.89</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▁▂▇▆▂</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">X.Cuántas.personas.viven.en.tu.hogar.incluyéndote.a.vos.</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">3.54</td>
+<td style="text-align: right;">20.97</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">522</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">X.y.cuántas.realizan.algún.tipo.de.aporte.económico.</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">1.78</td>
+<td style="text-align: right;">0.81</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▆▇▂▁▁</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Un resumen de nuestros datos con dos líneas de código, genial no? Este tipo de paquetes y funciones caracterizan a R, existen muchos desarrollos de la <a href="https://community.rstudio.com/">comunidad</a> que pueden ayudarnos en nuestra labor diaria. Lo <u>importante</u> es conocerlos y contar con el criterio de saber en qué momento y cómo usarlos.</p>
+</section>
+<section id="limpieza-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="limpieza-de-datos">Limpieza de datos</h2>
+<p>Como hemos visto, tenemos una muestra de respondentes y la propuesta es ahora presentar algunos cálculos de estadística descriptiva y generar visualizaciones, ya que una parte importante de nuestro trabajo con encuestas tiene que ver con armar gráficos que reflejen el comportamiento de variables.</p>
+<p>Ahora bien, antes de avanzar precisamos hacerle algunos ajustes a nuestros datos.</p>
+<p>Para llevar adelante este proceso vamos a cargar dos paquetes muy útiles para transformar datos -<a href="https://www.tidyverse.org/">tidyverse</a>- ly normalizar las fechas -<a href="https://lubridate.tidyverse.org/">lubridate</a>-.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("tidyverse")</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("lubridate")</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Creamos el objeto muestra2, son nuestros datos de partida con <em>fechas</em> normalizadas y <em>espacios</em> en blanco reemplazados por NAs (mejora el procesamiento). Lo hacemos mediante las siguientes transformaciones:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>muestra2<span class="ot">&lt;-</span>muestra1<span class="sc">%&gt;%</span> <span class="co">#pipe de tidyverse</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Marca.temporal=</span><span class="fu">sub</span>(<span class="st">" .*"</span>, <span class="st">""</span>, Marca.temporal))<span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#transformamos nuestros datos</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Marca.temporal=</span><span class="fu">dmy</span>(Marca.temporal))<span class="sc">%&gt;%</span> <span class="co">#formateamos fecha</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.character, <span class="fu">list</span>(<span class="sc">~</span><span class="fu">na_if</span>(.,<span class="st">""</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="primeras-preguntas" class="level2">
+<h2 class="anchored" data-anchor-id="primeras-preguntas">Primeras preguntas</h2>
+<p>Dado el ajuste rápido de nuestros datos, queremos conocer más sobre el proceso de campo del formulario, por ejemplo: entre qué fechas tuvo lugar y cuántos respondentes tuvo por día?</p>
+<p>Veamos qué podemos decir con nuestro objeto muestra2:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>respuestas <span class="ot">&lt;-</span> muestra2<span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Marca.temporal)<span class="sc">%&gt;%</span> <span class="co">#agrupamos por fecha</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>() <span class="co">#contamos respuestas por fecha</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>respuestas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 25 x 2
+# Groups:   Marca.temporal [25]
+   Marca.temporal     n
+   &lt;date&gt;         &lt;int&gt;
+ 1 2020-03-31         2
+ 2 2020-04-06       367
+ 3 2020-04-07       116
+ 4 2020-04-08        50
+ 5 2020-04-09        23
+ 6 2020-04-10        27
+ 7 2020-04-11         5
+ 8 2020-04-12         2
+ 9 2020-04-13         4
+10 2020-04-14         3
+# ... with 15 more rows</code></pre>
+</div>
+</div>
+<p>Graficamos las respuestas por día con <a href="https://ggplot2.tidyverse.org/">ggplot2</a>, una librería R que sirve para hacer gráficos. Viene con el paquete tidyverse que ya tenemos activado.</p>
+<p>Veamos como opera la lógica de estos gráficos en la práctica:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>respuestas<span class="sc">%&gt;%</span> <span class="co">#nuestro objeto</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="co">#declara la funcion para graficar el objeto</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Marca.temporal, <span class="at">y =</span> n) <span class="sc">+</span> <span class="co">#idicamos las variables a graficar</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">0.5</span>) <span class="co">#una geometria que la exprese, en este caso es una linea</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="taller_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Vemos que el momento de nuestro campo tuvo un período de actividad desde finales de marzo y durante todo abril, luego registró respuestas esporádicas (por error).</p>
+<p>Repitamos el ejercicio poniendo nuestra atención en el lapso temporal en el que se registró la mayor cantidad de respuestas basándonos en la referencia visual que creamos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>respuestas<span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>Marca.temporal<span class="sc">&gt;=</span><span class="st">"2020-05-01"</span>)<span class="sc">%&gt;%</span> <span class="co">#excluimos mayo 2020 en adelante</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="co">#declara la funcion para graficar el objeto</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Marca.temporal, <span class="at">y =</span> n) <span class="sc">+</span> <span class="co">#una geometria que la exprese, en este caso es una linea</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">0.9</span>) <span class="co">#aumentamos la linea</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="taller_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Presentamos ahora una tecnología <em>facilitadora</em> del proceso que acabamos de realizar.</p>
+</section>
+<section id="gráficos-con-la-librería-esquisse" class="level2">
+<h2 class="anchored" data-anchor-id="gráficos-con-la-librería-esquisse">Gráficos con la librería Esquisse</h2>
+<p>Antes de contarles qué hace, veamos cómo funciona:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("esquisse")</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(esquisse)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># grisamos nuestro codigo como un machete.</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># lo a ctivamos para consulta </span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># respuestas%&gt;%</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   esquisser()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><a href="https://cran.r-project.org/web/packages/esquisse/vignettes/get-started.html"><strong>Esquisse</strong></a> ayuda a explorar y visualizar nuestros datos de forma interactiva. El paquete crea gráficos ggplot de manera ágil por medio de una interfaz basada en arrastrar, soltar y filtrar para luego exportar los resultados como .png, .jpg o recuperar el código.</p>
+<p>Plantea dos utilidades principales:</p>
+<ol type="1">
+<li><p><strong>EDA al instante</strong>: aunque ggplot es muy rápido y fácil de usar, esquisse permite explorar visualmente los datos en todos los ángulos con una variedad de tipos de gráficos, filtros, agrupaciones, etc.</p></li>
+<li><p><strong>Conocer ggplot</strong> : con este paquete se puede crear rápidamente un gráfico, mirar el código, hacer un cambio, ver cómo eso impactó en el código y repetir.</p></li>
+</ol>
+<p>Como se distribuye la variable edad de nuestra muestra? lo exploramos con esquisse.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># muestra2%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   esquisser()</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cod: ejemplo</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(muestra2) <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> X.Cuántos.años.tenés.) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> 10L, <span class="at">fill =</span> <span class="st">"#46337E"</span>) <span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"años"</span>,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"n respondentes"</span>,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribucion de la variable edad"</span>,</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"datos de muestra"</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 9 rows containing non-finite values (stat_bin).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="taller_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="calculemos-porcentuales" class="level2">
+<h2 class="anchored" data-anchor-id="calculemos-porcentuales">Calculemos porcentuales</h2>
+<p>El paquete <a href="http://sfirke.github.io/janitor/">janitor</a> es otro aliado imprescindible ya que suma una una gama extra de funcionalidades a la hora de limpiar datos, entre las más destacables: genera nombres de columnas legibles, elimina columnas y filas vacías y encuentra valores duplicados. Aquí la usaremos para un proceso muy específico que es la creación de tablas de frecuencias y porcentuales.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("janitor")</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>cuarentena<span class="ot">&lt;-</span>muestra2<span class="sc">%&gt;%</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tabyl</span>(X.Estás.haciendo.cuarentena.)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cuarentena)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> X.Estás.haciendo.cuarentena.   n    percent
+                           No   9 0.01435407
+                           Sí 618 0.98564593</code></pre>
+</div>
+</div>
+<p>El recorte de nuestra muestra indica que casi el 99% estaba haciendo cuarentena al momento de responder el formulario.</p>
+<p>Crucemos ahora estos datos con la variable de tenencia de hijos en edad escolar, para crear una tabla de doble entrada.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cruce <span class="ot">&lt;-</span> muestra2 <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">hace_home=</span>X.Estas.trabajando.desde.tu.casa.bajo.alguna.modalidad.de.tele.trabajo..home.office..)<span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(X.Tenes.hijos.en.edad.escolar., </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        hace_home,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_na =</span> <span class="cn">FALSE</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_percentages</span>(<span class="st">"row"</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>cruce</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                    X.Tenes.hijos.en.edad.escolar.        No        Sí
+                                No, no tengo hijos 0.2154472 0.7276423
+                   Sí, tengo hijos en edad escolar 0.2352941 0.6993464
+ Sí, tengo hijos pero aún no están en edad escolar 0.3000000 0.7000000
+    Sí, tengo hijos pero ya no tienen edad escolar 0.2323232 0.7373737
+ Siempre trabajo desde mi casa
+                    0.05691057
+                    0.06535948
+                    0.00000000
+                    0.03030303</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># y si lo esquisiamos (?</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># cruce%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   esquisser() #que pasa?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Asi como los estamos exportando no podemos graficarlos con ggplot ya que se multiplican las columnas con información. Para evitar que esto pase, un procedimiento habitual es volver a transformar nuestros datos en un par clave-valor.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>cruce2 <span class="ot">&lt;-</span> cruce<span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="st">'hace_home'</span>, <span class="st">'pct'</span>, <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>))<span class="sc">%&gt;%</span> <span class="co">#reune varias columnas para convertirlas en un par clave-valor</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pct=</span><span class="fu">round</span>(pct<span class="sc">*</span><span class="dv">100</span>, <span class="dv">1</span>))<span class="co"># formateamos porcentaje</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cruce2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     X.Tenes.hijos.en.edad.escolar. hace_home  pct
+1                                No, no tengo hijos        No 21.5
+2                   Sí, tengo hijos en edad escolar        No 23.5
+3 Sí, tengo hijos pero aún no están en edad escolar        No 30.0
+4    Sí, tengo hijos pero ya no tienen edad escolar        No 23.2
+5                                No, no tengo hijos        Sí 72.8
+6                   Sí, tengo hijos en edad escolar        Sí 69.9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#checkeamos</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># cruce2%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   esquisser()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Con nuestro datos transformados podríamos generar un gráfico de base similar a este:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cruce2) <span class="sc">+</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">aes</span>(<span class="at">x =</span> X.Tenes.hijos.en.edad.escolar., <span class="at">y =</span> pct, <span class="at">fill =</span> hace_home) <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_fill_hue</span>(<span class="at">direction =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="taller_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="procesando-variable-de-escala-likert" class="level2">
+<h2 class="anchored" data-anchor-id="procesando-variable-de-escala-likert">Procesando variable de escala Likert</h2>
+<p>O casi. Transformamos la pregunta: <em>en qué medida te sentís informado a acerca de las medidas de prevención del Coronavirus</em>, con una escala de 1 a 5, donde 1 es <em>nada informado/a</em> y 5 es <em>muy informado/a</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>muestra3<span class="ot">&lt;-</span>muestra1<span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">informa=</span>X.En.qué.medida.te.sentís.informado.a.acerca.de.las.medidas.de.prevención.del.Coronavirus.)<span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(informa, </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_na =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>muestra3<span class="ot">&lt;-</span>muestra3<span class="sc">%&gt;%</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent=</span><span class="fu">round</span>(percent<span class="sc">*</span><span class="dv">100</span>,<span class="dv">1</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">informa=</span><span class="fu">case_when</span>(informa<span class="sc">==</span><span class="dv">1</span><span class="sc">~</span><span class="st">"1 nada informado/a"</span>,</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>                           informa<span class="sc">==</span><span class="dv">2</span><span class="sc">~</span><span class="st">"2 un poco informado/a"</span>,</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>                           informa<span class="sc">==</span><span class="dv">3</span><span class="sc">~</span><span class="st">"3 informado/a"</span>,</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>                           informa<span class="sc">==</span><span class="dv">4</span><span class="sc">~</span><span class="st">"4 bastante informado/a"</span>,</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                           informa<span class="sc">==</span><span class="dv">5</span><span class="sc">~</span><span class="st">"5 muy informado/a"</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">informa=</span><span class="fu">as.factor</span>(informa))</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="co">#repetimos el esquisseo (??</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="co"># muestra3%&gt;%</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="co">#   esquisser()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="ejemplo-monitor-socioeconómico" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-monitor-socioeconómico">Ejemplo: monitor socioeconómico</h2>
+<p>Es un <a href="https://pedroorden.shinyapps.io/socio-economico/">tablero</a> creado completamente en R que extrae los microdatos de la Encuesta Permanente de Hogares (INDEC), los procesa y visualiza de manera dinámica para conocer más sobre la coyuntura e historia reciente del mercado de trabajo y condiciones de vida en Argentina.</p>
+<p>Se trata de un proyecto en progreso del <strong>NIS</strong> que da cuenta de cómo podemos usar las nuevas herramientas de análisis y programación para automatizar y comunicar nuestro trabajo.</p>
+</section>
+<section id="bonus" class="level2">
+<h2 class="anchored" data-anchor-id="bonus">Bonus</h2>
+<p>La lógica de visualización no es solo para datos, ubicando puntos en los ejes <strong>x</strong> e <strong>y</strong> también podremos dibujar:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>, <span class="at">by =</span> <span class="fl">0.01</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand.grid</span>(<span class="at">x=</span>., <span class="at">y=</span>.) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x<span class="sc">^</span><span class="dv">3</span> <span class="sc">-</span> <span class="fu">sin</span>(y), <span class="at">y =</span> y<span class="sc">^</span><span class="dv">3</span> <span class="sc">-</span> <span class="fu">cos</span>(x)))<span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.05</span>, </span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"#5E17EB"</span>, <span class="at">shape =</span> <span class="dv">20</span>, <span class="at">size =</span> <span class="dv">0</span>)<span class="sc">+</span> <span class="co">#https://www.color-hex.com/</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()<span class="sc">+</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_polar</span>()<span class="sc">+</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">"Llegamos al final del taller abierto, gracias por participar"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="taller_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Hasta la próxima!</p>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{damianorden,
+  author = {Pedro Damian Orden and Pedro Orden},
+  title = {Taller Abierto},
+  date = {2022-16-09},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-damianorden" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
+Pedro Damian Orden, and Pedro Orden. 2022. <span>“Taller
+Abierto.”</span> Winter 9, 2022.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
