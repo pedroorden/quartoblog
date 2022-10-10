@@ -1,5 +1,5 @@
 ---
-title: "Data Journal"
+title: "Jornal de datos"
 listing:
   contents: posts
   sort: "date desc"
