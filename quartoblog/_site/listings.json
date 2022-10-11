@@ -2,9 +2,11 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/mayores/index.html",
+      "/posts/encuestas/index.html",
+      "/posts/abuelos/index.html",
       "/posts/presion/index.html",
-      "/posts/bienvenide/index.html"
+      "/posts/bienvenide/index.html",
+      "/posts/genart/index.html"
     ]
   }
 ]

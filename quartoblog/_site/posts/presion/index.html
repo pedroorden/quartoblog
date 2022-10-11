@@ -246,27 +246,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </blockquote>
 <p>Vamos entonces a instalar la librería y nos descargaremos el set completo de datos de la encuesta para 2021, no sin antes saber algo <u>importante</u> en Quarto; para construir un bloque de código que ejecute el lenguaje que nos interesa utilizar, primero hay que declararlo.</p>
 <div class="cell">
+<details>
+<summary>Ver código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#En este caso declaramos un bloque de {python}</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#instalamos la libreria de python pyeph</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#!pip install pyeph</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#la instalacion esta grisada porque en mi caso la libreria ya está descargada</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p>Llamamos a <strong>pyeph</strong> y descargamos los datos.</p>
 <div class="cell">
+<details>
+<summary>Ver código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyeph</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>eph1 <span class="op">=</span> pyeph.obtener(data<span class="op">=</span><span class="st">"eph"</span>, ano<span class="op">=</span><span class="dv">2021</span>, periodo<span class="op">=</span><span class="dv">1</span>, tipo_base<span class="op">=</span><span class="st">'individual'</span>) <span class="co"># EPH individual</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<details>
+<summary>Ver código</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>eph2 <span class="op">=</span> pyeph.obtener(data<span class="op">=</span><span class="st">"eph"</span>, ano<span class="op">=</span><span class="dv">2021</span>, periodo<span class="op">=</span><span class="dv">2</span>, tipo_base<span class="op">=</span><span class="st">'individual'</span>) <span class="co"># EPH individual</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<details>
+<summary>Ver código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>eph3 <span class="op">=</span> pyeph.obtener(data<span class="op">=</span><span class="st">"eph"</span>, ano<span class="op">=</span><span class="dv">2021</span>, periodo<span class="op">=</span><span class="dv">3</span>, tipo_base<span class="op">=</span><span class="st">'individual'</span>) <span class="co"># EPH individual</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<details>
+<summary>Ver código</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>eph4 <span class="op">=</span> pyeph.obtener(data<span class="op">=</span><span class="st">"eph"</span>, ano<span class="op">=</span><span class="dv">2021</span>, periodo<span class="op">=</span><span class="dv">4</span>, tipo_base<span class="op">=</span><span class="st">'individual'</span>) <span class="co"># EPH individual</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<details>
+<summary>Ver código</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>eph5 <span class="op">=</span> pyeph.obtener(data<span class="op">=</span><span class="st">"eph"</span>, ano<span class="op">=</span><span class="dv">2022</span>, periodo<span class="op">=</span><span class="dv">1</span>, tipo_base<span class="op">=</span><span class="st">'individual'</span>) <span class="co"># EPH individual</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#eph6 = pyeph.obtener(data="eph", ano=2022, periodo=2, tipo_base='individual') # EPH individual</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p>Seguidamente importaremos <a href="https://pandas.pydata.org/">pandas</a> y formatearemos los datos necesarios para nuestro análisis.</p>
 <div class="cell">
+<details>
+<summary>Ver código</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !pip install pandas</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># consturimos nuestro dataframefinal</span></span>
@@ -276,20 +296,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#guardamos los datos a un csv</span></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#datosehp.to_csv('eph2021.csv')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="ajustes-y-primeras-visualizaciones-en-r" class="level2">
 <h2 class="anchored" data-anchor-id="ajustes-y-primeras-visualizaciones-en-r">Ajustes y primeras visualizaciones en R</h2>
 <p>Una vez que llegamos a este punto, vamos a abrir un bloque de código en R para dar forma acabada a nuestro proyecto. Para ello descargamos el archivo csv con los datos que construimos y guardamos más arriba.</p>
 <div class="cell">
+<details>
+<summary>Ver código</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>eph2021<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"eph2021.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p>Llamamos a la libería <a href="https://www.tidyverse.org/">tidyverse</a> para darle la forma final a nuestro dataframe.</p>
 <div class="cell">
+<details>
+<summary>Ver código</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p>Agruparemos los datos por cuatrimestre y les aplicaremos una serie de <strong>funciones</strong> para identificar ocupados, desocupados, PEA, ocupados demandantes y disponibles. De esta forma podremos también construir las <strong>tasas</strong> de desocupación abierta, ocupados demandantes, ocupados no demandantes disponibles, ocupados no disponibles y el porcentual resultante de presión sobre el mercado de trabajo.</p>
 <div class="cell">
+<details>
+<summary>Ver código</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>presion_ar <span class="ot">&lt;-</span> eph2021 <span class="sc">%&gt;%</span> </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(TRIMESTRE) <span class="sc">%&gt;%</span> </span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ocupados =</span> <span class="fu">sum</span>(PONDERA[ESTADO <span class="sc">==</span> <span class="dv">1</span>]),</span>
@@ -312,16 +341,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>         <span class="st">'ocup. no demandantes disponibles'</span>,</span>
 <span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>         <span class="st">'ocupados no disponibles'</span>,</span>
 <span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>         <span class="st">'presion sobre el mercado laboral'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p>Creemos y visualicemos una tabla con los resultados en <a href="https://gt.rstudio.com/index.html">gt()</a>.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="eowqyylgvv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="bqeoextrbn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#eowqyylgvv .gt_table {
+#bqeoextrbn .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -346,7 +376,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-left-color: #D3D3D3;
 }
 
-#eowqyylgvv .gt_heading {
+#bqeoextrbn .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -358,7 +388,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-#eowqyylgvv .gt_title {
+#bqeoextrbn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -370,7 +400,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-width: 0;
 }
 
-#eowqyylgvv .gt_subtitle {
+#bqeoextrbn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -382,13 +412,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-width: 0;
 }
 
-#eowqyylgvv .gt_bottom_border {
+#bqeoextrbn .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#eowqyylgvv .gt_col_headings {
+#bqeoextrbn .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -403,7 +433,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-#eowqyylgvv .gt_col_heading {
+#bqeoextrbn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -423,7 +453,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-#eowqyylgvv .gt_column_spanner_outer {
+#bqeoextrbn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -435,15 +465,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 4px;
 }
 
-#eowqyylgvv .gt_column_spanner_outer:first-child {
+#bqeoextrbn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#eowqyylgvv .gt_column_spanner_outer:last-child {
+#bqeoextrbn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#eowqyylgvv .gt_column_spanner {
+#bqeoextrbn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -455,7 +485,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   width: 100%;
 }
 
-#eowqyylgvv .gt_group_heading {
+#bqeoextrbn .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -480,7 +510,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: middle;
 }
 
-#eowqyylgvv .gt_empty_group_heading {
+#bqeoextrbn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -495,15 +525,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: middle;
 }
 
-#eowqyylgvv .gt_from_md > :first-child {
+#bqeoextrbn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#eowqyylgvv .gt_from_md > :last-child {
+#bqeoextrbn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#eowqyylgvv .gt_row {
+#bqeoextrbn .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -522,7 +552,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-#eowqyylgvv .gt_stub {
+#bqeoextrbn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -535,7 +565,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-#eowqyylgvv .gt_stub_row_group {
+#bqeoextrbn .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -549,11 +579,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: top;
 }
 
-#eowqyylgvv .gt_row_group_first td {
+#bqeoextrbn .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#eowqyylgvv .gt_summary_row {
+#bqeoextrbn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -563,16 +593,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-#eowqyylgvv .gt_first_summary_row {
+#bqeoextrbn .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#eowqyylgvv .gt_first_summary_row.thick {
+#bqeoextrbn .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#eowqyylgvv .gt_last_summary_row {
+#bqeoextrbn .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -582,7 +612,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-#eowqyylgvv .gt_grand_summary_row {
+#bqeoextrbn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -592,7 +622,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-#eowqyylgvv .gt_first_grand_summary_row {
+#bqeoextrbn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -602,11 +632,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-color: #D3D3D3;
 }
 
-#eowqyylgvv .gt_striped {
+#bqeoextrbn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#eowqyylgvv .gt_table_body {
+#bqeoextrbn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -615,7 +645,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-#eowqyylgvv .gt_footnotes {
+#bqeoextrbn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -629,7 +659,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-#eowqyylgvv .gt_footnote {
+#bqeoextrbn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -638,7 +668,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-#eowqyylgvv .gt_sourcenotes {
+#bqeoextrbn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -652,7 +682,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-#eowqyylgvv .gt_sourcenote {
+#bqeoextrbn .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -660,64 +690,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-#eowqyylgvv .gt_left {
+#bqeoextrbn .gt_left {
   text-align: left;
 }
 
-#eowqyylgvv .gt_center {
+#bqeoextrbn .gt_center {
   text-align: center;
 }
 
-#eowqyylgvv .gt_right {
+#bqeoextrbn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#eowqyylgvv .gt_font_normal {
+#bqeoextrbn .gt_font_normal {
   font-weight: normal;
 }
 
-#eowqyylgvv .gt_font_bold {
+#bqeoextrbn .gt_font_bold {
   font-weight: bold;
 }
 
-#eowqyylgvv .gt_font_italic {
+#bqeoextrbn .gt_font_italic {
   font-style: italic;
 }
 
-#eowqyylgvv .gt_super {
+#bqeoextrbn .gt_super {
   font-size: 65%;
 }
 
-#eowqyylgvv .gt_footnote_marks {
+#bqeoextrbn .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#eowqyylgvv .gt_asterisk {
+#bqeoextrbn .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#eowqyylgvv .gt_indent_1 {
+#bqeoextrbn .gt_indent_1 {
   text-indent: 5px;
 }
 
-#eowqyylgvv .gt_indent_2 {
+#bqeoextrbn .gt_indent_2 {
   text-indent: 10px;
 }
 
-#eowqyylgvv .gt_indent_3 {
+#bqeoextrbn .gt_indent_3 {
   text-indent: 15px;
 }
 
-#eowqyylgvv .gt_indent_4 {
+#bqeoextrbn .gt_indent_4 {
   text-indent: 20px;
 }
 
-#eowqyylgvv .gt_indent_5 {
+#bqeoextrbn .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -778,6 +808,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p><strong>Grafiquemos</strong> los datos con <a href="https://ggplot2.tidyverse.org/">ggplot2</a>. Primero el <u>desagregado</u> problacional de la PEA que presiona sobre el mercado de trabajo.</p>
 <div class="cell">
+<details>
+<summary>Ver código</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("glue")</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue) <span class="co">#glue es una libreria util para pegar texto</span></span>
@@ -826,12 +858,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
 <span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>p1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Finalmente, veamos la película completa, armando un <u>panorama general</u> de cómo es la distribución entre la tasa de ocupados no disponibles y la presión sobre el mercado de trabajo en los 4 trimestres de 2021 para el total de los 31 aglomerados que componen la EPH.</p>
 <div class="cell">
+<details>
+<summary>Ver código</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> presion_ar2 <span class="sc">%&gt;%</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>((Indicador <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"ocupados no disponibles"</span>, </span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"presion sobre el mercado laboral"</span>))) <span class="sc">%&gt;%</span></span>
@@ -855,6 +890,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
 <span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -876,10 +912,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="bonus">Bonus</h2>
 <p>El 22-9-2022 este documento fue presentado en una experiencia de taller abierto del Núcleo de Innovación Social. A continuación el video tutorial que permite seguir la experiencia paso a paso.</p>
 <div class="cell">
+<details>
+<summary>Ver código</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vembedr)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">embed_url</span>(<span class="st">"https://www.youtube.com/watch?v=0SE_XjWJLvA&amp;t=1s"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">use_align</span>(<span class="st">"center"</span>)<span class="sc">%&gt;%</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">use_bs_responsive</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div class="vembedr embed-responsive embed-responsive-16by9" align="center">
 <div>

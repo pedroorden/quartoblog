@@ -4,6 +4,11 @@ author: "Pedro Damian Orden"
 date: "2022-25-09"
 categories: [codigo, analisis, video, tutorial]
 image: "thumbnail.jpg"
+format: 
+  html:
+    toc: true #arma menu
+    code-fold: true #oculta el codigo
+    code-summary: "Ver código" #leyenda para mostrar codigo
 ---
 
 El presente documento es un material de taller pensado para profesionales de las ciencias sociales y público interesado. Se procura aquí presentar de manera general una serie de procedimientos asociados al procesamiento de encuestas con R.
