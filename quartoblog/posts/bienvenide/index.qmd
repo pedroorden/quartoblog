@@ -4,13 +4,18 @@ author: "Pedro Damián Orden"
 date: "2022-01-09"
 image: "thumbnail.jpg"
 categories: [editorial]
+format: 
+  html:
+    toc: true #arma menu
+    code-fold: true #oculta el codigo
+    code-summary: "Ver código" #leyenda para mostrar codigo
 ---
 
 ### Motivación
 
-Armé este nuevo blog con tres ideas generales:
+La propuesta de crear este nuevo blog se basa en tres **ideas-fuerza** de orden general:
 
--   Actualizar y unificar mis distintos blogs en uno solo hecho 100% en Quarto, que es una tecnología contemporánea y permite generar narrativas combinando varios lenguajes a la vez.
+-   Actualizar y unificar mis distintos blogs en uno solo hecho 100% en Quarto, que es una tecnología contemporánea y permite generar narrativas basadas en datos combinando varios lenguajes de programación a la vez.
 
 -   Explorar en sí las posibilidades que brinda Quarto a la hora de comunicar los resultados de procesos de investigación basados en evidencia.
 
