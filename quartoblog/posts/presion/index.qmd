@@ -1,7 +1,8 @@
 ---
-title: "R y Python en Quarto: Explorando la presión sobre el mercado de trabajo según la EPH."
+title: "Utilizando Python y R en Quarto con la Encuesta Permanente de Hogares"
+subtitle: "Integración práctica aplicada al análisis del mercado de trabajo"
 author: "Pedro Damian Orden"
-date: "2022-07-07"
+date: "2022-09-06"
 categories: [codigo, analisis, video, tutorial]
 image: "image.jpg"
 format: 
@@ -11,9 +12,9 @@ format:
     code-summary: "Ver código" #leyenda para mostrar codigo
 ---
 
-## Inicio
+### Presentación
 
-En este documento electrónico preocuraré dar cuenta de una experiencia de **integración** de lenguajes de programación aplicados al procesamiento de la Encuesta Permanente de Hogares (EPH de [INDEC](https://www.indec.gob.ar/)), posible gracias [**Quarto**](https://quarto.org/), un sistema de publicación científica y técnica basado en Pandoc[^1] que funciona de manera amigable con Rstudio[^2].
+Este material plasma una experiencia de **integración** de lenguajes de programación aplicados al procesamiento de la Encuesta Permanente de Hogares (EPH de [INDEC](https://www.indec.gob.ar/)), posible gracias [**Quarto**](https://quarto.org/), un sistema de publicación científica y técnica basado en Pandoc[^1] que funciona de manera amigable con Rstudio[^2].
 
 [^1]: Para conocer más https://jasoncausey.net/post/quarto_early_impressions/
 
@@ -21,13 +22,11 @@ En este documento electrónico preocuraré dar cuenta de una experiencia de **in
 
 En términos prácticos, Quarto nos va a permitir, además de publicar el contenido que estamos leyendo, [integrar y ejecutar varios lenguajes]{.ul} de programación (*Python, R, SQL, Bash*, entre otros) en un mismo script[^3], sin tener que incurrir en mayores gestiones ni detalles. A los fines expositivos, uilizaremos esta potente prestación de manera aplicada para, por medio de **Python** y **R,** procesar la EPH y graficar la **presión sobre el mercado de trabajo** durante los cuatro trimestres de 2021, para el total de los 31 aglomerados donde reside la población urbana argentina[^4].
 
-[^3]: En términos más amplios puede pensarse también como un flujo de trabajo en el cual vamos encadenando acciones para llegar a responder un problema, independientemente de los lenguajes, formatos o publicaciones.
+[^3]: En un encuadre más amplio puede pensarse también como un flujo de trabajo en el cual vamos encadenando acciones para llegar a responder un problema, independientemente de los lenguajes, formatos o publicaciones.
 
 [^4]: Abarca 31 aglomerados urbanos donde habita, aproximadamente, el 70% d e la población urbana del país. Cubre todas las capitales de provincia y aglomerados urbanos de más de 100 mil habitantes. Más sobre la EPH: https://www.indec.gob.ar/indec/web/Institucional-Indec-BasesDeDatos
 
-Al concluir el documento se presenta el video formativo que recupera la experiencia en vivo citada en el marco de un taller abierto.
-
-## Sobre el mercado de trabajo
+### Sobre el mercado de trabajo
 
 Al relevar de manera periódica la realidad socioeconómica argentina, la EPH es un gran insumo para conocer los principales indicadores[^5] sobre el mercado de trabajo y analizar su evolución en el tiempo.
 
@@ -37,7 +36,7 @@ Para dar con un proceso significativo de la dinámica del mercado laboral, nos e
 
 [^6]: A propósito de la noción de presión sobre el mercado laboral, comúnmente se presupone que la población con una inserción insuficiente en el mercado de trabajo es la de los desocupados, por sus características específicas de no contar con una ocupación y buscarla de manera activa. No obstante, dicho proceso de búsqueda se verifica únicamente dentro de otros grupos poblacionales. Habida cuenta de los elevados niveles de desocupación y su prolongación en el tiempo, que caracterizan la historia reciente argentina, de manera frecuente las personas aceptan trabajos que si bien no se adaptan a sus expectativas de vida, les permiten obtener un ingreso en el mientras tanto y continuar en la búsqueda de un mejor horizonte laboral.
 
-De esta forma, re-construiremos con datos de la EPH la variable de **presión general sobre el mercado de trabajo,** para visualisar en nuestro documento cómo un segmento de la PEA puja por mayor **participación** en el **mercado laboral**, ya sea demandando trabajar más horas o bien buscando un nuevo empleo[^7].
+De esta forma, re-construiremos con datos de la EPH la variable de **presión general sobre el mercado de trabajo,** para visualizar en nuestro documento cómo un segmento de la PEA puja por mayor **participación** en el **mercado laboral**, ya sea demandando trabajar más horas o bien buscando un nuevo empleo[^7].
 
 [^7]: [Para profundizar más en indicadores sobre empleo y su medición se invita a conocer el trabajo de E Actis Di Pasquale de 2005: Condiciones Críticas de Empleo. Una *Nueva Perspectiva* de la *Cuestión Laboral*.](http://nulan.mdp.edu.ar/714/1/01207d.pdf)
 
@@ -47,7 +46,7 @@ Tomaremos como referencia comparativa con nuestro código los datos que provee e
 
 [^8]: INDEC. Recoge los datos completos de la serie 2021.
 
-## ETL con Python
+### ETL con Python
 
 El trabajo inicial de **ETL** lo llevaremos adelante en Python[^9] dado que nos va a resultar más rápido que con R.
 
@@ -76,15 +75,10 @@ Llamamos a **pyeph** y descargamos los datos.
 #| echo: true
 
 import pyeph
-
 eph1 = pyeph.obtener(data="eph", ano=2021, periodo=1, tipo_base='individual') # EPH individual
 eph2 = pyeph.obtener(data="eph", ano=2021, periodo=2, tipo_base='individual') # EPH individual
 eph3 = pyeph.obtener(data="eph", ano=2021, periodo=3, tipo_base='individual') # EPH individual
 eph4 = pyeph.obtener(data="eph", ano=2021, periodo=4, tipo_base='individual') # EPH individual
-eph5 = pyeph.obtener(data="eph", ano=2022, periodo=1, tipo_base='individual') # EPH individual
-
-#eph6 = pyeph.obtener(data="eph", ano=2022, periodo=2, tipo_base='individual') # EPH individual
-
 ```
 
 Seguidamente importaremos [pandas](https://pandas.pydata.org/) y formatearemos los datos necesarios para nuestro análisis.
@@ -93,16 +87,14 @@ Seguidamente importaremos [pandas](https://pandas.pydata.org/) y formatearemos l
 # !pip install pandas
 import pandas as pd
 # consturimos nuestro dataframefinal
-datosehp = pd.concat([eph1, eph2, eph3, eph4, eph5])
+datosehp = pd.concat([eph1, eph2, eph3, eph4])
 # Nos quedamos con las variables que nos interesan, son 5.
 datosehp = datosehp[["TRIMESTRE", "PONDERA", "ESTADO", "PP03J", "PP03H"]]
-
 #guardamos los datos a un csv
-#datosehp.to_csv('eph2021.csv')
-
+datosehp.to_csv('eph2021.csv')
 ```
 
-## Ajustes y primeras visualizaciones en R
+### Ajustes y primeras visualizaciones en R
 
 Una vez que llegamos a este punto, vamos a abrir un bloque de código en R para dar forma acabada a nuestro proyecto. Para ello descargamos el archivo csv con los datos que construimos y guardamos más arriba.
 
@@ -163,13 +155,19 @@ tabla<-presion_ar%>%
   gt()%>%
   tab_header(
     title = md("Resumen de tasas seleccionadas de **de Mercado de Trabajo**"),
-    subtitle = md("Datos porcentuales `para los últimos 5 trimestres 2021/2022.`"))%>%
-  tab_source_note(source_note = "Fuente: elaboracion propia en base a datos de la EPH (INDEC).")
+    subtitle = md("Datos porcentuales `para los 4 trimestres de 2021.`"))%>%
+  tab_source_note(source_note = "Fuente: elaboración propia en base a datos de la EPH (INDEC).")
 
 tabla
 ```
 
-**Grafiquemos** los datos con [ggplot2](https://ggplot2.tidyverse.org/). Primero el [desagregado]{.ul} problacional de la PEA que presiona sobre el mercado de trabajo.
+Y ahora **comparémoslos** con los datos que provee el INDEC en el informe que tomamos como referencia.
+
+![](cuadro_indec.png)
+
+Bastante **parecido** verdad? De haber redondeado el segundo decimal hubieramos estado prácticamente iguales!
+
+**Grafiquemos** ahora los datos con [ggplot2](https://ggplot2.tidyverse.org/). Primero el [desagregado]{.ul} problacional de la PEA que presiona sobre el mercado de trabajo.
 
 ```{r}
 #| warning: false
@@ -255,7 +253,7 @@ Con respecto a los datos y objetos gráficos que creamos se prefigura que la pre
 
 Para acceder a los datos del [mercado de trabajo]{.ul} en una serie de tiempo más amplia y en formato interactivo puede consultarse el [**monitor socioeconómico**](https://pedroorden.shinyapps.io/socioeconomico/ "ver app") de mi autoría.
 
-## Conclusiones:
+### Concluciones:
 
 -   En Quarto la mezcla no es sinónimo de amontonamiento. La posibilidad amigable de **integrar** varios lenguajes de progamación en procesos de analítica y modelado de datos en ciencia sociales escala las opciones para hacer y conocer.
 
@@ -268,14 +266,3 @@ Para acceder a los datos del [mercado de trabajo]{.ul} en una serie de tiempo m�
 -   De la breve experiencia aquí presentada emerge una gran pregunta que tiene que ver con las (*nuevas?*) formas en que se construyen ciertos saberes contemporáneos. En el campo de las ciencias sociales y el desarrollo computacional la **combinación** criteriosa de teorías, métodos y lenguajes de programación se prefiguran como una **potente estrategia** de trabajo para abordar la **compleja gama de realidades epocales** en las que discurrimos como profesionales.
 
 [^10]: Este articulo piensa en el caso particular de las ciencias humanas, pero esta abierto a cualquier otra identificación homóloga.
-
-## Bonus
-
-El 22-9-2022 este documento fue presentado en una experiencia de taller abierto del Núcleo de Innovación Social. A continuación el video tutorial que permite seguir la experiencia paso a paso.
-
-```{r}
-library(vembedr)
-embed_url("https://www.youtube.com/watch?v=0SE_XjWJLvA&t=1s") %>%
-  use_align("center")%>%
-  use_bs_responsive()
-```
