@@ -2,21 +2,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.370">
+<meta name="generator" content="quarto-1.1.251">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Pedro Damián Orden">
-<meta name="dcterms.date" content="2022-01-09">
+<meta name="dcterms.date" content="2022-09-24">
 
-<title>Tecnología y Sociedad - Un jornal sociológico de datos</title>
+<title>Tec &amp; Soc. - Una aproximación al arte generativo con R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -55,7 +60,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -68,7 +73,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -82,22 +87,24 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<meta name="quarto:offset" content="../../">
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../logo.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -128,9 +135,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Tecnología y Sociedad</span>
-  </a>
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Tec &amp; Soc.</span>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -150,7 +159,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  </a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://independent.academia.edu/PedroOrden"><i class="bi bi-archive" role="img">
+    <a class="nav-link" href="https://independent.academia.edu/PedroOrden"><i class="bi bi-book" role="img">
 </i> 
  </a>
   </li>  
@@ -164,8 +173,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Un jornal sociológico de datos</h1>
-                          <div class="quarto-categories">
+      <h1 class="title">Una aproximación al arte generativo con R</h1>
+                                <div class="quarto-categories">
                 <div class="quarto-category">visualizaciones</div>
                 <div class="quarto-category">codigo</div>
               </div>
@@ -173,9 +182,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
     
   
-
-
-
   <div class="quarto-title-meta">
 
       <div>
@@ -188,7 +194,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 9, 2022</p>
+        <p class="date">September 24, 2022</p>
       </div>
     </div>
       
@@ -198,13 +204,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
-    <nav id="TOC" role="doc-toc">
+    <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
   <li><a href="#manos-a-la-obra" id="toc-manos-a-la-obra" class="nav-link active" data-scroll-target="#manos-a-la-obra">Manos a la obra</a></li>
   <li><a href="#ggplot" id="toc-ggplot" class="nav-link" data-scroll-target="#ggplot">ggplot</a></li>
-  <li><a href="#jasmines" id="toc-jasmines" class="nav-link" data-scroll-target="#jasmines">Jasmines</a></li>
   <li><a href="#flametree" id="toc-flametree" class="nav-link" data-scroll-target="#flametree">flametree</a></li>
   <li><a href="#contour" id="toc-contour" class="nav-link" data-scroll-target="#contour">contouR</a></li>
   <li><a href="#artsy" id="toc-artsy" class="nav-link" data-scroll-target="#artsy">aRtsy</a></li>
@@ -225,7 +230,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>El <a href="https://studioanf.com/a-brief-history-of-generative-art/">arte generativo</a>, también conocido en la actualidad como <strong>arte algorítmico</strong>, es un tipo de expresión visual que puede ser recreada digitalmente, estableciendo un diálogo difuso entre los campos del arte y la programación.</p>
 <p>A menudo un sentido común extendido asocia el arte al cauce de la expresión emocional de las personas, mientras que el acto de programar es emparentado a fríos códigos y lógicas pragmáticas que conducen a un resultado puntual. El <a href="https://www.artnome.com/news/2018/8/8/why-love-generative-art">arte generativo</a>, creado por medio de algoritmos, tensa estas creencias siendo ambas cosas y ninguna de ellas. Pondremos aquí en juego herramientas rígidas y lógicas que crean algo asbtracto, impredecible e inesperado.</p>
 <p>Es dable destacar que las bases de la propuesta estética fueron establecidas en el <a href="1959">Manifiesto Arte Generativo</a>(https://noticiasrecoleta.com.ar/el-arte-generativo-y-sus-60-anos-exposicion-de-obras-en-el-museo-de-arte-moderno/) por los artistas argentinos <a href="http://mcmcgaleria.com/es/muestra/miguel-angel-vidal-eduardo-mac-entyre-arte-generativo">Eduardo Mac Entyre y Miguel Ángel Vidal</a> ( <em>foto</em> ) donde se proclamaba el espacio como un campo abierto a las tensiones de formas orbitales, trayectorias proyectadas y planos fugados en profundidad.</p>
-<p><justify> <img src="artistas.jpg" class="img-fluid" style="width:80.0%"></justify></p>
+<center>
+<p><img src="https://www.arte-online.net/var/arte_online_net/storage/images/arte-online/notas/eduardo-mac-entyre-y-miguel-angel-vidal/888351-1-esl-AR/Eduardo-Mac-Entyre-y-Miguel-Angel-Vidal_nota.jpg" title="Eduardo Mac Entyre y Miguel Ángel Vidal (60s)" class="img-fluid" style="width:80.0%"></p>
 <section id="manos-a-la-obra" class="level3">
 <h3 class="anchored" data-anchor-id="manos-a-la-obra">Manos a la obra</h3>
 <p>Considero significativo adentrarse a este tema por su relevancia histórico-cultural, destacando además su dimensión práctica, toda vez que en el proceso de desarrollo de estos objetos, podemos experimentar e involucrarnos con diversas lógicas, formas y colores, una <em>caja de herramientas</em> distinta (pero no tanto) a la que habitualmente utilizamos en nuestra rutina laboral y que nos permite expandir creativamente nuestras habilidades al momento de visualizar fenómenos con R.</p>
@@ -235,10 +241,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jasmines)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(aRtsy)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(generativeart)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Para situarnos en el espacio que nos propone R, comenzamos haciendo algo que ya conocemos: un ggplot de puntos en un plano con colores y formas. En términos generales, esta es una de las lógicas subyacentes de la visualización y nos permite tomar una dimensión de las potencialidades de nuestras herramientas.</p>
@@ -284,7 +287,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="index_files/figure-html/espiral-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Luego de esta sucinta inmersión en la logica de la visualización de elementos, indagaremos en las posibilidades que abren ggplot junto a tres paquetes que complementan las herramientas gráficas disponibles en r, y fueron desarrollados específicamente para la creación ( <em>o producción?</em>) de arte generativo y como veremos nos entregarán resultados más qué interesantes.</p>
+<p>Luego de esta sucinta inmersión en la lógica de la visualización de elementos, indagaremos en las posibilidades que abren ggplot junto a dos paquetes que complementan las herramientas gráficas disponibles en R, y fueron desarrollados específicamente para la creación ( <em>o producción?</em>) de arte generativo y como veremos nos entregarán resultados más qué interesantes.</p>
 </section>
 <section id="ggplot" class="level3">
 <h3 class="anchored" data-anchor-id="ggplot">ggplot</h3>
@@ -402,53 +405,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>p3<span class="ot">&lt;-</span><span class="fu">polar_styled_plot</span>(<span class="at">palette =</span> <span class="fu">sample_canva</span>(<span class="at">seed =</span> <span class="dv">500</span>)) <span class="sc">+</span> </span>
 <span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="at">data =</span> dat, <span class="at">linetype =</span> <span class="st">"15"</span>) </span>
 <span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'patchwork' was built under R version 4.1.3</code></pre>
-</div>
-<details>
-<summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>p1<span class="sc">+</span>p2<span class="sc">+</span>p3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>p1<span class="sc">+</span>p2<span class="sc">+</span>p3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
-</div>
-</section>
-<section id="jasmines" class="level3">
-<h3 class="anchored" data-anchor-id="jasmines">Jasmines</h3>
-<p>Con <a href="https://github.com/djnavarro/jasmines/">Jasmines</a> podemos modificar creativamente objetos ggplot a partir de múltiples funciones. En este paquete nuestra visualización parte de una semilla (seed) y desde allí se crea un objeto que puede ser modificado en renderizado, forma, tamaño y otros aspectos de personalizables.</p>
-<div class="cell">
-<details>
-<summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># use_seed(1000) %&gt;% #(objeto inicial, </span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># #marco de aletoriedad)</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># entity_circle(grain = 1000, </span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># size = 3)%&gt;%</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># #circulo, </span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># #diametro, </span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># #renderizado de 1000 pts.</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># unfold_warp(iterations = 100) %&gt;% </span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># # iteracions (+ "complejidad")</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># style_ribbon(palette = "magma") </span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># #convierte en ggplot</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p>Avanzamos en la proyección de una figura mas compleja:</p>
-<div class="cell">
-<details>
-<summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use_seed(50) %&gt;%</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># entity_gaussian(grain = 1000, </span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># size = 1) %&gt;%</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># unfold_warp(iterations = 100) %&gt;%</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># style_ribbon(</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># palette = "plasma", </span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># colour = "ind", </span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># background = "#00002d")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 </section>
 <section id="flametree" class="level3">
@@ -457,126 +420,149 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <details>
 <summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(flametree)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># elegimos nuestros colores</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>shades <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#c79dd7"</span>, <span class="st">"#ef4f91"</span>, <span class="st">"#c5b9cd"</span>, <span class="st">"#abb1cf"</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#ef4f91 (239,79,145)</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#c79dd7 (199,157,215)</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#4d1b7b (77,27,123)</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># definimos los datos con los que se van a generar los arboles</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">flametree_grow</span>(<span class="at">time =</span> <span class="dv">10</span>, <span class="at">trees =</span> <span class="dv">10</span>)</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># graficamos</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> </span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">flametree_plot</span>(</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">background =</span> <span class="st">"antiquewhite"</span>,</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> shades, </span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="st">"nativeflora"</span></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(flametree)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># elegimos nuestros colores</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>shades <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#c79dd7"</span>, <span class="st">"#ef4f91"</span>, <span class="st">"#c5b9cd"</span>, <span class="st">"#abb1cf"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#ef4f91 (239,79,145)</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#c79dd7 (199,157,215)</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#4d1b7b (77,27,123)</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># definimos los datos con los que se van a generar los arboles</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">flametree_grow</span>(<span class="at">time =</span> <span class="dv">10</span>, <span class="at">trees =</span> <span class="dv">10</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># graficamos</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">flametree_plot</span>(</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">background =</span> <span class="st">"antiquewhite"</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> shades, </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="st">"nativeflora"</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/GA%201-1.png" class="img-fluid" style="width:100.0%"></p>
 </div>
 </div>
-</section>
-<section id="contour" class="level3">
-<h3 class="anchored" data-anchor-id="contour">contouR</h3>
+<p>Veamos otro con una estética <strong>ciberpunk</strong>:</p>
 <div class="cell">
 <details>
 <summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(contouR)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#set up your data</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>setup <span class="ot">=</span> <span class="fu">contour_grid</span>(<span class="at">grid_size =</span> <span class="dv">100</span>, <span class="at">point_dist =</span> .<span class="dv">25</span>, </span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">z_method =</span> <span class="st">"runif"</span>, <span class="at">z =</span> <span class="dv">10</span>, <span class="at">z_span =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">contour_shape</span>(<span class="at">radius =</span> <span class="dv">15</span>, </span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">x_center =</span> <span class="dv">7</span>, <span class="at">y_center =</span> <span class="dv">9</span>) </span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># plot your data</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="fu">contour_plot</span>(setup<span class="sc">$</span>grid_shape) <span class="sc">+</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">xlim</span>(<span class="dv">1</span>, <span class="dv">30</span>) <span class="sc">+</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ylim</span>(<span class="dv">1</span>, <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>jittr <span class="ot">&lt;-</span> <span class="cf">function</span>(coord_x, coord_y, id_tree, id_time) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  stats<span class="sc">::</span><span class="fu">runif</span>(<span class="at">n =</span> <span class="fu">length</span>(coord_x), <span class="at">min =</span> <span class="sc">-</span>.<span class="dv">2</span>, <span class="at">max =</span> .<span class="dv">2</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">flametree_grow</span>(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">time =</span> <span class="dv">12</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">seg_wid =</span> <span class="fu">spark_linear</span>(<span class="at">constant =</span> .<span class="dv">2</span>),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">shift_x =</span> jittr,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">shift_y =</span> jittr</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">flametree_plot</span>(</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"#bd00ff"</span>, <span class="st">"#f1dfec"</span>),</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="st">"wisp"</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="contour" class="level3">
+<h3 class="anchored" data-anchor-id="contour">contouR</h3>
+<p>Se trata de un paquete para modelar formas en articulación con ggplot, si bien es limitado en funcionalidad, la propuesta de paquete se basa en la modidicación de parámetros para construir la imagen final.</p>
+<div class="cell">
+<details>
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(contouR)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#set up your data</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>setup <span class="ot">=</span> <span class="fu">contour_grid</span>(<span class="at">grid_size =</span> <span class="dv">100</span>, <span class="at">point_dist =</span> .<span class="dv">25</span>, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">z_method =</span> <span class="st">"runif"</span>, <span class="at">z =</span> <span class="dv">10</span>, <span class="at">z_span =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">contour_shape</span>(<span class="at">radius =</span> <span class="dv">15</span>, </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">x_center =</span> <span class="dv">7</span>, <span class="at">y_center =</span> <span class="dv">9</span>) </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># plot your data</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="fu">contour_plot</span>(setup<span class="sc">$</span>grid_shape) <span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">xlim</span>(<span class="dv">1</span>, <span class="dv">30</span>) <span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ylim</span>(<span class="dv">1</span>, <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Se parece a un planeta hecho crochet no?</p>
 </section>
 <section id="artsy" class="level3">
 <h3 class="anchored" data-anchor-id="artsy">aRtsy</h3>
-<p><em>Si la broma te dió risa…¿Qué diferencia hay en que luego te enteres que fue creada por un algoritmo?” (<a href="https://www.theguardian.com/books/2019/mar/12/the-creativity-code-marcus-du-sautoy-review">Marcus du Sautoy, El código creativo</a> )</em></p>
-<p>Así comienza <a href="https://koenderks.github.io/aRtsy/">Artsy</a> su blog y nos presenta una serie de funcionalidades para crear nuestro obra generativo de forma simple y al alcance de todos y todas. El paquete proporciona varios algoritmos para crear proyecciones ggplot que incorporan aleatoriedad (según la seed) y, de los 3 que vimos, es mi favorito, con lo cual me gustaría profundizar más en él.</p>
+<p><em>Si la broma te dió risa…¿Qué diferencia hay si fue creada por un algoritmo?” (<a href="https://www.theguardian.com/books/2019/mar/12/the-creativity-code-marcus-du-sautoy-review">Marcus du Sautoy, El código creativo</a> )</em></p>
+<p>Así comienza <a href="https://koenderks.github.io/aRtsy/">Artsy</a> su blog y nos presenta una serie de funcionalidades para crear nuestro obra generativa de forma simple y al alcance de todos y todas. El paquete proporciona varios algoritmos para crear proyecciones ggplot que incorporan aleatoriedad (según la seed) y, de los 3 que vimos, es mi favorito, con lo cual me gustaría profundizar más en él.</p>
 <p>Antes de comenzar a utilizar este paquete es importante saber que el mismo se organiza en <em>colecciones</em>, cada una genera un tipo de proyección o forma distinta.</p>
-<p><strong>Iterative</strong> es una colección basada en un sistema de reglas e iteración en base a ellas.</p>
-<p>La función <em>canvas_strokes()</em> permite, por ejemplo, simular el trazo de un pincel ejecutando un calculo de probablilidad en la que todos los puntos de la proyección tienen la probabilidad de adquirir el color del punto próximo, pero también tienen una pequeña posibilidad de asumir un color distinto.</p>
+<p>La función <em><code>canvas_strokes()</code></em> permite, por ejemplo, simular el trazo de un pincel ejecutando un calculo de probablilidad en la que todos los puntos de la proyección tienen la probabilidad de adquirir el color del punto próximo, pero también incorpora una pequeña posibilidad de asumir un color distinto.</p>
 <div class="cell">
 <details>
 <summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(aRtsy)</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#colores de la paleta de referencia. </span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#https://www.color-hex.com/color-palette/84832</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">canvas_strokes</span>(<span class="at">colors =</span> </span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">'#e8d0d9'</span>, <span class="st">'#e590a5'</span>, </span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="st">'#75638b'</span>, <span class="st">'#507592'</span>,</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="st">'#dac291'</span>), </span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="at">neighbors =</span> <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.005</span>, </span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="at">iterations =</span> <span class="dv">10</span>, </span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#width = 500, height = 500, </span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="at">side =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(aRtsy)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#colores de la paleta de referencia. </span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#https://www.color-hex.com/color-palette/84832</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">canvas_strokes</span>(<span class="at">colors =</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">'#e8d0d9'</span>, <span class="st">'#e590a5'</span>, </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="st">'#75638b'</span>, <span class="st">'#507592'</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="st">'#dac291'</span>), </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="at">neighbors =</span> <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.005</span>, </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="at">iterations =</span> <span class="dv">10</span>, </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#width = 500, height = 500, </span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="at">side =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/Art%202-1.png" class="img-fluid" style="width:100.0%"></p>
 </div>
 </div>
-<p>La colección <strong>Geometric</strong> en cambio implementa algoritmos que dibujan formas geométricas y le aplican colores aleatorios.</p>
-<p>Es el caso de canvas_squares, que utiliza una variedad de cuadrados y rectángulos en lugar de líneas. Funciona cortando repetidamente el lienzo en ubicaciones aleatorias y coloreando el área que crean estos cortes:</p>
+<p>Es el caso de <code>canvas_squares</code>, que utiliza una variedad de cuadrados y rectángulos en lugar de líneas. Funciona cortando repetidamente el lienzo en ubicaciones aleatorias y coloreando el área que crean estos cortes:</p>
 <div class="cell">
 <details>
 <summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">6</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">canvas_squares</span>(<span class="at">colors =</span> <span class="fu">c</span>(</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">'#fac901'</span>, <span class="st">'#ffffff'</span>, </span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="st">'#225095'</span>, <span class="st">'#dd0100'</span>),</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="at">cuts =</span> <span class="dv">50</span>, <span class="at">ratio =</span> <span class="fl">1.458</span>, </span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">#width = 100, height = 100</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(aRtsy)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">6</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">canvas_squares</span>(<span class="at">colors =</span> <span class="fu">c</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="st">'#fac901'</span>, <span class="st">'#ffffff'</span>, </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="st">'#225095'</span>, <span class="st">'#dd0100'</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="at">cuts =</span> <span class="dv">50</span>, <span class="at">ratio =</span> <span class="fl">2.5</span>, </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#width = 100, height = 100</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/Art%203-1.png" class="img-fluid" style="width:100.0%"></p>
 </div>
 <details>
 <summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#paleta de referencia</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#https://www.color-hex.com/color-palette/25374</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#paleta de referencia</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#https://www.color-hex.com/color-palette/25374</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>También resultan atractivas las proyecciones de <em>canvas_ribbons()</em> que mantiene la lógica anterior, pero utiliza cintas y triángulos conectados a través de nodos comunes.</p>
+<p>También resultan atractivas las proyecciones de <em><code>canvas_ribbons()</code></em> que mantiene la lógica anterior, pero utiliza cintas y triángulos conectados a través de nodos comunes.</p>
 <div class="cell">
 <details>
 <summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">784</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">canvas_ribbons</span>(<span class="at">colors =</span> </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">'#CC102D'</span>, </span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="st">'#E88514'</span>, <span class="st">'#FFFF28'</span>, </span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="st">'#7DC62C'</span>, <span class="st">'#71C0DE'</span>,</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="st">'#634C8A'</span>),</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="at">background =</span> <span class="st">'#1c2117'</span>, </span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="at">triangle =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">784</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">canvas_ribbons</span>(<span class="at">colors =</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">'#CC102D'</span>, </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="st">'#E88514'</span>, <span class="st">'#FFFF28'</span>, </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="st">'#7DC62C'</span>, <span class="st">'#71C0DE'</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="st">'#634C8A'</span>),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="at">background =</span> <span class="st">'#1c2117'</span>, </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="at">triangle =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/Art%204-1.png" class="img-fluid" style="width:100.0%"></p>
 </div>
 <details>
 <summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># referencia de la paleta </span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  https://www.schemecolor.com/the-dark-</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  side-of-the-moon-pink-floyd-colors.php</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  lo intente!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># referencia de la paleta </span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  https://www.schemecolor.com/the-dark-</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  side-of-the-moon-pink-floyd-colors.php</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  lo intente!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Finalmente, la colección <strong>Supervised</strong> trabaja con funciones de agrupación supervisadas propias del machine learning. Los algoritmos de esta colección funcionan generando puntos de datos aleatorios en un plano bidimensional (con una variable de respuesta continua o categórica). Posteriormente la modelan utilizando el algoritmo de aprendizaje supervisado.</p>
@@ -584,21 +570,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <details>
 <summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">canvas_mosaic</span>(<span class="at">colors =</span> </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">'#fff2df'</span>,</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="st">'#d69c42'</span>, </span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="st">'#77ae80'</span>,<span class="st">'#4b6294'</span>,</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="st">'#852a02'</span>),</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#maxk = 1, </span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="at">n =</span> <span class="dv">150</span>,<span class="at">resolution =</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">canvas_mosaic</span>(<span class="at">colors =</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">"#ff598f"</span>,    </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="st">"#fd8a5e"</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="st">"#e0e300"</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="st">"#01dddd"</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="st">"#00bfaf"</span>),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="at">n =</span> <span class="dv">25</span>,<span class="at">resolution =</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/Art%205-1.png" class="img-fluid" style="width:100.0%"></p>
 </div>
 <details>
 <summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># paleta de referencia</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># https://www.color-hex.com/color-palette/63466</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># paleta de referencia</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># https://www.color-hex.com/color-palette/63466</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -606,26 +592,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="conclusión">Conclusión</h3>
 <p>Esta fue una selección de experiencias y posibilidades experimentando con el denominado arte generativo en R, los códigos abiertos de este post y las referencias citadas invitan a lxs interesadxs a replicar-reconfigurar las imágenes propuestas.</p>
 <p>Las primeras impresiones de quien escribe con respecto al arte generativo es que en tanto técnica expresiva estimula creativamente a indagar y conocer más sobre el procesamiento de imágenes y la proyección de datos en R.</p>
-<p>En este sentido podremos afirmar que arte generativo es una interesante alternativa para quienes quieran programar recrativamente, explorar las posibilidades de formas, colores y espacios que tenemos a disposición en r, procastinar en horario de trabajo o estudio, crear objetos artísticos (eventualmente venderlos a <a href="https://www.artandobject.com/news/nft-art-market-explained-how-participate-safely">precio justo</a>, recomiendo indagar en que qué es un <a href="https://www.nytimes.com/2021/08/14/style/teens-nft-art.html">nft</a> ), todas las anteriores o ninguna, pero siempre con el mismo sentimiento compartido: <a href="https://www.youtube.com/watch?v=1_kL86lCF_Y&amp;ab_channel=robinsonoberti">el amor al arte</a>.</p>
-<section id="título-de-foto-de-cabecera-eduardo-mac-entyre-expansión-sobre-verde-1971-acrílico-sobre-tela-110-x-150-cm." class="level6">
-<h6 class="anchored" data-anchor-id="título-de-foto-de-cabecera-eduardo-mac-entyre-expansión-sobre-verde-1971-acrílico-sobre-tela-110-x-150-cm.">Título de foto de cabecera: Eduardo Mac Entyre, Expansión sobre verde, 1971, acrílico sobre tela, 110 x 150 cm.</h6>
+<p>En este sentido podremos afirmar que arte generativo es una interesante alternativa para quienes quieran programar recrativamente, explorar las posibilidades de formas, colores y espacios que tenemos a disposición en r, procastinar en horario de trabajo o estudio, crear objetos artísticos (eventualmente venderlos a <a href="https://www.artandobject.com/news/nft-art-market-explained-how-participate-safely">precio justo</a>, recomiendo indagar en que qué es un <a href="https://www.nytimes.com/2021/08/14/style/teens-nft-art.html">nft</a> ), todas las anteriores o ninguna, pero siempre con el mismo sentimiento compartido: <a href="https://www.youtube.com/watch?v=1_kL86lCF_Y&amp;ab_channel=robinsonoberti">el amor al arte</a>💜 .</p>
 
 
 </section>
-</section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{damianorden2022,
-  author = {Pedro Damian Orden and Pedro Damián Orden},
-  title = {Un Jornal Sociológico de Datos},
-  date = {2022-01-09},
+</center><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{damiánorden2022,
+  author = {Pedro Damián Orden},
+  editor = {},
+  title = {Una Aproximación Al Arte Generativo Con {R}},
+  date = {2022-09-24},
   langid = {en}
 }
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-damianorden2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
-Pedro Damian Orden, and Pedro Damián Orden. 2022. <span>“Un Jornal
-Sociológico de Datos.”</span> January 9, 2022.
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-damiánorden2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
+Pedro Damián Orden. 2022. <span>“Una Aproximación Al Arte Generativo Con
+R.”</span> September 24, 2022.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -675,7 +677,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);

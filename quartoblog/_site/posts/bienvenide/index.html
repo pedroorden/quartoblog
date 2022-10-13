@@ -2,39 +2,46 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.370">
+<meta name="generator" content="quarto-1.1.251">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Pedro Damián Orden">
-<meta name="dcterms.date" content="2022-01-09">
+<meta name="dcterms.date" content="2022-09-01">
 
-<title>Tecnología y Sociedad - Un jornal sociológico de datos</title>
+<title>Tec &amp; Soc. - El nuevo jornal sociológico de datos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 </style>
+
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<meta name="quarto:offset" content="../../">
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../logo.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -65,9 +72,11 @@ ul.task-list{list-style: none;}
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Tecnología y Sociedad</span>
-  </a>
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Tec &amp; Soc.</span>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -87,7 +96,7 @@ ul.task-list{list-style: none;}
  </a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://independent.academia.edu/PedroOrden"><i class="bi bi-archive" role="img">
+    <a class="nav-link" href="https://independent.academia.edu/PedroOrden"><i class="bi bi-book" role="img">
 </i> 
  </a>
   </li>  
@@ -101,17 +110,14 @@ ul.task-list{list-style: none;}
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Un jornal sociológico de datos</h1>
-                          <div class="quarto-categories">
+      <h1 class="title">El nuevo jornal sociológico de datos</h1>
+                                <div class="quarto-categories">
                 <div class="quarto-category">editorial</div>
               </div>
                   </div>
   </div>
     
   
-
-
-
   <div class="quarto-title-meta">
 
       <div>
@@ -124,7 +130,7 @@ ul.task-list{list-style: none;}
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 9, 2022</p>
+        <p class="date">September 1, 2022</p>
       </div>
     </div>
       
@@ -134,12 +140,12 @@ ul.task-list{list-style: none;}
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
-    <nav id="TOC" role="doc-toc">
+    <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
   <li><a href="#motivación" id="toc-motivación" class="nav-link active" data-scroll-target="#motivación">Motivación</a></li>
-  <li><a href="#organización" id="toc-organización" class="nav-link" data-scroll-target="#organización">Organización</a></li>
+  <li><a href="#organización-de-las-publicaciones" id="toc-organización-de-las-publicaciones" class="nav-link" data-scroll-target="#organización-de-las-publicaciones">Organización de las publicaciones</a></li>
   </ul>
 </nav>
 </nav>
@@ -152,34 +158,55 @@ ul.task-list{list-style: none;}
 
 
 
+<p><strong>Tecnología y Sociedad</strong> es el soporte y la continuación de un cúmulo de experiencias digitales en materia editorial que confluyen hoy en un mismo blog, creado íntegramente en Quarto, la nueva plataforma de publicación de R.</p>
 <section id="motivación" class="level3">
 <h3 class="anchored" data-anchor-id="motivación">Motivación</h3>
-<p>La propuesta de crear este nuevo blog se basa en tres <strong>ideas-fuerza</strong> de orden general:</p>
+<p>La propuesta de crear este <em>nuevo jornal sociológico de datos</em> se basa en tres <strong>ideas-fuerza</strong> de orden general:</p>
 <ul>
 <li><p>Actualizar y unificar mis distintos blogs en uno solo hecho 100% en Quarto, que es una tecnología contemporánea y permite generar narrativas basadas en datos combinando varios lenguajes de programación a la vez.</p></li>
 <li><p>Explorar en sí las posibilidades que brinda Quarto a la hora de comunicar los resultados de procesos de investigación basados en evidencia.</p></li>
 <li><p>Último y fundamental, contar con una plataforma de trabajo para publicar ágilmente documentos de coyuntura, tutoriales, etc.</p></li>
 </ul>
 </section>
-<section id="organización" class="level3">
-<h3 class="anchored" data-anchor-id="organización">Organización</h3>
-<p>Para optimizar el acceso a los contenidos del blog, los mismos se organizan por categoría y cuentan con filtro dinámico para buscar temas específicos o palabras clave.</p>
+<section id="organización-de-las-publicaciones" class="level3">
+<h3 class="anchored" data-anchor-id="organización-de-las-publicaciones">Organización de las publicaciones</h3>
+<p>Para optimizar el acceso a los contenidos del blog, los mismos se organizan por categoría y cuentan con un filtro dinámico para buscar temas específicos o palabras clave.</p>
+<p>La propuesta será de aquí en más publicar sobre distintos temas con una cierta periodicidad buscando sistematizar experiencias de investigación y formación basadas en R . Vamos por eso!</p>
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{damianorden2022,
-  author = {Pedro Damian Orden and Pedro Damián Orden},
-  title = {Un Jornal Sociológico de Datos},
-  date = {2022-01-09},
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{damiánorden2022,
+  author = {Pedro Damián Orden},
+  editor = {},
+  title = {El Nuevo Jornal Sociológico de Datos},
+  date = {2022-09-01},
   langid = {en}
 }
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-damianorden2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
-Pedro Damian Orden, and Pedro Damián Orden. 2022. <span>“Un Jornal
-Sociológico de Datos.”</span> January 9, 2022.
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-damiánorden2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
+Pedro Damián Orden. 2022. <span>“El Nuevo Jornal Sociológico de
+Datos.”</span> September 1, 2022.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -229,7 +256,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
