@@ -6,19 +6,19 @@ about:
   links:
     - icon: linkedin
       text: LinkedIn
-      href: https://linkedin.com
+      href: https://www.linkedin.com/in/pedroorden/
     - icon: github
       text: Github
-      href: https://github.com    
-    - icon: archive
+      href: https://github.com/pedroorden    
+    - icon: book
       text: Academia
       href: https://independent.academia.edu/PedroOrden
 ---
 
-#### **Hola! Soy Pedro Damián Orden, Sociólogo y Programador, gracias por pasar a conocer mi sitio :) .**
+Nací en la ciudad de [Lanús (Provincia de Buenos Aires, Argentina)](https://es.wikipedia.org/wiki/Lan%C3%BAs) en agosto de 1985, siempre me gustaron las compus y tuve la suerte de tener una cerca desde chico.
 
-**Tecnología y Sociedad** es un taller abierto de sociología, datos y programación basado en desarrollos y experiencias, tanto profesionales como colectivas.
+Estudié Sociología en la [UBA](https://www.uba.ar/), actualmente coordino el [NIS](https://www.nucleodeinnovacion.com/), formo parte de. equipo análisis e investigación sobre inteligencia artificial en la [UNVM](https://www.unvm.edu.ar/) y trabajo con [investigador](https://www.linkedin.com/in/pedroorden/) asociado en diversas instituciones públicas y privadas.
 
-Sobre [mi](https://linktr.ee/pedroorden) te cuento que nací en la ciudad de [Lanús (Provincia de Buenos Aires, Argentina)](https://es.wikipedia.org/wiki/Lan%C3%BAs) en 1985, siempre me gustaron las compus y tuve la suerte de tener siempre una cerca desde chico. Estudié Sociología en la [UBA](https://www.uba.ar/), actualmente coordino el [NIS](https://www.nucleodeinnovacion.com/), formo parte de un equipo análisis e investigación sobre inteligencia artificial en la [UNVM](https://www.unvm.edu.ar/) y trabajo con [investigador](https://www.linkedin.com/in/pedroorden/) asociado en diversas intituciones públicas y privadas.
+Como **sociólogo-científico de datos** busco resolver preguntas sociológicas complégicas con la técnica contemporánea, combinando los saberes propios de la estadística y la programación con la epistemología y la hermenéutica de las ciencias sociales.
 
-Como **sociólogo-científico de datos** busco resolver preguntas sociológicas con la técnica contemporánea, combinando los saberes propios de la estadística y la programación con la epistemología y la hermenéutica de las ciencias sociales.
+Si te interesa lo que hago y crees que puede ser valioso que conversemos, no dudes en escribirme!
