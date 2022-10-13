@@ -1,7 +1,7 @@
 ---
-title: "Procesando datos de encuestas en R"
+title: "Procesando datos de encuestas Con R"
 author: "Pedro Damian Orden"
-date: "2022-25-09"
+date: "2022-10-07"
 categories: [codigo, analisis, video, tutorial]
 image: "thumbnail.jpg"
 format: 
@@ -11,7 +11,7 @@ format:
     code-summary: "Ver código" #leyenda para mostrar codigo
 ---
 
-El presente documento es un material de taller pensado para profesionales de las ciencias sociales y público interesado. Se procura aquí presentar de manera general una serie de procedimientos asociados al procesamiento de encuestas con R.
+El presente documento es un material de taller pensado para profesionales de las ciencias sociales y público interesado. Se procura aquí presentar de manera introductoria una serie de procedimientos asociados al procesamiento de encuestas con R.
 
 Una versión de este documento fue presentada en un Taller abierto del NIS el 16 de septiembre de 2022 y grabada en vivo para que todos y todas puedan replicar la experiencia código a código.
 
@@ -34,7 +34,7 @@ Veremos aquí:
 
 -   Visualización.
 
--   Recomendaciones profesionales: [visual mode](https://www.rstudio.com/blog/exploring-rstudio-visual-markdown-editor/) ([ahora mismo]{.ul}), [skimr](https://docs.ropensci.org/skimr/), [esquisser](https://dreamrs.github.io/esquisse/) y [janitor](http://sfirke.github.io/janitor/).
+-   Recomendaciones profesionales: [skimr](https://docs.ropensci.org/skimr/), [esquisser](https://dreamrs.github.io/esquisse/) y [janitor](http://sfirke.github.io/janitor/).
 
 ## Carga de datos
 
@@ -60,7 +60,7 @@ Consultamos la dimensión del conjunto de datos, filas y columnas:
 dim(muestra1)
 ```
 
-Y podríamos seguir así, pero no, cargamos el *(muy genial)* paquete [skimr](https://docs.ropensci.org/skimr/) el cual nos ayudará a crear un primer **resumen** de las características de nuestro set de datos (tengamos presente que para correr un paquete primero hay que instalarlo).
+Y podríamos seguir así...pero no, cargamos el *(muy genial)* paquete [skimr](https://docs.ropensci.org/skimr/) el cual nos ayudará a crear un primer **resumen** de las características de nuestro set de datos (tengamos presente que para correr un paquete primero hay que instalarlo).
 
 ```{r}
 #install.packages("skimr") #lo grisado no se ejecuta
@@ -76,7 +76,7 @@ Como hemos visto, tenemos una muestra de respondentes y la propuesta es ahora pr
 
 Ahora bien, antes de avanzar precisamos hacerle algunos ajustes a nuestros datos.
 
-Para llevar adelante este proceso vamos a cargar dos paquetes muy útiles para transformar datos -[tidyverse](https://www.tidyverse.org/)- ly normalizar las fechas -[lubridate](https://lubridate.tidyverse.org/)-.
+Para llevar adelante este proceso vamos a cargar dos paquetes muy útiles para transformar datos -[tidyverse](https://www.tidyverse.org/)- y normalizar fechas -[lubridate](https://lubridate.tidyverse.org/)-.
 
 ```{r warning=FALSE, message=FALSE}
 #install.packages("tidyverse")
@@ -85,7 +85,7 @@ library(tidyverse)
 library(lubridate)
 ```
 
-Creamos el objeto muestra2, son nuestros datos de partida con *fechas* normalizadas y *espacios* en blanco reemplazados por NAs (mejora el procesamiento). Lo hacemos mediante las siguientes transformaciones:
+Creamos el objeto muestra2, son nuestros datos de partida con *fechas* normalizadas y *espacios* en blanco reemplazados por *NAs* (mejora el procesamiento). Lo hacemos mediante las siguientes transformaciones:
 
 ```{r}
 muestra2<-muestra1%>% #pipe de tidyverse
@@ -146,6 +146,8 @@ library(esquisse)
 # respuestas%>%
 #   esquisser()
 ```
+
+> ***Importante**: se recomienda ver el video del inicio para acompañar la explicación acerca de como funciona esquisse.*
 
 [**Esquisse**](https://cran.r-project.org/web/packages/esquisse/vignettes/get-started.html) ayuda a explorar y visualizar nuestros datos de forma interactiva. El paquete crea gráficos ggplot de manera ágil por medio de una interfaz basada en arrastrar, soltar y filtrar para luego exportar los resultados como .png, .jpg o recuperar el código.
 

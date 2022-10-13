@@ -1,7 +1,7 @@
 ---
-title: "Situaciones de pobreza por ingreso en adultos mayores con R y Python"
+title: "Situaciones de pobreza por ingreso en adultos mayores con R (y Python)"
 author: "Lic. Pedro Damian Orden"
-date: "2022-07-29"
+date: "2022-10-15"
 categories: [codigo, analisis, tutorial]
 format: 
   html:
@@ -17,15 +17,15 @@ La crisis de ingresos, que sobrevino a la pospandemia y al acuerdo de deuda con 
 
 [^1]: Para conocer más sobre contexto reciente de la crisis económica Argentina se recomienda consultar el articulo de France 24: Argentina una situación económica en declive, disponible en <https://www.france24.com/es/programas/especial-noticias/20220105-argentina-economia-inflacion-comercio-pandemia>.
 
-En el caso de la pobreza, como en otros períodos históricos de crisis social y económica, pasó de ser un problema exclusivo de aquellas personas con dificultades para obtener un puesto de trabajo o en condiciones de marginación social, para alcanzar a otros sectores sociales tradicionalmente incluidos como los ocupados[^2], siendo incluso muchos de ellos empleados del sector formal de la economía, o bien sectores de jubilados; que aún cobrando un haber previsional, producto del trabajo de su vida, no alcanzan a cubrir sus necesidades básicas esenciales. 
+En el caso de la pobreza, como en otros períodos históricos de crisis social y económica, pasó de ser un problema exclusivo de aquellas personas con dificultades para obtener un puesto de trabajo o en condiciones de marginación social, para alcanzar a otros sectores sociales tradicionalmente incluidos como los ocupados[^2], siendo incluso muchos de ellos empleados del sector formal de la economía, o bien sectores de jubilados; que aún cobrando un haber previsional, producto del trabajo de su vida, no alcanzan a cubrir sus necesidades básicas esenciales.
 
 [^2]: Tomado de Di Giovambattista, Ana Paula; Panigo, Demian Tupac; Medici, Florencia; Gárriz, Ana Inés; Trabajadores pobres en Argentina; Centro de Estudios e Investigaciones Laborales; Empleo, Desempleo y Políticas de Empleo; 12; 12-2012; 1-69.
 
-Dicho lo cual, la propuesta aquí será explorar la realidad de este segundo grupo, muchas veces invisibilizado: los jubilados, prestando atención en términos de ingreso al colectivo que cobra el haber mínimo y que representa, según ANSES[^3], aproximadamente el 50% del segmento de pasivos en Argentina. Operativamente, se buscará conocer a lo largo de los últimos 10 años cómo han evolucionado las jubilaciones mínimas en nuestro país, y en qué medida han alcanzado, o no, a cubrir la canasta básica específica calculada por la Defensoría del Pueblo de la Tercera Edad de la Ciudad de Buenos Aires. 
+Dicho lo cual, la propuesta aquí será explorar la realidad de este segundo grupo, muchas veces invisibilizado ~~negado~~ por la sociedad y las academias universitarias: los jubilados. Pondremos nuestra atención particularmente en el subgrupo que cobra el haber mínimo y que representa, según ANSES[^3], aproximadamente el 50% del segmento de pasivos en Argentina. Operativamente, se buscará conocer a lo largo de los últimos 10 años cómo han evolucionado las jubilaciones mínimas en nuestro país, y en qué medida han alcanzado, o no, a cubrir la canasta básica específica calculada por la Defensoría del Pueblo de la Tercera Edad de la Ciudad de Buenos Aires.
 
-[^3]: Según [Estadísticas de la Seguridad Social](https://www.anses.gob.ar/sites/default/files/inline-files/EstadisticasSSMarzo2022_0.xlsx) (IV Trimestre de 2021, formato XLS) 
+[^3]: Según [Estadísticas de la Seguridad Social](https://www.anses.gob.ar/sites/default/files/inline-files/EstadisticasSSMarzo2022_0.xlsx) (IV Trimestre de 2021, formato XLS).
 
-Finalmente se procurará aportar nuevos elementos respecto a una hipotética situación de empobrecimiento sectorial.
+Finalmente, se procurará aportar nuevos elementos para pensar el proceso empobrecimiento de este colectivo por ingresos.
 
 ## Recopilación de datos y fuentes
 
@@ -57,49 +57,52 @@ En ambos casos se trata de archivos formato csv, levantados en R con la función
 #datos de haberes minimos
 jubilacion <- read.csv("https://infra.datos.gob.ar/catalog/sspm/dataset/58/distribution/58.1/download/haber-minimo-jubilatorio-pesos-corrientes-valores-mensuales-desde-1971.csv")
 
-canasta <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQLhJPkHIQbYhbpeWbE2deg-UTGr0Y1AaFFL8gfUN06d9xez7vIziuVpvq4_FhnHZC1MDclr_fDnz_I/pub?output=csv")
+canasta <- read.csv("https://raw.githubusercontent.com/pedroorden/canasta-jubilados/main/canasta.csv")
 ```
 
-Aplicando la función *summary()* se obtendrá un resumen general de los datasets cargados.
+Dado que el Estado Nacional generalmente plantea demoras significativas en la actualización de datos abiertos, agregamos manualmente el valor de jubilación para octubre de 2022.
 
 ```{r}
-summary(jubilacion)
-
 jubilacion<-jubilacion%>%
   select(indice_tiempo, mensual_pesos)
+
+jubilacion[nrow(jubilacion) + 1,] <- c(	"2022-10-01", 50353)
+
+jubilacion<-jubilacion%>%
+  mutate(mensual_pesos=as.numeric(mensual_pesos))
 ```
 
-**jubilacion** contiene como mencionamos anteriormente los valores históricos del haber mínimo desde 1971 en Argentina . De aquí se seleccionan las columnas `indice_tiempo` y `mensual_pesos`, con datos de fecha y valor del haber respectivamente.
+**jubilacion** contiene, como mencionamos anteriormente, los valores históricos del haber mínimo desde 1971 en Argentina . De aquí se seleccionan las columnas `indice_tiempo` y `mensual_pesos`, con datos de fecha y valor del haber respectivamente.
 
 ```{r}
-summary(canasta)
+canasta <- canasta%>%
+  select(!X)
 ```
 
-Por su parte el conjunto de datos **canasta** recupera los valores de la canasta de los jubilados desde 2010 a la fecha se comporne de una variable de tiempo (`indice_tiempo`) y otra propia de su valorización neta (`valor.canasta`). Se descarta la variable `X`.
+Por su parte, el conjunto de datos **canasta** recupera los valores de la canasta de los jubilados desde 2010 a la fecha y se compone de una variable de tiempo (`indice_tiempo`) y otra propia de su valorización neta (`valor.canasta`). Se descarta la variable `X` que numera las filas.
 
 ## Transformación de datos
 
-**canasta** y **jubilacion** serán combinados vía la función `left_join()` en un nuevo dataframe llamado **datosjub**, que contiene las variables originales y crea la variable `ncanasta` que divide para cada mes el valor de la canasta de los jubilados por el monto mensual de los haberes, generando el dato de cuántas jubilaciones mínimas son necesarias para cubrir el costo de vida real de un jubilado desde 2010 a la fecha.
+**canasta** y **jubilacion** serán combinados vía la función `left_join()` en un nuevo dataframe llamado **datosjub**, que contiene las variables originales, y crea la variable `ncanasta` que divide por mes el valor de la canasta de los jubilados por el monto mensual de los haberes, generando el dato de cuántas jubilaciones mínimas son necesarias para cubrir el costo de vida real de un jubilado desde 2010 a la fecha.
 
 Seguidamente se renombran variables por un tema de practicidad y se transforma la columna fecha en formato temporal.
 
 ```{r}
-
 datosjub <- canasta%>%
   left_join(jubilacion, by="indice_tiempo")%>%
   mutate(ncanasta=valor.canasta/mensual_pesos)%>%
   rename(fecha=indice_tiempo,
          canasta=valor.canasta,
          haber_minimo=mensual_pesos)%>%
-  mutate(fecha=as_date(fecha))
-
+  mutate(fecha=as_date(fecha))%>%
+  mutate_if(is.numeric, round, digits=2)
 ```
 
 > Importante: la decisión de hacer el join a partir del df canasta (y no del dataset jubilación) tiene que ver con la posibilidad de establecer la línea de tiempo de referencia del análisis a partir de las observaciones parcialmente continuas que supone el proceso de medición de la canasta de los jubilados.
 
 ## Visualización
 
-Una primera pregunta que sobrevuela desde el inicio de este trabajo es si efectivamente el haber mínimo logra cubrir el costo de la canasta básica. Lo averiguaremos imprimiendo un gráfico de `ggplot2` de las dos curvas en paralelo:
+Una primera pregunta que sobrevuela desde el inicio de este trabajo es si efectivamente el haber mínimo logra cubrir el costo de la canasta básica de los jubilados. Lo averiguaremos imprimiendo un gráfico de `ggplot2` de las dos curvas en paralelo:
 
 ```{r}
 datosjub%>%
@@ -125,24 +128,26 @@ color = "Variable") +
 
 Observaremos que desde que comenzó a medirse la canasta de los jubilados en 2010, ésta siempre se mantuvo en ascenso y los haberes mínimos previsionales jamás llegaron a cubrirla.
 
-Con respecto a la cantidad de jubilaciones mínimas necesarias para alcanzar el costo de la canasta se verá lo siguiente:
+Con respecto a la *cantidad de jubilaciones mínimas necesarias* para alcanzar el costo de la canasta se verá lo siguiente:
 
 ```{r}
+library(ggrepel)
 
 ggplot(datosjub) +
   aes(x = fecha, y = ncanasta) +
   geom_line(size = 1.1, colour = "gold")+
   geom_point(size = 3, colour = "red", alpha=0.2) +
   scale_x_date(date_labels = "%Y/%m",breaks = unique(datosjub$fecha))+
+  geom_text_repel(aes(label = ncanasta), box.padding = 0.5, size=2.7)+
   labs(title = "Cantidad de haberes mínimos necesarios para cubrir
 la canasta básica del jubilado.", 
        subtitle = "Período 2010-2022", 
        x = "Fecha", 
        y = "Cantidad de haberes mínimos", 
 caption = "Fuente: elaboración propia en base a datos de la Subsecretaría 
-de Programación Macroeconómica y la Defensoria del Pueblo de la Tercera Edad.")+  theme_light()+
+de Programación Macroeconómica y la Defensoria del Pueblo de la Tercera Edad.")+
+  theme_light()+
   theme(axis.text.x = element_text(angle = 45, size = 8))
-
 ```
 
 Según lo indica la gráfica, para el período de análisis, se han requerido no menos de dos haberes mínimos para *empatar* los valores de la canasta básica.
@@ -150,16 +155,21 @@ Según lo indica la gráfica, para el período de análisis, se han requerido no
 Se generará para finalizar un último dato, relativo a la **brecha** porcentual entre canasta y haber mínimo.
 
 ```{r}
-datosjub%>%
+library(glue)
+
+brecha<-datosjub%>%
   mutate(brecha=round(c(canasta-haber_minimo)/canasta*1e2, 
-                      digits = 1))%>%
-  ggplot(.) +
+                      digits = 1))
+
+brecha%>%
+  ggplot() +
   aes(x = fecha, y = brecha) +
   geom_line(size = 1.1, colour = "orange") +
   geom_point(size = 3, colour = "red", alpha=0.2) +
   scale_x_date(date_labels = "%Y/%m",breaks = unique(datosjub$fecha))+
+  geom_text_repel(aes(label = glue("{brecha} %")), box.padding = 0.5, size=2.7)+
   labs(title = "Brecha entre jubilación mínima y canasta del jubilado", 
-       subtitle = "Periodo 2010-2020", 
+       subtitle = "Periodo 2010-2022", 
        x = "Fecha", 
        y = "Brecha %", 
        caption = "Fuente: elaboración propia en base a datos de la Subsecretaría 
@@ -177,25 +187,24 @@ library(DT)
 datosjub%>%
   mutate(brecha=round(c(canasta-haber_minimo)/canasta*1e2, 
                       digits = 1))%>%
-  select(fecha,canasta,haber_minimo,brecha)%>%
+  #select(fecha,canasta,haber_minimo,brecha)%>%
   mutate_if(is.numeric, round, digits=1)%>%
   datatable(extensions = 'Scroller', options = list(
     deferRender = TRUE,
     scrollY = 200,
     scroller = TRUE
   ))
-  
 ```
 
 ## Reflexiones
 
-A lo largo de este documento se ha recurrido a la potencia técnica de R y Quarto para dar cuenta, en forma exploratoria, de una situación emergente de empobrecimiento progresivo de no menos de la mitad de hombres y mujeres que cobran el haber mínimo jubilatorio en Argentina.
+A lo largo de este documento se ha recurrido a la potencia técnica de R y Quarto para dar cuenta, en forma exploratoria, de una situación de empobrecimiento progresivo de no menos de la mitad de hombres y mujeres que cobran el haber mínimo jubilatorio en Argentina.
 
-Si bien es importante destacar que en términos rigurosamente científicos -ya sean econométricos, como sociológicos o estadísticos- es necesario evaluar las mediciones de la canasta utilizada[^4], el hecho concreto y recientemente medido de que la gran mayoría de jubiladxs que cobra la mínima (*la gran mayoría de jubiladxs*) no acceda a los bienes y servicios básicos para llevar adelante una vida digna invita a repensar el rol que asignamos como sociedad a nuestro mayores. Rol que en parte puede ser reconstruido analíticamente en base a las políticas de ingreso tomadas para el sector por el Estado Nacional en los últimos 10 años.
+Si bien es importante destacar que en términos rigurosamente científicos -ya sean econométricos, como sociológicos o estadísticos- es necesario evaluar las mediciones de la canasta utilizada[^4], una canasta básica de \$151.478 en un contexto en el que 6.000.000 de jubilados cobran una mínima de \$43.000 y en el que el resto recibe un haber promedio de \$ 65.000. Mientras que la Pensión Universal para Adultos Mayores (PUAM) es de \$ 34.642 invita a repensar el rol y la prioridad que asignamos como sociedad a nuestros mayores. Rol y prioridad que, en parte, puede ser reconstruido analíticamente en base a las políticas de ingreso precario tomadas para el sector por el Estado Nacional en los últimos 10 años.
 
 [^4]: Y qué también sería dable que los datos aquí procesados sean puestos en paralelo con otros indicadores y estudios similares.
 
-En un contexto económicamente acuciante como el que vive la Argentina, huelga dar nuevos debates acerca de la eficacia y eficiencia del sistema previsional actual, que en su devenir sume en una situación de pobreza creciente a lxs adultxs mayores, con todos los peligros latentes[^5] que ello implica para un colectivo que, según cita la bibliografía especializada, ya se encuentra vulnerado[^6] previamente de maneras múltiples.
+En un contexto económicamente acuciante como el que vive la Argentina, huelga no dejar de pensar los problemas de las grandes mayorías sociales, y dar nuevos debates acerca de la eficacia y eficiencia del sistema previsional actual, que en su devenir sume en una situación de pobreza creciente a lxs adultxs mayores, con todos los peligros latentes[^5] que ello implica para un colectivo que, según cita la bibliografía especializada, ya se encuentra vulnerado[^6] previamente de maneras múltiples.
 
 [^5]: Un estudio realizado en la provincia de San Juan (Argentina) y llevado adelante por el equipo BrainLat de la de la Universidad Adolfo Ibáñez (Chile) correlaciona las situaciones de pobreza de las personas mayores con alteraciones en funciones cognitivas clave como la atención, la memoria y la flexibilidad. A su vez, estas alteraciones influyen en las habilidades socioemocionales. El artículo completo es [Migeot J, Calivar M, Granchetti H, Ibáñez A, Fittipaldi S. Socioeconomic status impacts cognitive and socioemotional processes in healthy ageing. Sci Rep. 2022 Apr 11;12(1):6048. doi: 10.1038/s41598-022-09580-4. PMID: 35410333; PMCID: PMC9001669.](https://pubmed.ncbi.nlm.nih.gov/35410333/)
 
@@ -203,7 +212,7 @@ En un contexto económicamente acuciante como el que vive la Argentina, huelga d
 
 > ## Bonus:
 
-> Cómo vimos antes podemos correr código de r y python de manera complementaria.
+> Cómo vimos antes podemos correr código de r y python de manera complementaria. Es importante hacer estas triangulaciones para optimizar el análisis.
 >
 > Por ejemplo, corramos un chunk de python, para que se ejecute tenemos que tenerlo instalado en nuestra PC. Vamos levantar datos de salario mínimo y a compararlos con los de las de los haberes mínimos.
 
@@ -253,7 +262,8 @@ ggplot(.) +
                                 haber_minimo = "#7DA4E2")) +
     scale_x_date(date_labels = "%Y/%m",
                  breaks = unique(datosjub$fecha))+
-   labs(title = "Comparativa ejemplo") +
+   labs(title = "Comparativa: evolución del salario mínimo, 
+  haber mínimo y canasta de los jubilados.") +
   theme_light() +
   theme(axis.text.x = element_text(angle = 45, size = 8))+
   theme(legend.position = "bottom")  

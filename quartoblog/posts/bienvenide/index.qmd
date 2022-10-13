@@ -1,7 +1,7 @@
 ---
-title: "Un jornal sociológico de datos"
+title: "El nuevo jornal sociológico de datos"
 author: "Pedro Damián Orden"
-date: "2022-01-09"
+date: "2022-09-01"
 image: "thumbnail.jpg"
 categories: [editorial]
 format: 
@@ -11,9 +11,11 @@ format:
     code-summary: "Ver código" #leyenda para mostrar codigo
 ---
 
+**Tecnología y Sociedad** es el soporte y la continuación de un cúmulo de experiencias digitales en materia editorial que confluyen hoy en un mismo blog, creado íntegramente en Quarto, la nueva plataforma de publicación de R.
+
 ### Motivación
 
-La propuesta de crear este nuevo blog se basa en tres **ideas-fuerza** de orden general:
+La propuesta de crear este *nuevo jornal sociológico de datos* se basa en tres **ideas-fuerza** de orden general:
 
 -   Actualizar y unificar mis distintos blogs en uno solo hecho 100% en Quarto, que es una tecnología contemporánea y permite generar narrativas basadas en datos combinando varios lenguajes de programación a la vez.
 
@@ -21,6 +23,8 @@ La propuesta de crear este nuevo blog se basa en tres **ideas-fuerza** de orden 
 
 -   Último y fundamental, contar con una plataforma de trabajo para publicar ágilmente documentos de coyuntura, tutoriales, etc.
 
-### Organización
+### Organización de las publicaciones
 
-Para optimizar el acceso a los contenidos del blog, los mismos se organizan por categoría y cuentan con filtro dinámico para buscar temas específicos o palabras clave.
+Para optimizar el acceso a los contenidos del blog, los mismos se organizan por categoría y cuentan con un filtro dinámico para buscar temas específicos o palabras clave.
+
+La propuesta será de aquí en más publicar sobre distintos temas con una cierta periodicidad buscando sistematizar experiencias de investigación y formación basadas en R . Vamos por eso!

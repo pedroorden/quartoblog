@@ -1,0 +1,369 @@
+---
+title: "Apuntes sobre la preferencia electoral en la Ciudad de Lanús en las legislativas de 2021"
+author: "Pedro Damian Orden"
+date: "2022-09-14"
+categories: [codigo, apuntes]
+image: "image.jpg"
+format: 
+  html:
+    toc: true #arma menu
+    code-fold: true #oculta el codigo
+    code-summary: "Ver código" #leyenda para mostrar codigo
+---
+
+## Presentación del tema {#presentación-del-tema}
+
+En este documento electrónico exploraremos **el desempeño de las agrupaciones políticas ponderado por circuito electoral** en la Elección General de 2021 para la categoría concejal en el Municipio de Lanús (Provincia de Buenos Aires).
+
+## Obtención de datos {#obtención-de-datos}
+
+Para desandar la exploración se utilizarán los datos detallados de las **Elecciones Generales de 2021**, obtenidos previamente por medio de un [pedido de información pública]{.ul} a la Cámara Nacional Electoral. El dataset contiene los resultados que obtuvieron las agrupaciones para la categoría concejal por escuela, circuito y distrito en Lanús.
+
+```{r warning=FALSE, message=FALSE}
+library(readr)
+library(tidyverse)
+library(sf)
+library(leaflet)
+library(ggthemes)
+library(viridis)
+library(fst)
+
+mesas_escrutadas<-read.csv("https://raw.githubusercontent.com/pedroorden/concejales2021/main/mesas_escrutadas.csv", encoding="UTF-8")
+
+```
+
+Apliquemos algunas funciones de resumen para conocer nuestros datos:
+
+**head**
+
+```{r}
+head(mesas_escrutadas)
+```
+
+**summary**
+
+```{r}
+summary(mesas_escrutadas)
+```
+
+**class**
+
+```{r}
+class(mesas_escrutadas)
+```
+
+**names**
+
+```{r}
+names(mesas_escrutadas)
+```
+
+**dim**
+
+```{r}
+dim(mesas_escrutadas)
+```
+
+Los primeros resultados indican que se trata de un conjunto de datos con 11.230 observaciones y 19 variables, en formato numérico y de texto.
+
+## Transformación
+
+Creamos un nuevo conjunto de datos que filtra sólo los **votos positivos** que obtuvieron las agrupaciones, tal como lo establece la [Constitución Nacional](http://servicios.infoleg.gob.ar/infolegInternet/anexos/0-4999/804/norma.htm) para realizar los conteos en las elecciones generales.
+
+Llegado este punto se procesa, por circuito electoral, la cantidad de [votos]{.ul} de cada una de las agrupaciones por la cantidad de electores, con el objetivo de generar una nueva variable de ponderación llamada `ratio_electoral`.
+
+```{r warning=FALSE, message=FALSE}
+lanus1<-mesas_escrutadas%>%
+  filter(tipoVoto=="positivo")%>% #filtra votos positivos
+  group_by(IdCircuito, Agrupacion)%>%
+  summarise(votosxcirc=sum(votos),
+            electoresxcirc=sum(electores))%>%
+  mutate(ratio_electoral=votosxcirc/electoresxcirc)%>% #crea ratio_electoral
+  mutate(IdCircuito=as.factor(IdCircuito))
+```
+
+El agregado de `ratio_electoral` es una decisión teórica que procura dar cuenta de la especificidad local de cada circuito electoral de Lanús, y coadyuvar a una exploración comparativa de los datos en dos sentidos:
+
+1)  La lectura del fenómeno del voto para una agrupación particular, por circuito electoral, para detectar zonas con mejor o peor `ratio_electoral` voto/electores.
+
+2)  La comparación general del `ratio_electoral` por circuito electoral de las distintas agrupaciones.
+
+## Primeras impresiones {#primeras-impresiones}
+
+El nuevo df `lanus1` consta de 5 variables, 65 observaciones. Suma los votos afirmativos totales por circuito electoral de las distintas agrupaciones, además de calcular la performance de las mismas ponderando la razón votos/electores.
+
+Con este set ya estaremos en condiciones de comenzar a reflexionar en torno a la preferencia electoral en 2021 de los y las lanusenses a escala de circuito electoral.
+
+## Exploración Gráfica {#exploración-gráfica}
+
+Antes de generar nuestros mapas será importante visualizar la cantidad de electores por circuito para conocer el peso cuantitativo de cada uno.
+
+```{r message=FALSE, warning=FALSE, out.width = '60%', fig.align='center'}
+lanus1%>%
+  select(IdCircuito, electoresxcirc)%>%
+  unique()%>%
+  arrange(electoresxcirc)%>%
+  ggplot() +
+  aes(x=reorder(IdCircuito,-electoresxcirc), 
+      y = electoresxcirc) +
+  geom_point(aes(size = electoresxcirc, 
+                 fill = electoresxcirc),
+             shape = 21, alpha = 0.7) +
+  scale_fill_viridis_c(guide = "legend") +
+  labs(x = "Circuito número",
+       y = "Total electores",
+       title = "Cuadro 1: Total de electores por circuito electoral",
+       subtitle = "",
+       caption = "Fuente: elaboración propia en base a datos de la CNE.")+
+  theme_minimal()
+```
+
+El circuito con mayor cantidad de electores es el 262 y el que menos tiene el 264.
+
+Seguidamente nos interesará conocer cómo se plasma la variable `ratio_electoral` de cada fuerza por circuito electoral, para ello se presenta un cuadro con gráficas barra facetadas.
+
+```{r message=FALSE, warning=FALSE, out.width = '60%', fig.align='center'}
+ggplot(lanus1) +
+  aes(x = IdCircuito, y = ratio_electoral, fill = IdCircuito) +
+  geom_col() +
+  labs(
+    x = "Circuito número",
+    y = "ratio votos/electores",
+    title = "Cuadro 2: Razon votantes/electores por circuito",
+    subtitle = "",
+    caption = "Fuente: elaboración propia en base a datos de la CNE.") +
+  coord_flip() +
+  theme_linedraw() +
+  theme(legend.position = "none",
+        strip.text.x = element_text(size = 4.1))+
+  facet_wrap(vars(Agrupacion))
+```
+
+Con esta primera imagen podremos observar que las agrupaciones Juntos y Frente de Todos presentaron las valores más altos para la variable ratio_electoral, destacando el Frente de Izquierda como la que tuvo mejor performance entre aquellas fuerzas con menor caudal de votos.
+
+## Mapeo de electores por circuito
+
+Para localizar los datos previamente explorados procederemos a obtener un archivo con las coordenadas geográficas de los circuitos electorales de Lanús.
+
+```{r}
+circuitos <- read_sf("https://github.com/pedroorden/concejales2021/raw/main/circuitos02_cne.geojson")%>%
+  filter(departamen=="Lanús")%>%
+  mutate(IdCircuito=substring(circuito, 2))
+```
+
+Los mismos se unen al objeto `lanus1` para crear `lanus2` como conjunto de datos geográficos.
+
+```{r}
+lanus2<-lanus1%>%
+  left_join(circuitos, by="IdCircuito")%>%
+  st_as_sf()
+```
+
+Se genera un mapa leaflet recreando espacialmente el ejercicio propuesto en el **cuadro 1**. La escala viridis será utilizada aquí, y a lo largo de todo el trabajo, para reflejar visualmente la mayor (color claro) o menor (color oscuro) magnitud de un fenómeno, por ej: electores, votos, ratio_electoral, etc.
+
+```{r message=FALSE, warning=FALSE, out.width = '100%', fig.align='center', echo=FALSE}
+pal <- colorNumeric(
+  palette = "viridis",
+  domain = as.numeric(na.omit(lanus2$electoresxcirc)),
+  alpha = TRUE,
+  reverse = F, #X
+  na.color = "#808080")
+
+map_electores <- leaflet(options = leafletOptions(attributionControl=FALSE))%>%
+  setView(lng = -58.3907, lat = -34.7074, zoom = 12) %>%
+  addTiles()%>%
+  addProviderTiles("CartoDB.Positron", group = "Base") %>%
+  addProviderTiles("Esri.WorldImagery", group = "Satelital") %>%
+  addPolygons(data=lanus2, 
+              weight = 0.6, 
+              smoothFactor = 0.8, 
+              color = "#8c92ac", 
+              opacity = 0.4, 
+              fillOpacity = 0.3, 
+              popup = paste0("Región: ",lanus2$IdCircuito,
+                             "Electores: ", lanus2$electoresxcirc),
+              fillColor = ~pal(lanus2$electoresxcirc),
+              highlightOptions = highlightOptions(color= "#92D4CA",
+              weight = 2,bringToFront = TRUE, opacity = 0.9))%>%
+  addLegend(position = c("bottomleft"), 
+            pal = pal, 
+            values = lanus2$electoresxcirc, 
+            title = "N Electores", 
+                labFormat = labelFormat(suffix = ""), 
+            opacity = 0.7,
+            )%>%
+  addLayersControl(baseGroups = 
+                     c("Base","Satelital"),
+                   position = "topleft",
+              options = layersControlOptions(collapsed = TRUE))
+
+map_electores
+```
+
+La localización de los datos en un mapa permite reconocer los circuitos más poblados, son el 273 y 262, al norte y sur del municipio respectivamente. 264 y 259 son aquellos circuitos que cuentan con menos electores.
+
+## ratio_electoral por agrupación {.tabset .tabset-fade .tabset-pills}
+
+Posteriormente, se recrea con ggplot la propuesta del **cuadro 2** para visualizar en un mapa de cloropetas la variable `ratio_electoral` (votos/electores) por circuito electoral para las distintas agrupaciones.
+
+```{r echo= F ,message=FALSE, warning=FALSE}
+a <- lanus2%>%
+  filter(Agrupacion %in% c("JUNTOS"))%>%
+  ggplot() +  
+  geom_sf(aes(fill = ratio_electoral)) + 
+  facet_wrap(~Agrupacion)+
+    labs(title = "Razón votantes/electores por circuito",
+         subtitle = "Elecciones generales 2021 para la categoría concejal en Lanús.",
+       caption = "Fuente: elaboración propia en base a datos de la CNE.") +
+  scale_fill_viridis_c() +
+  theme_map()
+
+b<-lanus2%>%
+  filter(Agrupacion %in% c("FRENTE DE TODOS"))%>%
+  ggplot() +  
+  geom_sf(aes(fill = ratio_electoral)) + 
+  facet_wrap(~Agrupacion)+
+labs(title = "Razon votantes/electores por circuito",
+         subtitle = "Elecciones generales 2021 para la categoría concejal en Lanús.",
+       caption = "Fuente: elaboración propia en base a datos de la CNE.") +
+  scale_fill_viridis_c() +
+  theme_map()
+
+c<-lanus2%>%
+  filter(Agrupacion %in% c("AVANZA LIBERTAD"))%>%
+  ggplot() +  
+  geom_sf(aes(fill = ratio_electoral)) + 
+  facet_wrap(~Agrupacion)+
+labs(title = "Razon votantes/electores por circuito",
+         subtitle = "Elecciones generales 2021 para la categoría concejal en Lanús.",
+       caption = "Fuente: elaboración propia en base a datos de la CNE.") +
+  scale_fill_viridis_c() +
+  theme_map()
+
+d<-lanus2%>%
+  filter(Agrupacion %in% c("FRENTE DE IZQUIERDA Y DE TRABAJADORES - UNIDAD"))%>%
+  ggplot() +  
+  geom_sf(aes(fill = ratio_electoral)) + 
+  facet_wrap(~Agrupacion)+
+labs(title = "Razon votantes/electores por circuito",
+         subtitle = "Elecciones generales 2021 para la categoría concejal en Lanús.",
+       caption = "Fuente: elaboración propia en base a datos de la CNE.") +
+  scale_fill_viridis_c() +
+  theme_map()
+
+e<-lanus2%>%
+  filter(Agrupacion %in% c("FRENTE VAMOS CON VOS"))%>%
+  ggplot() +  
+  geom_sf(aes(fill = ratio_electoral)) + 
+  facet_wrap(~Agrupacion)+
+labs(title = "Razon votantes/electores por circuito",
+         subtitle = "Elecciones generales 2021 para la categoría concejal en Lanús.",
+       caption = "Fuente: elaboración propia en base a datos de la CNE.") +
+    scale_fill_viridis_c() +
+  theme_map()
+```
+
+### Juntos
+
+```{r, message=FALSE, warning=FALSE, out.width = '80%', fig.align='center', echo=FALSE}
+a
+```
+
+### FPV
+
+```{r, message=FALSE, warning=FALSE, out.width = '80%', echo=FALSE, fig.align='center'}
+b
+```
+
+### Avanza Libertad
+
+```{r, message=FALSE, warning=FALSE, fig.align='center', out.width = '80%', echo=FALSE}
+c
+```
+
+### Frente de Izquierda
+
+```{r, message=FALSE, warning=FALSE, out.width = '80%',fig.align='center', echo=FALSE}
+d
+```
+
+### Vamos con vos
+
+```{r, message=FALSE, warning=FALSE, out.width = '80%',fig.align='center', echo=FALSE}
+e
+```
+
+## Comparativas {.tabset .tabset-fade .tabset-pills}
+
+La próxima secuencia realiza un facetado que compara mediante dos gráficos con escalas diferenciadas las dos agrupaciones con mayor ratio_electoral por un lado y las terceras fuerzas con sus respectivos valores por otro.
+
+```{r }
+a1<-lanus2%>%
+  # filter(!Agrupacion %in% c("JUNTOS","FRENTE DE TODOS"))%>%
+  filter(Agrupacion %in% c("FRENTE DE TODOS", "JUNTOS"))%>%
+  ggplot() +  
+labs(title = "Razon votantes/electores por circuito",
+         subtitle = "Elecciones generales 2021 para la categoría concejal en Lanús.",
+       caption = "Fuente: elaboración propia en base a datos de la CNE.") +  geom_sf(aes(fill = ratio_electoral)) + 
+  facet_wrap(~Agrupacion)+
+  scale_fill_viridis_c() +
+  theme_map()+
+  theme(legend.position = "bottom") +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        strip.text.x = element_text(size = 6),
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+b2<-lanus2%>%
+  # filter(!Agrupacion %in% c("JUNTOS","FRENTE DE TODOS"))%>%
+  filter(Agrupacion %in% c("FRENTE DE IZQUIERDA Y DE TRABAJADORES - UNIDAD", "FRENTE VAMOS CON VOS", "AVANZA LIBERTAD"))%>%
+  ggplot() +  
+  geom_sf(aes(fill = ratio_electoral)) + 
+      labs(title = "Razon votantes/electores por circuito",
+         subtitle = "Elecciones generales 2021 para la categoría concejal en Lanús.",
+       caption = "Fuente: elaboración propia en base a datos de la CNE.") +
+  facet_wrap(~Agrupacion)+
+  scale_fill_viridis_c() +
+  theme_map()+
+  theme(legend.position = "bottom") +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        strip.text.x = element_text(size = 6),
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+```
+
+### Juntos \| Frente De todos
+
+```{r message=FALSE, warning=FALSE, fig.align='center', out.width = '80%', echo=FALSE}
+a1
+```
+
+El mapa que compara FDT y Juntos denota un patrón en el cual los circuitos del centro tienden a manifestar una preferencia electoral por Juntos y los de la periferia por el Frente de Todos.
+
+### Frente de Izquierda\| Avanza Libertad\| Vamos Con Vos
+
+```{r message=FALSE, warning=FALSE,fig.align='center', out.width = '85%', echo=FALSE }
+b2
+```
+
+Con respecto a las terceras fuerzas el panorama presenta mayor complejidad puesto que el Frente de Izquierda y Avanza Libertad presentan situaciones similares, aunque la Izquierda con una leve mejoría en la variable ratio_electoral circuito por circuito. Con respecto al Frente Vamos Con Vos en la comparativa sólo muestra mayor presencia en un territorio del norte del municipio.
+
+## Conclusiones {#conclusiones}
+
+El presente documento electrónico procuró abordar **un fenómeno concreto y medible**: las Elecciones Generales en Lanús de 2021, específicamente los resultados para la categoría concejal , con datos agrupados por circuito electoral.
+
+Con la intensión de encontrar en los datos uno o mas **insights**, se construyó la variable ratio_electoral que ha permitido realizar una lectura ponderada de los votos por circuito electoral para reconocer visualmente cual fue el desempeño de cada agrupación en cuanto a los votos ajustados por la cantidad de electores totales por territorio.
+
+Los **resultados** de esta exploración gráfica de carácter general indican que la fuerza que mejor desempeño ha tenido en la compulsa por circuito electoral ha sido Juntos, aunque el Frente de Todos ese mantuvo cerca, ganando en los circuitos con mayor cantidad de electores.
+
+Las terceras fuerzas quedaron lejos de las dos primeras, lo cual daría cuenta de un aparente carácter bipartidista en la gimnasia política de Lanús. Aún así, el Frente de Izquierda es la agrupación que levemente emerge con una mejor performance por sobre Avanza Libertad y el Frente Vamos Con Vos.
+
+Si bien como reza el refrán popular *"al final del día todos los votos valen 1"*, la exploración de la relación voto/electores ponderada por circuito ha permitido conocer la penetración de una agrupación en un territorio dado y se presta como un **insumo** complementario **para evaluar** cuestiones tales como estrategias políticas, campañas de comunicación y la gestión de los siempre escasos rescursos de militancia.
+
+Quedará para futuros trabajos seguir explorando estos datos con nuevas aperturas, temporalidades y sumando nuevos algoritmos.

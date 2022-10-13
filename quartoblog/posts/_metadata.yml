@@ -20,11 +20,11 @@ toc-location: left
 execute:
   echo: true
   message: true
-  warning: true
+  warning: false
 
 # Default author
 author:
-  - name: Pedro Damian Orden
+  - name:
     url: https://linktr.ee/pedroorden
     affiliation: Núcleo de Innovación Social
     affiliation-url: https://www.nucleodeinnovacion.com/

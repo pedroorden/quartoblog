@@ -1,10 +1,9 @@
 ---
-title: "Un jornal sociológico de datos"
+title: "Una aproximación al arte generativo con R"
 author: "Pedro Damián Orden"
-date: "2022-01-09"
-image: "thumbnail.jpg"
+date: "2022-09-24"
+image: "obra.jpg"
 categories: ["visualizaciones","codigo"]
-featuredImage: "obra.jpg"
 toc: false
 format: 
   html:
@@ -21,7 +20,7 @@ A menudo un sentido común extendido asocia el arte al cauce de la expresión em
 
 Es dable destacar que las bases de la propuesta estética fueron establecidas en el [Manifiesto Arte Generativo](1959)(https://noticiasrecoleta.com.ar/el-arte-generativo-y-sus-60-anos-exposicion-de-obras-en-el-museo-de-arte-moderno/) por los artistas argentinos [Eduardo Mac Entyre y Miguel Ángel Vidal](http://mcmcgaleria.com/es/muestra/miguel-angel-vidal-eduardo-mac-entyre-arte-generativo) ( *foto* ) donde se proclamaba el espacio como un campo abierto a las tensiones de formas orbitales, trayectorias proyectadas y planos fugados en profundidad.
 
-<justify> ![](artistas.jpg){width="80%"}
+<center> ![](https://www.arte-online.net/var/arte_online_net/storage/images/arte-online/notas/eduardo-mac-entyre-y-miguel-angel-vidal/888351-1-esl-AR/Eduardo-Mac-Entyre-y-Miguel-Angel-Vidal_nota.jpg "Eduardo Mac Entyre y Miguel Ángel Vidal (60s)"){width="80%"}
 
 ### Manos a la obra
 
@@ -32,9 +31,6 @@ library(tidyverse)
 library(dplyr)
 library(viridis)
 library(ggplot2)
-library(jasmines)
-library(aRtsy)
-library(generativeart)
 ```
 
 Para situarnos en el espacio que nos propone R, comenzamos haciendo algo que ya conocemos: un ggplot de puntos en un plano con colores y formas. En términos generales, esta es una de las lógicas subyacentes de la visualización y nos permite tomar una dimensión de las potencialidades de nuestras herramientas.
@@ -72,7 +68,7 @@ geom_path(col='purple') +
 opt
 ```
 
-Luego de esta sucinta inmersión en la logica de la visualización de elementos, indagaremos en las posibilidades que abren ggplot junto a tres paquetes que complementan las herramientas gráficas disponibles en r, y fueron desarrollados específicamente para la creación ( *o producción?*) de arte generativo y como veremos nos entregarán resultados más qué interesantes.
+Luego de esta sucinta inmersión en la lógica de la visualización de elementos, indagaremos en las posibilidades que abren ggplot junto a dos paquetes que complementan las herramientas gráficas disponibles en R, y fueron desarrollados específicamente para la creación ( *o producción?*) de arte generativo y como veremos nos entregarán resultados más qué interesantes.
 
 ### ggplot
 
@@ -190,38 +186,6 @@ library(patchwork)
 p1+p2+p3
 ```
 
-### Jasmines
-
-Con [Jasmines](https://github.com/djnavarro/jasmines/) podemos modificar creativamente objetos ggplot a partir de múltiples funciones. En este paquete nuestra visualización parte de una semilla (seed) y desde allí se crea un objeto que puede ser modificado en renderizado, forma, tamaño y otros aspectos de personalizables.
-
-```{r jasmines 1, collapse=TRUE, error=FALSE, warning=FALSE, out.width = '100%',message=FALSE}
-
-# use_seed(1000) %>% #(objeto inicial, 
-# #marco de aletoriedad)
-# entity_circle(grain = 1000, 
-# size = 3)%>%
-# #circulo, 
-# #diametro, 
-# #renderizado de 1000 pts.
-# unfold_warp(iterations = 100) %>% 
-# # iteracions (+ "complejidad")
-# style_ribbon(palette = "magma") 
-# #convierte en ggplot
-```
-
-Avanzamos en la proyección de una figura mas compleja:
-
-```{r jasmines 2, collapse=TRUE, out.width = '100%' ,error=FALSE, warning=FALSE, message=FALSE}
-# use_seed(50) %>%
-# entity_gaussian(grain = 1000, 
-# size = 1) %>%
-# unfold_warp(iterations = 100) %>%
-# style_ribbon(
-# palette = "plasma", 
-# colour = "ind", 
-# background = "#00002d")
-```
-
 ### flametree
 
 [flametree](https://flametree.djnavarro.net/articles/articles/spark-functions.html) provee un sistema de funciones y sistemas de trabajo orientados a crear arboles con código y fomentar la experimentación con este tipo de formas expresivas.
@@ -250,7 +214,28 @@ dat %>%
 
 ```
 
+Veamos otro con una estética **ciberpunk**:
+
+```{r}
+jittr <- function(coord_x, coord_y, id_tree, id_time) {
+  stats::runif(n = length(coord_x), min = -.2, max = .2)
+}
+
+flametree_grow(
+  time = 12,
+  seg_wid = spark_linear(constant = .2),
+  shift_x = jittr,
+  shift_y = jittr
+) %>% 
+  flametree_plot(
+    palette = c("#bd00ff", "#f1dfec"),
+    style = "wisp"
+  )
+```
+
 ### contouR
+
+Se trata de un paquete para modelar formas en articulación con ggplot, si bien es limitado en funcionalidad, la propuesta de paquete se basa en la modidicación de parámetros para construir la imagen final.
 
 ```{r}
 
@@ -273,18 +258,16 @@ Se parece a un planeta hecho crochet no?
 
 ### aRtsy
 
-*Si la broma te dió risa...¿Qué diferencia hay en que luego te enteres que fue creada por un algoritmo?" ([Marcus du Sautoy, El código creativo](https://www.theguardian.com/books/2019/mar/12/the-creativity-code-marcus-du-sautoy-review) )*
+*Si la broma te dió risa...¿Qué diferencia hay si fue creada por un algoritmo?" ([Marcus du Sautoy, El código creativo](https://www.theguardian.com/books/2019/mar/12/the-creativity-code-marcus-du-sautoy-review) )*
 
-Así comienza [Artsy](https://koenderks.github.io/aRtsy/) su blog y nos presenta una serie de funcionalidades para crear nuestro obra generativo de forma simple y al alcance de todos y todas. El paquete proporciona varios algoritmos para crear proyecciones ggplot que incorporan aleatoriedad (según la seed) y, de los 3 que vimos, es mi favorito, con lo cual me gustaría profundizar más en él.
+Así comienza [Artsy](https://koenderks.github.io/aRtsy/) su blog y nos presenta una serie de funcionalidades para crear nuestro obra generativa de forma simple y al alcance de todos y todas. El paquete proporciona varios algoritmos para crear proyecciones ggplot que incorporan aleatoriedad (según la seed) y, de los 3 que vimos, es mi favorito, con lo cual me gustaría profundizar más en él.
 
 Antes de comenzar a utilizar este paquete es importante saber que el mismo se organiza en *colecciones*, cada una genera un tipo de proyección o forma distinta.
 
-**Iterative** es una colección basada en un sistema de reglas e iteración en base a ellas.
-
-La función *canvas_strokes()* permite, por ejemplo, simular el trazo de un pincel ejecutando un calculo de probablilidad en la que todos los puntos de la proyección tienen la probabilidad de adquirir el color del punto próximo, pero también tienen una pequeña posibilidad de asumir un color distinto.
+La función *`canvas_strokes()`* permite, por ejemplo, simular el trazo de un pincel ejecutando un calculo de probablilidad en la que todos los puntos de la proyección tienen la probabilidad de adquirir el color del punto próximo, pero también incorpora una pequeña posibilidad de asumir un color distinto.
 
 ```{r Art 2, collapse=TRUE, error=FALSE, out.width = '100%', warning=FALSE, message=FALSE}
-#library(aRtsy)
+library(aRtsy)
 set.seed(5)
 #colores de la paleta de referencia. 
 #https://www.color-hex.com/color-palette/84832
@@ -298,23 +281,22 @@ iterations = 10,
 side = FALSE)
 ```
 
-La colección **Geometric** en cambio implementa algoritmos que dibujan formas geométricas y le aplican colores aleatorios.
-
-Es el caso de canvas_squares, que utiliza una variedad de cuadrados y rectángulos en lugar de líneas. Funciona cortando repetidamente el lienzo en ubicaciones aleatorias y coloreando el área que crean estos cortes:
+Es el caso de `canvas_squares`, que utiliza una variedad de cuadrados y rectángulos en lugar de líneas. Funciona cortando repetidamente el lienzo en ubicaciones aleatorias y coloreando el área que crean estos cortes:
 
 ```{r Art 3, collapse=TRUE, error=FALSE, out.width = '100%', warning=FALSE, message=FALSE}
+library(aRtsy)
 set.seed(6)
 canvas_squares(colors = c(
 '#fac901', '#ffffff', 
 '#225095', '#dd0100'),
-cuts = 50, ratio = 1.458, 
+cuts = 50, ratio = 2.5, 
 #width = 100, height = 100
 )
 #paleta de referencia
 #https://www.color-hex.com/color-palette/25374
 ```
 
-También resultan atractivas las proyecciones de *canvas_ribbons()* que mantiene la lógica anterior, pero utiliza cintas y triángulos conectados a través de nodos comunes.
+También resultan atractivas las proyecciones de *`canvas_ribbons()`* que mantiene la lógica anterior, pero utiliza cintas y triángulos conectados a través de nodos comunes.
 
 ```{r Art 4, collapse=TRUE, error=FALSE, out.width = '100%', warning=FALSE, message=FALSE}
 set.seed(784)
@@ -337,12 +319,12 @@ Para el caso concreto del cuadro de mosaicos que sigue operaremos de fondo con u
 
 ```{r Art 5, collapse=TRUE, error=FALSE, out.width = '100%' ,warning=FALSE, message=FALSE}
 canvas_mosaic(colors = 
-c('#fff2df',
-'#d69c42', 
-'#77ae80','#4b6294',
-'#852a02'),
-#maxk = 1, 
-n = 150,resolution = 1000)
+c("#ff598f",	
+"#fd8a5e",
+"#e0e300",
+"#01dddd",
+"#00bfaf"),
+n = 25,resolution = 1000)
 # paleta de referencia
 # https://www.color-hex.com/color-palette/63466
 ```
@@ -353,6 +335,4 @@ Esta fue una selección de experiencias y posibilidades experimentando con el de
 
 Las primeras impresiones de quien escribe con respecto al arte generativo es que en tanto técnica expresiva estimula creativamente a indagar y conocer más sobre el procesamiento de imágenes y la proyección de datos en R.
 
-En este sentido podremos afirmar que arte generativo es una interesante alternativa para quienes quieran programar recrativamente, explorar las posibilidades de formas, colores y espacios que tenemos a disposición en r, procastinar en horario de trabajo o estudio, crear objetos artísticos (eventualmente venderlos a [precio justo](https://www.artandobject.com/news/nft-art-market-explained-how-participate-safely), recomiendo indagar en que qué es un [nft](https://www.nytimes.com/2021/08/14/style/teens-nft-art.html) ), todas las anteriores o ninguna, pero siempre con el mismo sentimiento compartido: [el amor al arte](https://www.youtube.com/watch?v=1_kL86lCF_Y&ab_channel=robinsonoberti).
-
-###### Título de foto de cabecera: Eduardo Mac Entyre, Expansión sobre verde, 1971, acrílico sobre tela, 110 x 150 cm.
+En este sentido podremos afirmar que arte generativo es una interesante alternativa para quienes quieran programar recrativamente, explorar las posibilidades de formas, colores y espacios que tenemos a disposición en r, procastinar en horario de trabajo o estudio, crear objetos artísticos (eventualmente venderlos a [precio justo](https://www.artandobject.com/news/nft-art-market-explained-how-participate-safely), recomiendo indagar en que qué es un [nft](https://www.nytimes.com/2021/08/14/style/teens-nft-art.html) ), todas las anteriores o ninguna, pero siempre con el mismo sentimiento compartido: [el amor al arte](https://www.youtube.com/watch?v=1_kL86lCF_Y&ab_channel=robinsonoberti)💜 .
