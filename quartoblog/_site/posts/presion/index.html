@@ -2,21 +2,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.370">
+<meta name="generator" content="quarto-1.1.251">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Pedro Damian Orden">
-<meta name="dcterms.date" content="2022-07-07">
+<meta name="dcterms.date" content="2022-09-06">
 
-<title>Tecnología y Sociedad - R y Python en Quarto: Explorando la presión sobre el mercado de trabajo según la EPH.</title>
+<title>Tec &amp; Soc. - Utilizando Python y R en Quarto con la Encuesta Permanente de Hogares</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -55,7 +60,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -68,7 +73,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -82,22 +87,24 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<meta name="quarto:offset" content="../../">
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../logo.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -117,7 +124,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
-<link href="..\..\site_libs/vembedr-0.1.5.9000/css/vembedr.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -129,9 +135,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Tecnología y Sociedad</span>
-  </a>
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Tec &amp; Soc.</span>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -151,7 +159,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  </a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://independent.academia.edu/PedroOrden"><i class="bi bi-archive" role="img">
+    <a class="nav-link" href="https://independent.academia.edu/PedroOrden"><i class="bi bi-book" role="img">
 </i> 
  </a>
   </li>  
@@ -165,8 +173,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">R y Python en Quarto: Explorando la presión sobre el mercado de trabajo según la EPH.</h1>
-                          <div class="quarto-categories">
+      <h1 class="title">Utilizando Python y R en Quarto con la Encuesta Permanente de Hogares</h1>
+            <p class="subtitle lead">Integración práctica aplicada al análisis del mercado de trabajo</p>
+                                <div class="quarto-categories">
                 <div class="quarto-category">codigo</div>
                 <div class="quarto-category">analisis</div>
                 <div class="quarto-category">video</div>
@@ -176,9 +185,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
     
   
-
-
-
   <div class="quarto-title-meta">
 
       <div>
@@ -191,7 +197,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">July 7, 2022</p>
+        <p class="date">September 6, 2022</p>
       </div>
     </div>
       
@@ -201,16 +207,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
-    <nav id="TOC" role="doc-toc">
+    <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#inicio" id="toc-inicio" class="nav-link active" data-scroll-target="#inicio">Inicio</a></li>
+  <li><a href="#presentación" id="toc-presentación" class="nav-link active" data-scroll-target="#presentación">Presentación</a></li>
   <li><a href="#sobre-el-mercado-de-trabajo" id="toc-sobre-el-mercado-de-trabajo" class="nav-link" data-scroll-target="#sobre-el-mercado-de-trabajo">Sobre el mercado de trabajo</a></li>
   <li><a href="#etl-con-python" id="toc-etl-con-python" class="nav-link" data-scroll-target="#etl-con-python">ETL con Python</a></li>
   <li><a href="#ajustes-y-primeras-visualizaciones-en-r" id="toc-ajustes-y-primeras-visualizaciones-en-r" class="nav-link" data-scroll-target="#ajustes-y-primeras-visualizaciones-en-r">Ajustes y primeras visualizaciones en R</a></li>
-  <li><a href="#conclusiones" id="toc-conclusiones" class="nav-link" data-scroll-target="#conclusiones">Conclusiones:</a></li>
-  <li><a href="#bonus" id="toc-bonus" class="nav-link" data-scroll-target="#bonus">Bonus</a></li>
+  <li><a href="#concluciones" id="toc-concluciones" class="nav-link" data-scroll-target="#concluciones">Concluciones:</a></li>
   </ul>
 </nav>
 </nav>
@@ -223,22 +228,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<section id="inicio" class="level2">
-<h2 class="anchored" data-anchor-id="inicio">Inicio</h2>
-<p>En este documento electrónico preocuraré dar cuenta de una experiencia de <strong>integración</strong> de lenguajes de programación aplicados al procesamiento de la Encuesta Permanente de Hogares (EPH de <a href="https://www.indec.gob.ar/">INDEC</a>), posible gracias <a href="https://quarto.org/"><strong>Quarto</strong></a>, un sistema de publicación científica y técnica basado en Pandoc<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> que funciona de manera amigable con Rstudio<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
+<section id="presentación" class="level3">
+<h3 class="anchored" data-anchor-id="presentación">Presentación</h3>
+<p>Este material plasma una experiencia de <strong>integración</strong> de lenguajes de programación aplicados al procesamiento de la Encuesta Permanente de Hogares (EPH de <a href="https://www.indec.gob.ar/">INDEC</a>), posible gracias <a href="https://quarto.org/"><strong>Quarto</strong></a>, un sistema de publicación científica y técnica basado en Pandoc<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> que funciona de manera amigable con Rstudio<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
 <p>En términos prácticos, Quarto nos va a permitir, además de publicar el contenido que estamos leyendo, <u>integrar y ejecutar varios lenguajes</u> de programación (<em>Python, R, SQL, Bash</em>, entre otros) en un mismo script<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>, sin tener que incurrir en mayores gestiones ni detalles. A los fines expositivos, uilizaremos esta potente prestación de manera aplicada para, por medio de <strong>Python</strong> y <strong>R,</strong> procesar la EPH y graficar la <strong>presión sobre el mercado de trabajo</strong> durante los cuatro trimestres de 2021, para el total de los 31 aglomerados donde reside la población urbana argentina<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
-<p>Al concluir el documento se presenta el video formativo que recupera la experiencia en vivo citada en el marco de un taller abierto.</p>
 </section>
-<section id="sobre-el-mercado-de-trabajo" class="level2">
-<h2 class="anchored" data-anchor-id="sobre-el-mercado-de-trabajo">Sobre el mercado de trabajo</h2>
+<section id="sobre-el-mercado-de-trabajo" class="level3">
+<h3 class="anchored" data-anchor-id="sobre-el-mercado-de-trabajo">Sobre el mercado de trabajo</h3>
 <p>Al relevar de manera periódica la realidad socioeconómica argentina, la EPH es un gran insumo para conocer los principales indicadores<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> sobre el mercado de trabajo y analizar su evolución en el tiempo.</p>
 <p>Para dar con un proceso significativo de la dinámica del mercado laboral, nos enfocaremos en este caso en aquellos grupos de&nbsp;personas que no tienen empleo, están disconformes con el que tienen, o bien desean trabajar más horas, lo que operativamente son reflejados por los “<strong>indicadores de presión</strong>”<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
-<p>De esta forma, re-construiremos con datos de la EPH la variable de <strong>presión general sobre el mercado de trabajo,</strong> para visualisar en nuestro documento cómo un segmento de la PEA puja por mayor <strong>participación</strong> en el <strong>mercado laboral</strong>, ya sea demandando trabajar más horas o bien buscando un nuevo empleo<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>.</p>
+<p>De esta forma, re-construiremos con datos de la EPH la variable de <strong>presión general sobre el mercado de trabajo,</strong> para visualizar en nuestro documento cómo un segmento de la PEA puja por mayor <strong>participación</strong> en el <strong>mercado laboral</strong>, ya sea demandando trabajar más horas o bien buscando un nuevo empleo<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>.</p>
 <p>Este caso será <em>una buena y sucinta oportunidad</em> para conocer cómo funciona Quarto y estimular la posibilidad de incorporar e integrar lenguajes para el análisis de datos en las ciencias sociales .</p>
 <p>Tomaremos como referencia comparativa con nuestro código los datos que provee el <a href="https://www.indec.gob.ar/uploads/informesdeprensa/mercado_trabajo_eph_4trim211A57838DEC.pdf">informe técnico / Vol. 6, n° 54: Mercado de trabajo. Tasas eindicadores socioeconómicos (EPH)</a> <a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>.</p>
 </section>
-<section id="etl-con-python" class="level2">
-<h2 class="anchored" data-anchor-id="etl-con-python">ETL con Python</h2>
+<section id="etl-con-python" class="level3">
+<h3 class="anchored" data-anchor-id="etl-con-python">ETL con Python</h3>
 <p>El trabajo inicial de <strong>ETL</strong> lo llevaremos adelante en Python<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> dado que nos va a resultar más rápido que con R.</p>
 <p>Para la recopilación de microdatos utilizaremos la librería <a href="https://pypi.org/project/pyeph/"><strong>pyeph</strong></a> de reciente lanzamiento y que sus creadores/as presentan de la siguiente forma:</p>
 <blockquote class="blockquote">
@@ -261,8 +265,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <details>
 <summary>Ver código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyeph</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>eph1 <span class="op">=</span> pyeph.obtener(data<span class="op">=</span><span class="st">"eph"</span>, ano<span class="op">=</span><span class="dv">2021</span>, periodo<span class="op">=</span><span class="dv">1</span>, tipo_base<span class="op">=</span><span class="st">'individual'</span>) <span class="co"># EPH individual</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>eph1 <span class="op">=</span> pyeph.obtener(data<span class="op">=</span><span class="st">"eph"</span>, ano<span class="op">=</span><span class="dv">2021</span>, periodo<span class="op">=</span><span class="dv">1</span>, tipo_base<span class="op">=</span><span class="st">'individual'</span>) <span class="co"># EPH individual</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <details>
 <summary>Ver código</summary>
@@ -276,82 +279,76 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <summary>Ver código</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>eph4 <span class="op">=</span> pyeph.obtener(data<span class="op">=</span><span class="st">"eph"</span>, ano<span class="op">=</span><span class="dv">2021</span>, periodo<span class="op">=</span><span class="dv">4</span>, tipo_base<span class="op">=</span><span class="st">'individual'</span>) <span class="co"># EPH individual</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<details>
-<summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>eph5 <span class="op">=</span> pyeph.obtener(data<span class="op">=</span><span class="st">"eph"</span>, ano<span class="op">=</span><span class="dv">2022</span>, periodo<span class="op">=</span><span class="dv">1</span>, tipo_base<span class="op">=</span><span class="st">'individual'</span>) <span class="co"># EPH individual</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#eph6 = pyeph.obtener(data="eph", ano=2022, periodo=2, tipo_base='individual') # EPH individual</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <p>Seguidamente importaremos <a href="https://pandas.pydata.org/">pandas</a> y formatearemos los datos necesarios para nuestro análisis.</p>
 <div class="cell">
 <details>
 <summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !pip install pandas</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># consturimos nuestro dataframefinal</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>datosehp <span class="op">=</span> pd.concat([eph1, eph2, eph3, eph4, eph5])</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Nos quedamos con las variables que nos interesan, son 5.</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>datosehp <span class="op">=</span> datosehp[[<span class="st">"TRIMESTRE"</span>, <span class="st">"PONDERA"</span>, <span class="st">"ESTADO"</span>, <span class="st">"PP03J"</span>, <span class="st">"PP03H"</span>]]</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#guardamos los datos a un csv</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#datosehp.to_csv('eph2021.csv')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !pip install pandas</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># consturimos nuestro dataframefinal</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>datosehp <span class="op">=</span> pd.concat([eph1, eph2, eph3, eph4])</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Nos quedamos con las variables que nos interesan, son 5.</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>datosehp <span class="op">=</span> datosehp[[<span class="st">"TRIMESTRE"</span>, <span class="st">"PONDERA"</span>, <span class="st">"ESTADO"</span>, <span class="st">"PP03J"</span>, <span class="st">"PP03H"</span>]]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#guardamos los datos a un csv</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>datosehp.to_csv(<span class="st">'eph2021.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
-<section id="ajustes-y-primeras-visualizaciones-en-r" class="level2">
-<h2 class="anchored" data-anchor-id="ajustes-y-primeras-visualizaciones-en-r">Ajustes y primeras visualizaciones en R</h2>
+<section id="ajustes-y-primeras-visualizaciones-en-r" class="level3">
+<h3 class="anchored" data-anchor-id="ajustes-y-primeras-visualizaciones-en-r">Ajustes y primeras visualizaciones en R</h3>
 <p>Una vez que llegamos a este punto, vamos a abrir un bloque de código en R para dar forma acabada a nuestro proyecto. Para ello descargamos el archivo csv con los datos que construimos y guardamos más arriba.</p>
 <div class="cell">
 <details>
 <summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>eph2021<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"eph2021.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>eph2021<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"eph2021.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Llamamos a la libería <a href="https://www.tidyverse.org/">tidyverse</a> para darle la forma final a nuestro dataframe.</p>
 <div class="cell">
 <details>
 <summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Agruparemos los datos por cuatrimestre y les aplicaremos una serie de <strong>funciones</strong> para identificar ocupados, desocupados, PEA, ocupados demandantes y disponibles. De esta forma podremos también construir las <strong>tasas</strong> de desocupación abierta, ocupados demandantes, ocupados no demandantes disponibles, ocupados no disponibles y el porcentual resultante de presión sobre el mercado de trabajo.</p>
 <div class="cell">
 <details>
 <summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>presion_ar <span class="ot">&lt;-</span> eph2021 <span class="sc">%&gt;%</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(TRIMESTRE) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ocupados =</span> <span class="fu">sum</span>(PONDERA[ESTADO <span class="sc">==</span> <span class="dv">1</span>]),</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">desocupados =</span> <span class="fu">sum</span>(PONDERA[ESTADO <span class="sc">==</span> <span class="dv">2</span>]),</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">PEA =</span> ocupados <span class="sc">+</span> desocupados,</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">ocupados_demand =</span> <span class="fu">sum</span>(PONDERA[ESTADO <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> PP03J <span class="sc">==</span><span class="dv">1</span>]),</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">ocupados_disp =</span> <span class="fu">sum</span>(PONDERA[ESTADO <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> PP03J <span class="sc">==</span><span class="dv">2</span> <span class="sc">&amp;</span> PP03H <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">9</span>)]),</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">desocupacion abierta</span><span class="st">`</span> <span class="ot">=</span> desocupados<span class="sc">/</span>PEA<span class="sc">*</span><span class="dv">100</span>,</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">ocupados demandantes</span><span class="st">`</span> <span class="ot">=</span> ocupados_demand<span class="sc">/</span>PEA<span class="sc">*</span><span class="dv">100</span>,</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">ocup. no demandantes disponibles</span><span class="st">`</span> <span class="ot">=</span> ocupados_disp<span class="sc">/</span>PEA<span class="sc">*</span><span class="dv">100</span>,</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">ocupados no disponibles</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">100</span><span class="sc">-</span><span class="fu">c</span>(<span class="st">`</span><span class="at">desocupacion abierta</span><span class="st">`</span><span class="sc">+</span><span class="st">`</span><span class="at">ocupados demandantes</span><span class="st">`</span><span class="sc">+</span><span class="st">`</span><span class="at">ocup. no demandantes disponibles</span><span class="st">`</span>),</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">presion sobre el mercado laboral</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">desocupacion abierta</span><span class="st">`</span><span class="sc">+</span><span class="st">`</span><span class="at">ocupados demandantes</span><span class="st">`</span><span class="sc">+</span><span class="st">`</span><span class="at">ocup. no demandantes disponibles</span><span class="st">`</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.numeric, round, <span class="at">digits=</span><span class="dv">2</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">TRIMESTRE=</span><span class="fu">as.factor</span>(TRIMESTRE))<span class="sc">%&gt;%</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(TRIMESTRE,</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>         <span class="st">'desocupacion abierta'</span>,</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>         <span class="st">'ocupados demandantes'</span>,</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>         <span class="st">'ocup. no demandantes disponibles'</span>,</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>         <span class="st">'ocupados no disponibles'</span>,</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>         <span class="st">'presion sobre el mercado laboral'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>presion_ar <span class="ot">&lt;-</span> eph2021 <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(TRIMESTRE) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ocupados =</span> <span class="fu">sum</span>(PONDERA[ESTADO <span class="sc">==</span> <span class="dv">1</span>]),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">desocupados =</span> <span class="fu">sum</span>(PONDERA[ESTADO <span class="sc">==</span> <span class="dv">2</span>]),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">PEA =</span> ocupados <span class="sc">+</span> desocupados,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">ocupados_demand =</span> <span class="fu">sum</span>(PONDERA[ESTADO <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> PP03J <span class="sc">==</span><span class="dv">1</span>]),</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">ocupados_disp =</span> <span class="fu">sum</span>(PONDERA[ESTADO <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> PP03J <span class="sc">==</span><span class="dv">2</span> <span class="sc">&amp;</span> PP03H <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">9</span>)]),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">desocupacion abierta</span><span class="st">`</span> <span class="ot">=</span> desocupados<span class="sc">/</span>PEA<span class="sc">*</span><span class="dv">100</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">ocupados demandantes</span><span class="st">`</span> <span class="ot">=</span> ocupados_demand<span class="sc">/</span>PEA<span class="sc">*</span><span class="dv">100</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">ocup. no demandantes disponibles</span><span class="st">`</span> <span class="ot">=</span> ocupados_disp<span class="sc">/</span>PEA<span class="sc">*</span><span class="dv">100</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">ocupados no disponibles</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">100</span><span class="sc">-</span><span class="fu">c</span>(<span class="st">`</span><span class="at">desocupacion abierta</span><span class="st">`</span><span class="sc">+</span><span class="st">`</span><span class="at">ocupados demandantes</span><span class="st">`</span><span class="sc">+</span><span class="st">`</span><span class="at">ocup. no demandantes disponibles</span><span class="st">`</span>),</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">presion sobre el mercado laboral</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">desocupacion abierta</span><span class="st">`</span><span class="sc">+</span><span class="st">`</span><span class="at">ocupados demandantes</span><span class="st">`</span><span class="sc">+</span><span class="st">`</span><span class="at">ocup. no demandantes disponibles</span><span class="st">`</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.numeric, round, <span class="at">digits=</span><span class="dv">2</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">TRIMESTRE=</span><span class="fu">as.factor</span>(TRIMESTRE))<span class="sc">%&gt;%</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(TRIMESTRE,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>         <span class="st">'desocupacion abierta'</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>         <span class="st">'ocupados demandantes'</span>,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>         <span class="st">'ocup. no demandantes disponibles'</span>,</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>         <span class="st">'ocupados no disponibles'</span>,</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>         <span class="st">'presion sobre el mercado laboral'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Creemos y visualicemos una tabla con los resultados en <a href="https://gt.rstudio.com/index.html">gt()</a>.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="bqeoextrbn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+
+<div id="ahxnpciyaj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#bqeoextrbn .gt_table {
+:where(#ahxnpciyaj) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -376,7 +373,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-left-color: #D3D3D3;
 }
 
-#bqeoextrbn .gt_heading {
+:where(#ahxnpciyaj) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -388,7 +385,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-#bqeoextrbn .gt_title {
+:where(#ahxnpciyaj) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -400,7 +397,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-width: 0;
 }
 
-#bqeoextrbn .gt_subtitle {
+:where(#ahxnpciyaj) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -412,13 +409,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-width: 0;
 }
 
-#bqeoextrbn .gt_bottom_border {
+:where(#ahxnpciyaj) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bqeoextrbn .gt_col_headings {
+:where(#ahxnpciyaj) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -433,7 +430,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-#bqeoextrbn .gt_col_heading {
+:where(#ahxnpciyaj) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -453,7 +450,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-#bqeoextrbn .gt_column_spanner_outer {
+:where(#ahxnpciyaj) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -465,15 +462,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 4px;
 }
 
-#bqeoextrbn .gt_column_spanner_outer:first-child {
+:where(#ahxnpciyaj) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bqeoextrbn .gt_column_spanner_outer:last-child {
+:where(#ahxnpciyaj) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bqeoextrbn .gt_column_spanner {
+:where(#ahxnpciyaj) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -485,7 +482,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   width: 100%;
 }
 
-#bqeoextrbn .gt_group_heading {
+:where(#ahxnpciyaj) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -510,7 +507,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: middle;
 }
 
-#bqeoextrbn .gt_empty_group_heading {
+:where(#ahxnpciyaj) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -525,15 +522,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: middle;
 }
 
-#bqeoextrbn .gt_from_md > :first-child {
+:where(#ahxnpciyaj) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bqeoextrbn .gt_from_md > :last-child {
+:where(#ahxnpciyaj) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bqeoextrbn .gt_row {
+:where(#ahxnpciyaj) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -552,7 +549,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-#bqeoextrbn .gt_stub {
+:where(#ahxnpciyaj) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -565,7 +562,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-#bqeoextrbn .gt_stub_row_group {
+:where(#ahxnpciyaj) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -579,11 +576,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: top;
 }
 
-#bqeoextrbn .gt_row_group_first td {
+:where(#ahxnpciyaj) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bqeoextrbn .gt_summary_row {
+:where(#ahxnpciyaj) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -593,16 +590,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-#bqeoextrbn .gt_first_summary_row {
+:where(#ahxnpciyaj) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bqeoextrbn .gt_first_summary_row.thick {
+:where(#ahxnpciyaj) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bqeoextrbn .gt_last_summary_row {
+:where(#ahxnpciyaj) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -612,7 +609,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-#bqeoextrbn .gt_grand_summary_row {
+:where(#ahxnpciyaj) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -622,7 +619,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-#bqeoextrbn .gt_first_grand_summary_row {
+:where(#ahxnpciyaj) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -632,11 +629,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-color: #D3D3D3;
 }
 
-#bqeoextrbn .gt_striped {
+:where(#ahxnpciyaj) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bqeoextrbn .gt_table_body {
+:where(#ahxnpciyaj) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -645,7 +642,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-#bqeoextrbn .gt_footnotes {
+:where(#ahxnpciyaj) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -659,7 +656,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-#bqeoextrbn .gt_footnote {
+:where(#ahxnpciyaj) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -668,7 +665,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-#bqeoextrbn .gt_sourcenotes {
+:where(#ahxnpciyaj) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -682,7 +679,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-#bqeoextrbn .gt_sourcenote {
+:where(#ahxnpciyaj) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -690,64 +687,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-#bqeoextrbn .gt_left {
+:where(#ahxnpciyaj) .gt_left {
   text-align: left;
 }
 
-#bqeoextrbn .gt_center {
+:where(#ahxnpciyaj) .gt_center {
   text-align: center;
 }
 
-#bqeoextrbn .gt_right {
+:where(#ahxnpciyaj) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bqeoextrbn .gt_font_normal {
+:where(#ahxnpciyaj) .gt_font_normal {
   font-weight: normal;
 }
 
-#bqeoextrbn .gt_font_bold {
+:where(#ahxnpciyaj) .gt_font_bold {
   font-weight: bold;
 }
 
-#bqeoextrbn .gt_font_italic {
+:where(#ahxnpciyaj) .gt_font_italic {
   font-style: italic;
 }
 
-#bqeoextrbn .gt_super {
+:where(#ahxnpciyaj) .gt_super {
   font-size: 65%;
 }
 
-#bqeoextrbn .gt_footnote_marks {
+:where(#ahxnpciyaj) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#bqeoextrbn .gt_asterisk {
+:where(#ahxnpciyaj) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bqeoextrbn .gt_indent_1 {
+:where(#ahxnpciyaj) .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bqeoextrbn .gt_indent_2 {
+:where(#ahxnpciyaj) .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bqeoextrbn .gt_indent_3 {
+:where(#ahxnpciyaj) .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bqeoextrbn .gt_indent_4 {
+:where(#ahxnpciyaj) .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bqeoextrbn .gt_indent_5 {
+:where(#ahxnpciyaj) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -757,7 +754,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <td colspan="5" class="gt_heading gt_title gt_font_normal" style="">Resumen de tasas seleccionadas de <strong>de Mercado de Trabajo</strong></td>
     </tr>
     <tr>
-      <td colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="">Datos porcentuales <code>para los últimos 5 trimestres 2021/2022.</code></td>
+      <td colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="">Datos porcentuales <code>para los 4 trimestres de 2021.</code></td>
     </tr>
   </thead>
   <thead class="gt_col_headings">
@@ -771,34 +768,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </thead>
   <tbody class="gt_table_body">
     <tr><td class="gt_row gt_left">desocupacion abierta</td>
-<td class="gt_row gt_right">8.55</td>
+<td class="gt_row gt_right">10.16</td>
 <td class="gt_row gt_right">9.60</td>
 <td class="gt_row gt_right">8.24</td>
 <td class="gt_row gt_right">6.97</td></tr>
     <tr><td class="gt_row gt_left">ocupados demandantes</td>
-<td class="gt_row gt_right">16.02</td>
+<td class="gt_row gt_right">16.53</td>
 <td class="gt_row gt_right">16.97</td>
 <td class="gt_row gt_right">16.47</td>
 <td class="gt_row gt_right">17.38</td></tr>
     <tr><td class="gt_row gt_left">ocup. no demandantes disponibles</td>
-<td class="gt_row gt_right">5.89</td>
+<td class="gt_row gt_right">5.72</td>
 <td class="gt_row gt_right">5.84</td>
 <td class="gt_row gt_right">6.67</td>
 <td class="gt_row gt_right">6.13</td></tr>
     <tr><td class="gt_row gt_left">ocupados no disponibles</td>
-<td class="gt_row gt_right">69.53</td>
+<td class="gt_row gt_right">67.59</td>
 <td class="gt_row gt_right">67.59</td>
 <td class="gt_row gt_right">68.62</td>
 <td class="gt_row gt_right">69.53</td></tr>
     <tr><td class="gt_row gt_left">presion sobre el mercado laboral</td>
-<td class="gt_row gt_right">30.47</td>
+<td class="gt_row gt_right">32.41</td>
 <td class="gt_row gt_right">32.41</td>
 <td class="gt_row gt_right">31.38</td>
 <td class="gt_row gt_right">30.47</td></tr>
   </tbody>
   <tfoot class="gt_sourcenotes">
     <tr>
-      <td class="gt_sourcenote" colspan="5">Fuente: elaboracion propia en base a datos de la EPH (INDEC).</td>
+      <td class="gt_sourcenote" colspan="5">Fuente: elaboración propia en base a datos de la EPH (INDEC).</td>
     </tr>
   </tfoot>
   
@@ -806,58 +803,61 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<p><strong>Grafiquemos</strong> los datos con <a href="https://ggplot2.tidyverse.org/">ggplot2</a>. Primero el <u>desagregado</u> problacional de la PEA que presiona sobre el mercado de trabajo.</p>
+<p>Y ahora <strong>comparémoslos</strong> con los datos que provee el INDEC en el informe que tomamos como referencia.</p>
+<p><img src="cuadro_indec.png" class="img-fluid"></p>
+<p>Bastante <strong>parecido</strong> verdad? De haber redondeado el segundo decimal hubieramos estado prácticamente iguales!</p>
+<p><strong>Grafiquemos</strong> ahora los datos con <a href="https://ggplot2.tidyverse.org/">ggplot2</a>. Primero el <u>desagregado</u> problacional de la PEA que presiona sobre el mercado de trabajo.</p>
 <div class="cell">
 <details>
 <summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("glue")</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue) <span class="co">#glue es una libreria util para pegar texto</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>presion_ar2 <span class="ot">&lt;-</span> presion_ar <span class="sc">%&gt;%</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gather</span>(<span class="st">'Indicador'</span>, <span class="st">'valor'</span>, <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(valor))<span class="sc">%&gt;%</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unique</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>()</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>total<span class="ot">&lt;-</span>presion_ar2<span class="sc">%&gt;%</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Indicador<span class="sc">==</span><span class="st">"presion sobre el mercado laboral"</span>)</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>p1<span class="ot">&lt;-</span>presion_ar2 <span class="sc">%&gt;%</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a> <span class="fu">filter</span>(<span class="sc">!</span>(Indicador <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"ocupados no disponibles"</span>, <span class="st">"presion sobre el mercado laboral"</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a> <span class="fu">aes</span>(<span class="at">x =</span> TRIMESTRE, <span class="at">y =</span> valor, <span class="at">fill =</span> Indicador) <span class="sc">+</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_col</span>(<span class="at">alpha=</span><span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">desocupacion abierta</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#F0AF5C"</span>,</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>                               <span class="st">`</span><span class="at">ocup. no demandantes disponibles</span><span class="st">`</span><span class="ot">=</span><span class="st">'#5C9DF0'</span>,</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>                               <span class="st">`</span><span class="at">ocupados demandantes</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#1A69D2"</span>))<span class="sc">+</span></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">glue</span>(<span class="st">"{round(valor,digits=1)} %"</span>), <span class="at">y=</span>valor), </span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>               <span class="at">size =</span> <span class="fl">3.1</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">vjust =</span> <span class="dv">1</span>, </span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>               <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">colour=</span><span class="st">"white"</span>, </span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>               <span class="at">position =</span> <span class="st">"stack"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> total,</span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x =</span> TRIMESTRE,</span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> valor,</span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>                <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">"Presión total: </span><span class="sc">\n</span><span class="st">"</span>, valor, <span class="st">" %"</span>)),</span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour=</span><span class="st">"#1F4B72"</span>,</span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> <span class="dv">3</span>,</span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>            <span class="at">fontface =</span> <span class="st">"bold"</span>, </span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="fl">0.5</span>,</span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>            <span class="at">vjust=</span><span class="sc">-</span><span class="fl">0.1</span>,</span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>            <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>            <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Trimestre"</span>, </span>
-<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"% de la PEA"</span>, </span>
-<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"  Grupos de población económicamente activa </span></span>
-<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a><span class="st">según tipo de presión sobre el mercado de trabajo"</span>,</span>
-<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">"Porcentuales para los 4 trimestres de 2021."</span>, </span>
-<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Elaboración propia en base a datos de la EPH INDEC."</span>, </span>
-<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="st">"tasa:"</span>) <span class="sc">+</span></span>
-<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>))<span class="sc">+</span></span>
-<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
-<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>p1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("glue")</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue) <span class="co">#glue es una libreria util para pegar texto</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>presion_ar2 <span class="ot">&lt;-</span> presion_ar <span class="sc">%&gt;%</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gather</span>(<span class="st">'Indicador'</span>, <span class="st">'valor'</span>, <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(valor))<span class="sc">%&gt;%</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unique</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>()</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>total<span class="ot">&lt;-</span>presion_ar2<span class="sc">%&gt;%</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Indicador<span class="sc">==</span><span class="st">"presion sobre el mercado laboral"</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>p1<span class="ot">&lt;-</span>presion_ar2 <span class="sc">%&gt;%</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a> <span class="fu">filter</span>(<span class="sc">!</span>(Indicador <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"ocupados no disponibles"</span>, <span class="st">"presion sobre el mercado laboral"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a> <span class="fu">aes</span>(<span class="at">x =</span> TRIMESTRE, <span class="at">y =</span> valor, <span class="at">fill =</span> Indicador) <span class="sc">+</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_col</span>(<span class="at">alpha=</span><span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">desocupacion abierta</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#F0AF5C"</span>,</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>                               <span class="st">`</span><span class="at">ocup. no demandantes disponibles</span><span class="st">`</span><span class="ot">=</span><span class="st">'#5C9DF0'</span>,</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>                               <span class="st">`</span><span class="at">ocupados demandantes</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#1A69D2"</span>))<span class="sc">+</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">glue</span>(<span class="st">"{round(valor,digits=1)} %"</span>), <span class="at">y=</span>valor), </span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>               <span class="at">size =</span> <span class="fl">3.1</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">vjust =</span> <span class="dv">1</span>, </span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>               <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">colour=</span><span class="st">"white"</span>, </span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>               <span class="at">position =</span> <span class="st">"stack"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> total,</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x =</span> TRIMESTRE,</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> valor,</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>                <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">"Presión total: </span><span class="sc">\n</span><span class="st">"</span>, valor, <span class="st">" %"</span>)),</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour=</span><span class="st">"#1F4B72"</span>,</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>            <span class="at">fontface =</span> <span class="st">"bold"</span>, </span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>            <span class="at">vjust=</span><span class="sc">-</span><span class="fl">0.1</span>,</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>            <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>            <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Trimestre"</span>, </span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"% de la PEA"</span>, </span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"  Grupos de población económicamente activa </span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a><span class="st">según tipo de presión sobre el mercado de trabajo"</span>,</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">"Porcentuales para los 4 trimestres de 2021."</span>, </span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Elaboración propia en base a datos de la EPH INDEC."</span>, </span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="st">"tasa:"</span>) <span class="sc">+</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>))<span class="sc">+</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>p1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
@@ -867,29 +867,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <details>
 <summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> presion_ar2 <span class="sc">%&gt;%</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>((Indicador <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"ocupados no disponibles"</span>, </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"presion sobre el mercado laboral"</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> TRIMESTRE, <span class="at">y =</span> valor, <span class="at">fill =</span> Indicador) <span class="sc">+</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">reverse =</span> <span class="cn">TRUE</span>), <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">ocupados no disponibles</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#63C3C5"</span>,</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                               <span class="st">`</span><span class="at">presion sobre el mercado laboral</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#FF8B60"</span>))<span class="sc">+</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">glue</span>(<span class="st">"{round(valor,digits=1)} %"</span>), <span class="at">y=</span>valor), </span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">size =</span> <span class="fl">3.1</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">vjust =</span> <span class="dv">1</span>, </span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">colour=</span><span class="st">"white"</span>, </span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">reverse =</span> <span class="cn">TRUE</span>), </span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Trimestre"</span>, </span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"% de la PEA"</span>, </span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Tasa de presión general sobre el mercado de trabajo."</span>,</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">"Porcentuales para los 4 trimestres de 2021."</span>, </span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Elaboración propia en base a datos de la EPH INDEC."</span>, </span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="st">"tasa:"</span>) <span class="sc">+</span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> presion_ar2 <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>((Indicador <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"ocupados no disponibles"</span>, </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"presion sobre el mercado laboral"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> TRIMESTRE, <span class="at">y =</span> valor, <span class="at">fill =</span> Indicador) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">reverse =</span> <span class="cn">TRUE</span>), <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">ocupados no disponibles</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#63C3C5"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                               <span class="st">`</span><span class="at">presion sobre el mercado laboral</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#FF8B60"</span>))<span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">glue</span>(<span class="st">"{round(valor,digits=1)} %"</span>), <span class="at">y=</span>valor), </span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">size =</span> <span class="fl">3.1</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">vjust =</span> <span class="dv">1</span>, </span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">colour=</span><span class="st">"white"</span>, </span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">reverse =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Trimestre"</span>, </span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"% de la PEA"</span>, </span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Tasa de presión general sobre el mercado de trabajo."</span>,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">"Porcentuales para los 4 trimestres de 2021."</span>, </span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Elaboración propia en base a datos de la EPH INDEC."</span>, </span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="st">"tasa:"</span>) <span class="sc">+</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
@@ -898,8 +898,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Con respecto a los datos y objetos gráficos que creamos se prefigura que la presión sobre el mercado de trabajo tendió a reducirse durante el año 2021 lo cual sería a propiori un dato positivo. Esta primera impresión deberá ser analizada en el marco de otros análisis para conocer sus implicancias concretas en la realidad socioeconómica nacional.</p>
 <p>Para acceder a los datos del <u>mercado de trabajo</u> en una serie de tiempo más amplia y en formato interactivo puede consultarse el <a href="https://pedroorden.shinyapps.io/socioeconomico/" title="ver app"><strong>monitor socioeconómico</strong></a> de mi autoría.</p>
 </section>
-<section id="conclusiones" class="level2">
-<h2 class="anchored" data-anchor-id="conclusiones">Conclusiones:</h2>
+<section id="concluciones" class="level3">
+<h3 class="anchored" data-anchor-id="concluciones">Concluciones:</h3>
 <ul>
 <li><p>En Quarto la mezcla no es sinónimo de amontonamiento. La posibilidad amigable de <strong>integrar</strong> varios lenguajes de progamación en procesos de analítica y modelado de datos en ciencia sociales escala las opciones para hacer y conocer.</p></li>
 <li><p>Al respecto se seguirá resaltando que las tecnologías de programación y procesamiento de datos que hoy tenemos a disposición como profesionales<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> nos permiten automatizar y/o resolver tareas complejas, reducir tiempos de entrega y costos, hechos que hasta hace poco tiempo resultaban impensables. Es indispensable tomar contacto con la <strong>técnica contemporánea,</strong> conocer cuales sos sus prestaciones e indagar con criterio profesional el hecho de si pueden o no ayudarnos a resolver problemas de nuestra rutina de trabajo.</p></li>
@@ -907,59 +907,57 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Algo que no es una conclusión pero no he no mencionado anteriormente es que Quarto es muy <strong>parecido a Rmarkdown</strong> y para quienes vienen usando esta plataforma el pasaje va a ser relativamente sencillo.</p></li>
 <li><p>De la breve experiencia aquí presentada emerge una gran pregunta que tiene que ver con las (<em>nuevas?</em>) formas en que se construyen ciertos saberes contemporáneos. En el campo de las ciencias sociales y el desarrollo computacional la <strong>combinación</strong> criteriosa de teorías, métodos y lenguajes de programación se prefiguran como una <strong>potente estrategia</strong> de trabajo para abordar la <strong>compleja gama de realidades epocales</strong> en las que discurrimos como profesionales.</p></li>
 </ul>
-</section>
-<section id="bonus" class="level2">
-<h2 class="anchored" data-anchor-id="bonus">Bonus</h2>
-<p>El 22-9-2022 este documento fue presentado en una experiencia de taller abierto del Núcleo de Innovación Social. A continuación el video tutorial que permite seguir la experiencia paso a paso.</p>
-<div class="cell">
-<details>
-<summary>Ver código</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vembedr)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">embed_url</span>(<span class="st">"https://www.youtube.com/watch?v=0SE_XjWJLvA&amp;t=1s"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">use_align</span>(<span class="st">"center"</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">use_bs_responsive</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div class="vembedr embed-responsive embed-responsive-16by9" align="center">
-<div>
-<iframe src="https://www.youtube.com/embed/0SE_XjWJLvA?start=1" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1" class="embed-responsive-item"></iframe>
-</div>
-</div>
-</div>
-</div>
 
 
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1" role="doc-endnote"><p>Para conocer más https://jasoncausey.net/post/quarto_early_impressions/<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p><a href="https://quarto.org/docs/tools/rstudio.html">Aquí podrá consultarse como se configura</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>En términos más amplios puede pensarse también como un flujo de trabajo en el cual vamos encadenando acciones para llegar a responder un problema, independientemente de los lenguajes, formatos o publicaciones.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>Abarca 31 aglomerados urbanos donde habita, aproximadamente, el 70% d e la población urbana del país. Cubre todas las capitales de provincia y aglomerados urbanos de más de 100 mil habitantes. Más sobre la EPH: https://www.indec.gob.ar/indec/web/Institucional-Indec-BasesDeDatos<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>En este apartado INDEC sube los principales materiales relacionados al tema: https://www.indec.gob.ar/indec/web/Nivel4-Tema-4-31-58<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>A propósito de la noción de presión sobre el mercado laboral, comúnmente se presupone que la población con una inserción insuficiente en el mercado de trabajo es la de los desocupados, por sus características específicas de no contar con una ocupación y buscarla de manera activa. No obstante, dicho proceso de búsqueda se verifica únicamente dentro de otros grupos poblacionales. Habida cuenta de los elevados niveles de desocupación y su prolongación en el tiempo, que caracterizan la historia reciente argentina, de manera frecuente las personas aceptan trabajos que si bien no se adaptan a sus expectativas de vida, les permiten obtener un ingreso en el mientras tanto y continuar en la búsqueda de un mejor horizonte laboral.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7" role="doc-endnote"><p><a href="http://nulan.mdp.edu.ar/714/1/01207d.pdf">Para profundizar más en indicadores sobre empleo y su medición se invita a conocer el trabajo de E Actis Di Pasquale de 2005: Condiciones Críticas de Empleo. Una <em>Nueva Perspectiva</em> de la <em>Cuestión Laboral</em>.</a><a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8" role="doc-endnote"><p>INDEC. Recoge los datos completos de la serie 2021.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9" role="doc-endnote"><p>Si esa primera vez que oís hablar de este lenguaje <a href="https://www.youtube.com/watch?v=m5i-Pq-z9w8&amp;t=2s&amp;ab_channel=Roelcode">para descargar y configurarlo en tu pc quizás te sirva este video</a>.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10" role="doc-endnote"><p>Este articulo piensa en el caso particular de las ciencias humanas, pero esta abierto a cualquier otra identificación homóloga.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Para conocer más https://jasoncausey.net/post/quarto_early_impressions/<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><a href="https://quarto.org/docs/tools/rstudio.html">Aquí podrá consultarse como se configura</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>En un encuadre más amplio puede pensarse también como un flujo de trabajo en el cual vamos encadenando acciones para llegar a responder un problema, independientemente de los lenguajes, formatos o publicaciones.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Abarca 31 aglomerados urbanos donde habita, aproximadamente, el 70% d e la población urbana del país. Cubre todas las capitales de provincia y aglomerados urbanos de más de 100 mil habitantes. Más sobre la EPH: https://www.indec.gob.ar/indec/web/Institucional-Indec-BasesDeDatos<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>En este apartado INDEC sube los principales materiales relacionados al tema: https://www.indec.gob.ar/indec/web/Nivel4-Tema-4-31-58<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>A propósito de la noción de presión sobre el mercado laboral, comúnmente se presupone que la población con una inserción insuficiente en el mercado de trabajo es la de los desocupados, por sus características específicas de no contar con una ocupación y buscarla de manera activa. No obstante, dicho proceso de búsqueda se verifica únicamente dentro de otros grupos poblacionales. Habida cuenta de los elevados niveles de desocupación y su prolongación en el tiempo, que caracterizan la historia reciente argentina, de manera frecuente las personas aceptan trabajos que si bien no se adaptan a sus expectativas de vida, les permiten obtener un ingreso en el mientras tanto y continuar en la búsqueda de un mejor horizonte laboral.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p><a href="http://nulan.mdp.edu.ar/714/1/01207d.pdf">Para profundizar más en indicadores sobre empleo y su medición se invita a conocer el trabajo de E Actis Di Pasquale de 2005: Condiciones Críticas de Empleo. Una <em>Nueva Perspectiva</em> de la <em>Cuestión Laboral</em>.</a><a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>INDEC. Recoge los datos completos de la serie 2021.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>Si esa primera vez que oís hablar de este lenguaje <a href="https://www.youtube.com/watch?v=m5i-Pq-z9w8&amp;t=2s&amp;ab_channel=Roelcode">para descargar y configurarlo en tu pc quizás te sirva este video</a>.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>Este articulo piensa en el caso particular de las ciencias humanas, pero esta abierto a cualquier otra identificación homóloga.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{damianorden2022,
-  author = {Pedro Damian Orden and Pedro Damian Orden},
-  title = {R y {Python} En {Quarto:} {Explorando} La Presión Sobre El
-    Mercado de Trabajo Según La {EPH.}},
-  date = {2022-07-07},
+  author = {Pedro Damian Orden},
+  editor = {},
+  title = {Utilizando {Python} y {R} En {Quarto} Con La {Encuesta}
+    {Permanente} de {Hogares}},
+  date = {2022-09-06},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-damianorden2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
-Pedro Damian Orden, and Pedro Damian Orden. 2022. <span>“R y Python En
-Quarto: Explorando La Presión Sobre El Mercado de Trabajo Según La
-EPH.”</span> July 7, 2022.
+Pedro Damian Orden. 2022. <span>“Utilizando Python y R En Quarto Con La
+Encuesta Permanente de Hogares.”</span> September 6, 2022.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -1009,7 +1007,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
