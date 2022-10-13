@@ -2,11 +2,12 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/encuestas/index.html",
       "/posts/abuelos/index.html",
+      "/posts/encuestas/index.html",
+      "/posts/genart/index.html",
+      "/posts/elecciones/index.html",
       "/posts/presion/index.html",
-      "/posts/bienvenide/index.html",
-      "/posts/genart/index.html"
+      "/posts/bienvenide/index.html"
     ]
   }
 ]
